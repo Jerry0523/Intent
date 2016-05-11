@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ViewController1.h
 //  JWIntentDemo
 //
 //  Created by Jerry on 16/5/10.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface ViewController1 : UIViewController
 
 @end
-

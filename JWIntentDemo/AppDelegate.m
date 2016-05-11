@@ -7,39 +7,76 @@
 //
 
 #import "AppDelegate.h"
+#import "JWIntent.h"
+#import "JWIntentDemo-Swift.h"
 
 @interface AppDelegate ()
+
+@property (strong, nonatomic) UIAlertController *alertController;
 
 @end
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    [self registerRouter];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[ViewController0 new]];
+    [self.window makeKeyAndVisible];
+    
+    [JWIntentContext sharedContext].moduleName = @"JWIntentDemo";
+    
     return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
+}
+
+- (void)registerRouter {
+    [JWIntentContext registerViewController:@"ViewController0"
+                                     forKey:@"vc0"];
+    
+    [JWIntentContext registerViewController:@"ViewController1"
+                                     forKey:@"vc1"];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    [JWIntentContext registerCallBack:^(NSDictionary *param) {
+
+        NSString *title = param[@"title"];
+        NSString *msg = param[@"message"];
+        
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        
+        
+        if (!strongSelf.alertController) {
+            strongSelf.alertController = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+            [strongSelf.alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:NULL]];
+        }
+        
+        
+        [strongSelf.window.rootViewController presentViewController:strongSelf.alertController animated:YES completion:nil];
+        
+    } forKey:@"testAlert"];
 }
 
 @end

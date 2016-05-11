@@ -9,10 +9,16 @@
 /* Begin PBXBuildFile section */
 		C4E869951CE1A6BD0046434E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869941CE1A6BD0046434E /* main.m */; };
 		C4E869981CE1A6BD0046434E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869971CE1A6BD0046434E /* AppDelegate.m */; };
-		C4E8699B1CE1A6BD0046434E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E8699A1CE1A6BD0046434E /* ViewController.m */; };
-		C4E8699E1CE1A6BD0046434E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4E8699C1CE1A6BD0046434E /* Main.storyboard */; };
 		C4E869A01CE1A6BD0046434E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4E8699F1CE1A6BD0046434E /* Assets.xcassets */; };
 		C4E869A31CE1A6BD0046434E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4E869A11CE1A6BD0046434E /* LaunchScreen.storyboard */; };
+		C4E869AD1CE1A6E60046434E /* JWIntent.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869AC1CE1A6E60046434E /* JWIntent.m */; };
+		C4E869B11CE1A8240046434E /* ViewController0.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E869AF1CE1A8240046434E /* ViewController0.swift */; };
+		C4E869B21CE1A8240046434E /* ViewController0.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E869B01CE1A8240046434E /* ViewController0.xib */; };
+		C4E869B91CE1A8B30046434E /* ViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869B71CE1A8B30046434E /* ViewController1.m */; };
+		C4E869BA1CE1A8B30046434E /* ViewController1.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E869B81CE1A8B30046434E /* ViewController1.xib */; };
+		C4E869DE1CE1D5AE0046434E /* JWIntentContext.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869DD1CE1D5AE0046434E /* JWIntentContext.m */; };
+		C4E869F71CE2FE770046434E /* JWIntent.podspec in Resources */ = {isa = PBXBuildFile; fileRef = C4E869F41CE2FE770046434E /* JWIntent.podspec */; };
+		C4E869F81CE2FE770046434E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = C4E869F51CE2FE770046434E /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,12 +26,22 @@
 		C4E869941CE1A6BD0046434E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C4E869961CE1A6BD0046434E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C4E869971CE1A6BD0046434E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C4E869991CE1A6BD0046434E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		C4E8699A1CE1A6BD0046434E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		C4E8699D1CE1A6BD0046434E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C4E8699F1CE1A6BD0046434E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4E869A21CE1A6BD0046434E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C4E869A41CE1A6BD0046434E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C4E869AB1CE1A6E60046434E /* JWIntent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWIntent.h; sourceTree = "<group>"; };
+		C4E869AC1CE1A6E60046434E /* JWIntent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JWIntent.m; sourceTree = "<group>"; };
+		C4E869AE1CE1A8230046434E /* JWIntentDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JWIntentDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		C4E869AF1CE1A8240046434E /* ViewController0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController0.swift; sourceTree = "<group>"; };
+		C4E869B01CE1A8240046434E /* ViewController0.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController0.xib; sourceTree = "<group>"; };
+		C4E869B61CE1A8B30046434E /* ViewController1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController1.h; sourceTree = "<group>"; };
+		C4E869B71CE1A8B30046434E /* ViewController1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController1.m; sourceTree = "<group>"; };
+		C4E869B81CE1A8B30046434E /* ViewController1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController1.xib; sourceTree = "<group>"; };
+		C4E869DC1CE1D5AE0046434E /* JWIntentContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWIntentContext.h; sourceTree = "<group>"; };
+		C4E869DD1CE1D5AE0046434E /* JWIntentContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JWIntentContext.m; sourceTree = "<group>"; };
+		C4E869F41CE2FE770046434E /* JWIntent.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JWIntent.podspec; sourceTree = "<group>"; };
+		C4E869F51CE2FE770046434E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		C4E869F61CE2FE770046434E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +58,10 @@
 		C4E869871CE1A6BD0046434E = {
 			isa = PBXGroup;
 			children = (
+				C4E869F41CE2FE770046434E /* JWIntent.podspec */,
+				C4E869F51CE2FE770046434E /* LICENSE */,
+				C4E869F61CE2FE770046434E /* README.md */,
+				C4E869AA1CE1A6E60046434E /* JWIntent */,
 				C4E869921CE1A6BD0046434E /* JWIntentDemo */,
 				C4E869911CE1A6BD0046434E /* Products */,
 			);
@@ -60,13 +80,16 @@
 			children = (
 				C4E869961CE1A6BD0046434E /* AppDelegate.h */,
 				C4E869971CE1A6BD0046434E /* AppDelegate.m */,
-				C4E869991CE1A6BD0046434E /* ViewController.h */,
-				C4E8699A1CE1A6BD0046434E /* ViewController.m */,
-				C4E8699C1CE1A6BD0046434E /* Main.storyboard */,
+				C4E869AF1CE1A8240046434E /* ViewController0.swift */,
+				C4E869B01CE1A8240046434E /* ViewController0.xib */,
+				C4E869B61CE1A8B30046434E /* ViewController1.h */,
+				C4E869B71CE1A8B30046434E /* ViewController1.m */,
+				C4E869B81CE1A8B30046434E /* ViewController1.xib */,
 				C4E8699F1CE1A6BD0046434E /* Assets.xcassets */,
 				C4E869A11CE1A6BD0046434E /* LaunchScreen.storyboard */,
 				C4E869A41CE1A6BD0046434E /* Info.plist */,
 				C4E869931CE1A6BD0046434E /* Supporting Files */,
+				C4E869AE1CE1A8230046434E /* JWIntentDemo-Bridging-Header.h */,
 			);
 			path = JWIntentDemo;
 			sourceTree = "<group>";
@@ -77,6 +100,17 @@
 				C4E869941CE1A6BD0046434E /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C4E869AA1CE1A6E60046434E /* JWIntent */ = {
+			isa = PBXGroup;
+			children = (
+				C4E869AB1CE1A6E60046434E /* JWIntent.h */,
+				C4E869AC1CE1A6E60046434E /* JWIntent.m */,
+				C4E869DC1CE1D5AE0046434E /* JWIntentContext.h */,
+				C4E869DD1CE1D5AE0046434E /* JWIntentContext.m */,
+			);
+			path = JWIntent;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,9 +170,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4E869F81CE2FE770046434E /* LICENSE in Resources */,
+				C4E869BA1CE1A8B30046434E /* ViewController1.xib in Resources */,
+				C4E869F71CE2FE770046434E /* JWIntent.podspec in Resources */,
+				C4E869B21CE1A8240046434E /* ViewController0.xib in Resources */,
 				C4E869A31CE1A6BD0046434E /* LaunchScreen.storyboard in Resources */,
 				C4E869A01CE1A6BD0046434E /* Assets.xcassets in Resources */,
-				C4E8699E1CE1A6BD0046434E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,23 +186,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4E8699B1CE1A6BD0046434E /* ViewController.m in Sources */,
+				C4E869B91CE1A8B30046434E /* ViewController1.m in Sources */,
+				C4E869AD1CE1A6E60046434E /* JWIntent.m in Sources */,
 				C4E869981CE1A6BD0046434E /* AppDelegate.m in Sources */,
 				C4E869951CE1A6BD0046434E /* main.m in Sources */,
+				C4E869DE1CE1D5AE0046434E /* JWIntentContext.m in Sources */,
+				C4E869B11CE1A8240046434E /* ViewController0.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		C4E8699C1CE1A6BD0046434E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C4E8699D1CE1A6BD0046434E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C4E869A11CE1A6BD0046434E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -263,10 +295,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = JWIntentDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jerry.JWIntentDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "JWIntentDemo/JWIntentDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -274,10 +309,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = JWIntentDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jerry.JWIntentDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "JWIntentDemo/JWIntentDemo-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -300,6 +337,7 @@
 				C4E869A91CE1A6BD0046434E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
