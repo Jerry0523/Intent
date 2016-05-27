@@ -39,8 +39,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JWIntent : NSObject
 
-// the parameter passed by intent. In target viewController, you can get extraData by calling self.extraData. In block, it will be passed to block input params.
-@property (strong, nonatomic, nullable) NSDictionary *extraData;
+@property (strong, nonatomic, nullable) NSDictionary *extraData;// the parameter passed by intent. In target viewController, you can get extraData by calling self.extraData. In block, it will be passed to block input params.
+
+@property (strong, nonatomic, null_resettable) JWIntentContext *context; // if not set, will use [JWIntentContext defaultContext]
+
+@property (strong, nonatomic, readonly, nullable) id target;//the target, can be block and vc
 
 @property (assign, nonatomic) JWIntentAction action;    //default is JWIntentActionAuto
 
@@ -60,17 +63,17 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param targetURLString          targetURLString contains action,extraData. e.g. "router://testHost?extraData={\"name\":\"Jerry\"}" The scheme "router" is equal to JWIntentContext.routerScheme, so we know that it's a router action. The host "testHost" indicates targetClassName, which is registered by the class or app loaded in JWIntentContext mannually. The query part(formatted "extraData={}") indicates the json value of extraData, which will be translated and set automatically. Similarlly, if scheme is equal to JWIntentContext.callBackScheme, we know that it's a perform-block action.
  */
 - (instancetype)initWithSource:(UIViewController*) source
-               targetURL:(NSString*) targetURLString;
+               targetURLString:(NSString*) targetURLString;
 
 /**
  *  submit the action
  */
-- (void)submit;
+- (BOOL)submit;
 
 /**
  *  submit the action with a completion block.
  */
-- (void)submitWithCompletion:(void (^ __nullable)(void))completion;
+- (BOOL)submitWithCompletion:(void (^ __nullable)(void))completion;
 
 @end
 

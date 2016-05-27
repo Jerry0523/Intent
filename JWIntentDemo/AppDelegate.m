@@ -26,7 +26,7 @@
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[ViewController0 new]];
     [self.window makeKeyAndVisible];
     
-    [JWIntentContext sharedContext].moduleName = @"JWIntentDemo";
+    [JWIntentContext defaultContext].moduleName = @"JWIntentDemo";
     
     return YES;
 }
@@ -52,29 +52,32 @@
 }
 
 - (void)registerRouter {
-    [JWIntentContext registerViewController:@"ViewController0"
+    
+    JWIntentContext *defaultContext = [JWIntentContext defaultContext];
+    [defaultContext registerViewControllerClassName:@"ViewController0"
                                      forKey:@"vc0"];
     
-    [JWIntentContext registerViewController:@"ViewController1"
+    [defaultContext registerViewControllerClassName:@"ViewController1"
                                      forKey:@"vc1"];
     
     __weak typeof(self) weakSelf = self;
     
-    [JWIntentContext registerCallBack:^(NSDictionary *param) {
-
+    [defaultContext registerCallBack:^(NSDictionary * param, void (^ completion)(void)) {
+        
         NSString *title = param[@"title"];
         NSString *msg = param[@"message"];
         
-        __strong typeof(weakSelf) strongSelf = weakSelf;
+        __strong typeof(weakSelf) self = weakSelf;
         
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:NULL]];
         
-        if (!strongSelf.alertController) {
-            strongSelf.alertController = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
-            [strongSelf.alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:NULL]];
+        UIViewController *rootViewController = self.window.rootViewController;
+        UIViewController *topVC = rootViewController;
+        while (topVC.presentedViewController) {
+            topVC = topVC.presentedViewController;
         }
-        
-        
-        [strongSelf.window.rootViewController presentViewController:strongSelf.alertController animated:YES completion:nil];
+        [topVC presentViewController:alertController animated:YES completion:completion];
         
     } forKey:@"testAlert"];
 }

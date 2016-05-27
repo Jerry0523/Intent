@@ -27,7 +27,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^JWIntentContextCallBack)(NSDictionary * _Nullable param);
+typedef void(^JWIntentContextCallBack)(NSDictionary * _Nullable param,  void (^ _Nullable completion)(void));
 
 @interface JWIntentContext : NSObject
 
@@ -41,41 +41,55 @@ typedef void(^JWIntentContextCallBack)(NSDictionary * _Nullable param);
 @property (copy, nonatomic) NSString *callBackScheme;
 
 // singleton
-+ (instancetype) sharedContext;
++ (instancetype) defaultContext;
 
 /**
  *  register viewController.
  *
  *  @param vcClassName       the className for target class
- *  @param key               the host for the router, which will be stored as routerScheme://key
+ *  @param shortKey          the host for the router,shortKey,e.g., "login", which will be stored as routerScheme://key
  */
-+ (void)registerViewController:(NSString*) vcClassName
-                        forKey:(NSString*)key;
+- (void)registerViewControllerClassName:(NSString*) vcClassName
+                                 forKey:(NSString*)shortKey;
 
 /**
  *  unregister viewController.
  *
- *  @param key               the host for the router, which will be stored as routerScheme://key
+ *  @param key               shortKey
  */
-+ (void)removeViewControllerForKey:(NSString*)key;
+- (void)removeViewControllerClassNameForKey:(NSString*)shortKey;
 
 
 /**
  *  register block.
  *
  *  @param callBack           the block to be performed.
- *  @param key                the host for the action, which will be stored as callBackScheme://key
+ *  @param shortKey           the host for the action,shortKey,e.g.,"action", which will be stored as callBackScheme://key
  */
-+ (void)registerCallBack:(JWIntentContextCallBack) callBack
-                  forKey:(NSString*)key;
+- (void)registerCallBack:(JWIntentContextCallBack) callBack
+                  forKey:(NSString*)shortKey;
 
 
 /**
  *  unregister block.
  *
- *  @param key               the host for the action, which will be stored as callBackScheme://key
+ *  @param key               shortKey
  */
-+ (void)removeCallBackForKey:(NSString*)key;
+- (void)removeCallBackForKey:(NSString*)shortKey;
+
+/**
+ *  get the regist viewcontroller class name.
+ *
+ *  @param key               the full key,e.g.,"routerScheme://key"
+ */
+- (nullable NSString*)viewControllerClassNameForKey:(NSString *)fullKey;
+
+/**
+ *  get the regist callback block
+ *
+ *  @param key               the full key,e.g.,"callBackScheme://key"
+ */
+- (nullable JWIntentContextCallBack)callBackForKey:(NSString*)fullKey;
 
 @end
 

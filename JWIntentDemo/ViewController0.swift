@@ -35,12 +35,15 @@ class ViewController0: UIViewController {
     }
     
     @IBAction func didPerformBlock(sender: AnyObject) {
-        let intent = JWIntent(source: self, targetURL: "callBack://testAlert?extraData={\"title\":\"Hello Alert\",\"message\":\"I have a message for you.\"}")
-        intent.submit()
+        let intent = JWIntent(source: self, targetURLString: "callBack://testAlert?extraData={\"title\":\"Hello Alert\",\"message\":\"I have a message for you.\"}")
+        intent.submitWithCompletion {
+            [weak self] in
+            self?.title = "Hello VC, I am alert."
+        }
     }
     
     @IBAction func didPushByKey(sender: AnyObject) {
-        let intent = JWIntent(source: self, targetURL: "router://vc1?extraData={\"stringValue\":\"Hello JWIntent\"}")
+        let intent = JWIntent(source: self, targetURLString: "router://vc1?extraData={\"stringValue\":\"Hello JWIntent\"}")
         intent.action = .Push
         intent.submit()
     }

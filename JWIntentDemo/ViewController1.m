@@ -35,8 +35,12 @@
 
 - (IBAction)presentVC1:(id)sender {
     JWIntent *intent = [[JWIntent alloc] initWithSource:self
-                                        targetURL:@"router://vc0"];
+                                        targetURLString:@"router://vc0"];
     [intent submit];
+}
+
+- (void)dealloc {
+    NSLog(@"dealloc");
 }
 
 @end

@@ -26,13 +26,6 @@
 #import "JWIntent.h"
 #import <UIKit/UIKit.h>
 
-@interface JWIntentContext()
-
-+ (nullable NSString*)viewControllerForKey:(NSString*)key;
-+ (nullable JWIntentContextCallBack)callBackForKey:(NSString*)key;
-
-@end
-
 @interface JWIntent()
 
 @property (strong, nonatomic) UIViewController *source;
@@ -40,72 +33,104 @@
 
 @end
 
-@implementation JWIntent
+@implementation JWIntent {
+    NSString *_targetClassName;
+    NSString *_targetURLString;
+}
 
 #pragma mark - Initialize
 - (instancetype)initWithSource:(UIViewController*)source
                targetClassName:(NSString*)targetClassName {
     if (self = [super init]) {
         self.source = source;
-        [self p_createTargetVCByClassName:targetClassName];
+        _targetClassName = targetClassName;
     }
     return self;
 }
 
 - (instancetype)initWithSource:(UIViewController *)source
-                     targetURL:(NSString *)targetURLString {
+               targetURLString:(NSString *)targetURLString {
     
     if (self = [super init]) {
         self.source = source;
-        NSString *urlEncodedString = [targetURLString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-        NSURL *url = [NSURL URLWithString:urlEncodedString];
-        
-        JWIntentContext *context = [JWIntentContext sharedContext];
-        NSString *scheme = url.scheme;
-        NSString *query = url.query;
-        NSString *key = [NSString stringWithFormat:@"%@://%@", scheme, url.host];
-        
-        if ([scheme isEqualToString:context.routerScheme]) {
-            NSString *targetClassName = [JWIntentContext viewControllerForKey:key];
-            [self p_createTargetVCByClassName:targetClassName];
-            
-        } else if([scheme isEqualToString:context.callBackScheme]) {
-            self.target = [JWIntentContext callBackForKey:key];
-        }
-        [self p_setExtraDataByQueryString:query];
+        _targetURLString = targetURLString;
     }
     return self;
 }
 
 #pragma mark - PublicAPI
-- (void)submit {
-    [self submitWithCompletion:nil];
+- (BOOL)submit {
+    return [self submitWithCompletion:nil];
 }
 
-- (void)submitWithCompletion:(void (^)(void))completion {
+- (BOOL)submitWithCompletion:(void (^)(void))completion {
+    if (!self.target) {
+        NSLog(@"trying to submit intent with no target");
+        return NO;
+    }
+    
     if ([self.target isKindOfClass:[UIViewController class]]) {
-        NSAssert(self.source != nil, @"trying to submit intent with no source");
+        if (!self.source) {
+            NSLog(@"trying to submit intent with no source");
+            return NO;
+        }
         [self.target setExtraData:self.extraData];
     }
     
-    NSAssert(self.target != nil, @"trying to submit intent with no target");
-    [self p_submitActionWithCompletion:completion];
+    return [self _submitActionWithCompletion:completion];
+}
+
+#pragma mark - Getter & Setter
+- (JWIntentContext*)context {
+    if (!_context) {
+        return [JWIntentContext defaultContext];
+    }
+    return _context;
+}
+
+- (id)target {
+    if (!_target) {
+        if (_targetClassName) {
+            [self _createTargetVCByClassName:_targetClassName];
+        } else if(_targetURLString) {
+            [self _createTargetByURLString:_targetURLString];
+        }
+    }
+    return _target;
 }
 
 #pragma mark - Private
-- (void)p_createTargetVCByClassName:(NSString*)className {
+- (void)_createTargetVCByClassName:(NSString*)className {
     if (className.length) {
         Class class = NSClassFromString(className);
-        if (!class && [JWIntentContext sharedContext].moduleName.length) {
-            class = NSClassFromString([NSString stringWithFormat:@"%@.%@", [JWIntentContext sharedContext].moduleName, className]);
+        if (!class && self.context.moduleName.length) {
+            class = NSClassFromString([NSString stringWithFormat:@"%@.%@", self.context.moduleName, className]);
         }
         if (class) {
-            self.target = [[class alloc] init];
+            _target = [[class alloc] init];
         }
     }
 }
 
-- (void)p_setExtraDataByQueryString:(NSString*)queryString {
+- (void)_createTargetByURLString:(NSString*)urlString {
+    NSString *urlEncodedString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSURL *url = [NSURL URLWithString:urlEncodedString];
+    
+    NSString *scheme = url.scheme;
+    NSString *query = url.query;
+    NSString *key = [NSString stringWithFormat:@"%@://%@", scheme, url.host];
+    
+    if ([scheme isEqualToString:self.context.routerScheme]) {
+        NSString *targetClassName = [self.context viewControllerClassNameForKey:key];
+        [self _createTargetVCByClassName:targetClassName];
+        
+    } else if([scheme isEqualToString:self.context.callBackScheme]) {
+        _target = [self.context callBackForKey:key];
+    }
+    [self _setExtraDataByQueryString:query];
+}
+
+- (void)_setExtraDataByQueryString:(NSString*)queryString {
     if (!queryString.length) {
         return;
     }
@@ -125,7 +150,7 @@
     }
 }
 
-- (void)p_submitActionWithCompletion:(void (^)(void))completion {
+- (BOOL)_submitActionWithCompletion:(void (^)(void))completion {
     switch (self.action) {
         case JWIntentActionAuto: {
             JWIntentAction mAction;
@@ -140,33 +165,38 @@
                 mAction = JWIntentActionPerformBlock;
             }
             
-            [self p_submitActionWithCompletion:mAction completion:completion];
+            return [self _submitActionWithCompletion:mAction completion:completion];
         }
             break;
         default:
-            [self p_submitActionWithCompletion:self.action completion:completion];
+            return [self _submitActionWithCompletion:self.action completion:completion];
             break;
     }
 }
 
-- (void)p_submitActionWithCompletion:(JWIntentAction)action completion:(void (^)(void))completion {
+- (BOOL)_submitActionWithCompletion:(JWIntentAction)action completion:(void (^)(void))completion {
     if (action == JWIntentActionPresent) {
         [self.source presentViewController:self.target animated:YES completion:completion];
+        return YES;
     } else if(action == JWIntentActionPush) {
-        NSAssert(self.source.navigationController != nil, @"%@ does not have navigationController", self.source);
+        if (!self.source.navigationController) {
+            NSLog(@"%@ does not have navigationController", self.source);
+            return NO;
+        }
         [self.source.navigationController pushViewController:self.target animated:YES];
         if (completion) {
             completion();
         }
+        return YES;
     } else if(action == JWIntentActionPerformBlock) {
         JWIntentContextCallBack callBack = self.target;
         if (callBack) {
-            callBack(self.extraData);
+            callBack(self.extraData, completion);
         }
-        if (completion) {
-            completion();
-        }
+        return YES;
     }
+    
+    return NO;
 }
 
 @end

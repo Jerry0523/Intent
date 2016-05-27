@@ -31,7 +31,7 @@
     NSMutableDictionary *_routerDict;
 }
 
-+ (instancetype) sharedContext {
++ (instancetype) defaultContext {
     static dispatch_once_t once;
     static JWIntentContext * _singleton;
     dispatch_once(&once, ^{
@@ -42,7 +42,6 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        
         self.routerScheme = @"router";
         self.callBackScheme = @"callBack";
         
@@ -52,38 +51,45 @@
     return self;
 }
 
-+ (void)registerViewController:(NSString*) vcClassName
+- (void)registerViewControllerClassName:(NSString*) vcClassName
                         forKey:(NSString*)key {
-    JWIntentContext *context = [self sharedContext];
-    [context->_routerDict setObject:vcClassName forKey:[NSString stringWithFormat:@"%@://%@", context.routerScheme, key]];
+    @synchronized (_routerDict) {
+        [_routerDict setObject:vcClassName forKey:[NSString stringWithFormat:@"%@://%@", self.routerScheme, key]];
+    }
+    
 }
 
-+ (void)removeViewControllerForKey:(NSString*)key {
-    JWIntentContext *context = [self sharedContext];
-    [context->_routerDict removeObjectForKey:[NSString stringWithFormat:@"%@://%@", context.routerScheme, key]];
+- (void)removeViewControllerClassNameForKey:(NSString*)key {
+    @synchronized (_routerDict) {
+        [_routerDict removeObjectForKey:[NSString stringWithFormat:@"%@://%@", self.routerScheme, key]];
+    }
 }
 
-+ (NSString*)viewControllerForKey:(NSString *)key {
-    JWIntentContext *context = [self sharedContext];
-    return [context->_routerDict objectForKey:key];
+- (NSString*)viewControllerClassNameForKey:(NSString *)key {
+    @synchronized (_routerDict) {
+        return [_routerDict objectForKey:key];
+    }
 }
 
-+ (void)registerCallBack:(JWIntentContextCallBack) callBack
+- (void)registerCallBack:(JWIntentContextCallBack) callBack
                   forKey:(NSString*)key {
-    JWIntentContext *context = [self sharedContext];
-    NSString *callBackKey = [NSString stringWithFormat:@"%@://%@", context.callBackScheme, key];
-    [context->_callBackDict setObject:callBack forKey:callBackKey];
+    @synchronized (_callBackDict) {
+        NSString *callBackKey = [NSString stringWithFormat:@"%@://%@", self.callBackScheme, key];
+        [_callBackDict setObject:callBack forKey:callBackKey];
+    }
 }
 
-+ (void)removeCallBackForKey:(NSString*)key {
-    JWIntentContext *context = [self sharedContext];
-    NSString *callBackKey = [NSString stringWithFormat:@"%@://%@", context.callBackScheme, key];
-    [context->_callBackDict removeObjectForKey:callBackKey];
+- (void)removeCallBackForKey:(NSString*)key {
+    @synchronized (_callBackDict) {
+        NSString *callBackKey = [NSString stringWithFormat:@"%@://%@", self.callBackScheme, key];
+        [_callBackDict removeObjectForKey:callBackKey];
+    }
 }
 
-+ (JWIntentContextCallBack)callBackForKey:(NSString*)key {
-    JWIntentContext *context = [self sharedContext];
-    return [context->_callBackDict objectForKey:key];
+- (JWIntentContextCallBack)callBackForKey:(NSString*)key {
+    @synchronized (_callBackDict) {
+       return [_callBackDict objectForKey:key];
+    }
 }
 
 @end
