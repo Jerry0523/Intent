@@ -40,7 +40,7 @@ class ViewController0: UIViewController {
     }
     
     @IBAction func didPerformBlock(sender: AnyObject) {
-        let intent = JWRouter(source: self, routerKey: "testAlert")
+        let intent = JWHandler(handlerKey: "testAlert")
         intent.extraData = ["title":"Hello Alert", "message":"I have a message for you."]
         intent.submitWithCompletion {
             [weak self] in
