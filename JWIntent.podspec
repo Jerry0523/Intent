@@ -1,7 +1,7 @@
 #JWIntent.podspec
 Pod::Spec.new do |s|
 s.name         = "JWIntent"
-s.version      = "1.0.0"
+s.version      = "1.0.1"
 s.summary      = "A solution for iOS modules and components separation. You can route to viewController or perform native block with url."
 
 s.homepage     = "https://github.com/Jerry0523/JWIntent"
