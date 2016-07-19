@@ -27,69 +27,78 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^JWIntentContextCallBack)(NSDictionary * _Nullable param,  void (^ _Nullable completion)(void));
+typedef void(^JWIntentContextHandler)(NSDictionary * _Nullable param,  void (^ _Nullable completion)(void));
 
 @interface JWIntentContext : NSObject
 
-// moduleName is useful in Swift. We cannot reach the class by className, but moduleName.className in Swift. So if you're doing your stuff with Swift, you have to provide your moduleName.
-@property (copy, nonatomic) NSString *moduleName;
+@property (strong, nonatomic) NSString *routerScheme;//default is app bundleDentifier append string ".router"
+@property (strong, nonatomic) NSString *handlerScheme;//default is app bundleDentifier append string ".func"
 
-// default is "router". Used for identification the action for viewControllers router.
-@property (copy, nonatomic) NSString *routerScheme;
-
-// default is "callBack". Used for identification the action for perform-block action.
-@property (copy, nonatomic) NSString *callBackScheme;
-
-// singleton
+/**
+ *  singleton
+ *
+ */
 + (instancetype) defaultContext;
 
-/**
- *  register viewController.
- *
- *  @param vcClassName       the className for target class
- *  @param shortKey          the host for the router,shortKey,e.g., "login", which will be stored as routerScheme://key
- */
-- (void)registerViewControllerClassName:(NSString*) vcClassName
-                                 forKey:(NSString*)shortKey;
+@end
+
+@interface JWIntentContext(Handler)
 
 /**
- *  unregister viewController.
+ *  register handler, register block with key so that we can perform block via the prescribed key
  *
- *  @param key               shortKey
+ *  @param handler
+ *  @param key
+ *
  */
-- (void)removeViewControllerClassNameForKey:(NSString*)shortKey;
-
+- (void)registerHandler:(JWIntentContextHandler)handler
+                 forKey:(NSString*)key;
 
 /**
- *  register block.
+ *  unregister handler with key
  *
- *  @param callBack           the block to be performed.
- *  @param shortKey           the host for the action,shortKey,e.g.,"action", which will be stored as callBackScheme://key
+ *  @param key
+ *
  */
-- (void)registerCallBack:(JWIntentContextCallBack) callBack
-                  forKey:(NSString*)shortKey;
-
+- (void)unRegisterHandlerForKey:(NSString*)key;
 
 /**
- *  unregister block.
+ *  get handler with key
  *
- *  @param key               shortKey
+ *  @param key
+ *
  */
-- (void)removeCallBackForKey:(NSString*)shortKey;
+- (_Nullable JWIntentContextHandler)handlerForKey:(NSString*)key;
+
+@end
+
+@interface JWIntentContext(Router)
 
 /**
- *  get the regist viewcontroller class name.
+ *  register view controller class so that we can router to it
  *
- *  @param key               the full key,e.g.,"routerScheme://key"
+ *  @param aClass UIViewController subclass
+ *  @param key
+ *
  */
-- (nullable NSString*)viewControllerClassNameForKey:(NSString *)fullKey;
+- (void)registerRouterClass:(Class)aClass
+                     forKey:(NSString*)key;
 
 /**
- *  get the regist callback block
+ *  unregister router with key
  *
- *  @param key               the full key,e.g.,"callBackScheme://key"
+ *  @param key
+ *
  */
-- (nullable JWIntentContextCallBack)callBackForKey:(NSString*)fullKey;
+- (void)unRegisterRouterClassForKey:(NSString*)key;
+
+/**
+ *  get uiviewcontroller class with key
+ *
+ *  @param key
+ *
+ */
+- (_Nullable Class)routerClassForKey:(NSString*)key;
 
 @end
 

@@ -34,8 +34,8 @@
 }
 
 - (IBAction)presentVC1:(id)sender {
-    JWIntent *intent = [[JWIntent alloc] initWithSource:self
-                                        targetURLString:@"router://vc0"];
+    JWRouter *intent = [[JWRouter alloc] initWithSource:self
+                                              routerKey:@"vc0"];
     [intent submit];
 }
 

@@ -23,10 +23,10 @@
     [self registerRouter];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[ViewController0 new]];
-    [self.window makeKeyAndVisible];
     
-    [JWIntentContext defaultContext].moduleName = @"JWIntentDemo";
+    JWRouter *intent = [[JWRouter alloc] initWithSource:nil routerKey:@"vc0"];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:intent.destination];
+    [self.window makeKeyAndVisible];
     
     return YES;
 }
@@ -54,16 +54,14 @@
 - (void)registerRouter {
     
     JWIntentContext *defaultContext = [JWIntentContext defaultContext];
-    [defaultContext registerViewControllerClassName:@"ViewController0"
-                                     forKey:@"vc0"];
-    
-    [defaultContext registerViewControllerClassName:@"ViewController1"
-                                     forKey:@"vc1"];
+
+    [defaultContext registerRouterClass:NSClassFromString(@"JWIntentDemo.ViewController0") forKey:@"vc0"];
+    [defaultContext registerRouterClass:NSClassFromString(@"ViewController1") forKey:@"vc1"];
+   
     
     __weak typeof(self) weakSelf = self;
     
-    [defaultContext registerCallBack:^(NSDictionary * param, void (^ completion)(void)) {
-        
+    [defaultContext registerHandler:^(NSDictionary *param, void (^completion)(void)) {
         NSString *title = param[@"title"];
         NSString *msg = param[@"message"];
         
@@ -72,8 +70,7 @@
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
         [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:NULL]];
         
-        UIViewController *rootViewController = self.window.rootViewController;
-        UIViewController *topVC = rootViewController;
+        UIViewController *topVC = self.window.rootViewController;
         while (topVC.presentedViewController) {
             topVC = topVC.presentedViewController;
         }

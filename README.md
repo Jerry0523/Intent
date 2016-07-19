@@ -6,24 +6,24 @@ Features
 ### You can register LoginViewController by the following
 
 ```objective-c
-[JWIntentContext registerViewController:"LoginViewController"
-                                 forKey:@"login"];
+[JWIntentContext registerRouterClass:"LoginViewController"
+                              forKey:@"login"];
 ```
 
 ### You can register Block by the following
 
 ```objective-c
-[JWIntentContext registerCallBack:^(NSDictionary *param) {
+[JWIntentContext registerHandler:^(NSDictionary *param) {
     NSLog(@"%@", param[@"message"]);
 } 
-                           forKey:@"testAlert"];
+                         forKey:@"testAlert"];
 ```
 
-### You can route to LoginViewController by target class name
+### You can route to LoginViewController by router key
 
 ```objective-c
-JWIntent *intent = [[JWIntent alloc] initWithSource:self
-                                    targetClassName:@"LoginViewController"];
+JWRouter *intent = [[JWRouter alloc] initWithSource:self
+                                          routerKey:@"login"];
 [intent submit];
 
 ```
@@ -31,8 +31,8 @@ JWIntent *intent = [[JWIntent alloc] initWithSource:self
 ### Or you can route to LoginViewController by remote URL
 
 ```objective-c
-JWIntent *intent = [[JWIntent alloc] initWithSource:self
-                                          targetURL:@"router://login?extraData={\"username\":\"jerry\"}"];
+JWIntent *intent = [JWIntent intentWithURLString:@"router://login?extraData={\"username\":\"jerry\"}" 
+                                         context:nil];
 [intent submit];
 
 ```
@@ -40,8 +40,8 @@ JWIntent *intent = [[JWIntent alloc] initWithSource:self
 ### Or you can perform block by remote URL
 
 ```objective-c
-JWIntent *intent = [[JWIntent alloc] initWithSource:self
-                                          targetURL:@"callBack://testAlert?extraData={\"title\":\"Hello Alert\",\"message\":\"I have a message for you.\"}"];
+JWIntent *intent = [JWIntent intentWithURLString:@"handler://testAlert?extraData={\"title\":\"Hello Alert\",\"message\":\"I have a message for you.\"}" 
+                                         context:nil];
 [intent submit];
 
 ```
@@ -59,7 +59,7 @@ To integrate JWIntent into your Xcode project using CocoaPods, specify it in you
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
+platform :ios, '7.0'
 
 pod 'JWIntent'
 ```

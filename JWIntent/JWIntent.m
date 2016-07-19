@@ -24,60 +24,52 @@
 // THE SOFTWARE.
 
 #import "JWIntent.h"
+#import <objc/runtime.h>
 #import <UIKit/UIKit.h>
 
 @interface JWIntent()
 
-@property (strong, nonatomic) UIViewController *source;
-@property (strong, nonatomic) id target;
+@property (strong, nonatomic) id source;
+@property (strong, nonatomic) id destination;
 
 @end
 
-@implementation JWIntent {
-    NSString *_targetClassName;
-    NSString *_targetURLString;
-}
+@implementation JWIntent
 
 #pragma mark - Initialize
-- (instancetype)initWithSource:(UIViewController*)source
-               targetClassName:(NSString*)targetClassName {
-    if (self = [super init]) {
-        self.source = source;
-        _targetClassName = targetClassName;
-    }
-    return self;
-}
-
-- (instancetype)initWithSource:(UIViewController *)source
-               targetURLString:(NSString *)targetURLString {
++ (instancetype)intentWithURLString:(NSString*)destinationURLString
+                            context:(JWIntentContext*)context {
     
-    if (self = [super init]) {
-        self.source = source;
-        _targetURLString = targetURLString;
+    if (!context) {
+        context = [JWIntentContext defaultContext];
     }
-    return self;
+    
+    NSString *urlEncodedString = [destinationURLString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSURL *url = [NSURL URLWithString:urlEncodedString];
+    NSString *scheme = url.scheme;
+    NSString *query = url.query;
+    NSString *host = url.host;
+    
+    JWIntent *aIntent = nil;
+    if ([scheme isEqualToString:context.routerScheme]) {
+        aIntent = [[JWRouter alloc] initWithSource:nil routerKey:host];
+    } else if([scheme isEqualToString:context.handlerScheme]) {
+        aIntent = [[JWHandler alloc] initWithHandlerKey:host];
+    }
+    
+    if (aIntent) {
+        [aIntent __setExtraDataByQueryString:query];
+    }
+    return aIntent;
 }
 
 #pragma mark - PublicAPI
-- (BOOL)submit {
-    return [self submitWithCompletion:nil];
+- (void)submit {
+    [self submitWithCompletion:nil];
 }
 
-- (BOOL)submitWithCompletion:(void (^)(void))completion {
-    if (!self.target) {
-        NSLog(@"trying to submit intent with no target");
-        return NO;
-    }
-    
-    if ([self.target isKindOfClass:[UIViewController class]]) {
-        if (!self.source) {
-            NSLog(@"trying to submit intent with no source");
-            return NO;
-        }
-        [self.target setExtraData:self.extraData];
-    }
-    
-    return [self _submitActionWithCompletion:completion];
+- (void)submitWithCompletion:(void (^)(void))completionBlock {
+    NSAssert(self.destination, @"Trying to submit intent with no destination");
 }
 
 #pragma mark - Getter & Setter
@@ -88,54 +80,12 @@
     return _context;
 }
 
-- (id)target {
-    if (!_target) {
-        if (_targetClassName) {
-            [self _createTargetVCByClassName:_targetClassName];
-        } else if(_targetURLString) {
-            [self _createTargetByURLString:_targetURLString];
-        }
-    }
-    return _target;
-}
-
 #pragma mark - Private
-- (void)_createTargetVCByClassName:(NSString*)className {
-    if (className.length) {
-        Class class = NSClassFromString(className);
-        if (!class && self.context.moduleName.length) {
-            class = NSClassFromString([NSString stringWithFormat:@"%@.%@", self.context.moduleName, className]);
-        }
-        if (class) {
-            _target = [[class alloc] init];
-        }
-    }
-}
-
-- (void)_createTargetByURLString:(NSString*)urlString {
-    NSString *urlEncodedString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    NSURL *url = [NSURL URLWithString:urlEncodedString];
-    
-    NSString *scheme = url.scheme;
-    NSString *query = url.query;
-    NSString *key = [NSString stringWithFormat:@"%@://%@", scheme, url.host];
-    
-    if ([scheme isEqualToString:self.context.routerScheme]) {
-        NSString *targetClassName = [self.context viewControllerClassNameForKey:key];
-        [self _createTargetVCByClassName:targetClassName];
-        
-    } else if([scheme isEqualToString:self.context.callBackScheme]) {
-        _target = [self.context callBackForKey:key];
-    }
-    [self _setExtraDataByQueryString:query];
-}
-
-- (void)_setExtraDataByQueryString:(NSString*)queryString {
+- (void)__setExtraDataByQueryString:(NSString*)queryString {
     if (!queryString.length) {
         return;
     }
     queryString = [queryString stringByRemovingPercentEncoding];
-    
     NSArray *components = [queryString componentsSeparatedByString:@"&"];
     
     for (NSString *component in components) {
@@ -144,59 +94,120 @@
             NSString *key = parts[0];
             NSString *value = [component substringFromIndex:key.length + 1];
             if ([key isEqualToString:@"extraData"]) {
-                self.extraData = [NSJSONSerialization JSONObjectWithData:[value dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableLeaves error:NULL];
+                self.extraData = [NSJSONSerialization JSONObjectWithData:[value dataUsingEncoding:NSUTF8StringEncoding]
+                                                                 options:NSJSONReadingMutableLeaves
+                                                                   error:NULL];
             }
         }
     }
 }
 
-- (BOOL)_submitActionWithCompletion:(void (^)(void))completion {
-    switch (self.action) {
-        case JWIntentActionAuto: {
-            JWIntentAction mAction;
-            
-            if ([self.target isKindOfClass:[UIViewController class]]) {
-                if (self.source.navigationController) {
-                    mAction = JWIntentActionPush;
-                } else {
-                    mAction = JWIntentActionPresent;
-                }
-            } else {
-                mAction = JWIntentActionPerformBlock;
-            }
-            
-            return [self _submitActionWithCompletion:mAction completion:completion];
+@end
+
+@implementation JWRouter
+
+- (instancetype)initWithSource:(nullable id)source
+                     routerKey:(NSString*)routerKey {
+    if (self = [super init]) {
+        self.source = source;
+        Class routerClass = [self.context routerClassForKey:routerKey];
+        if (routerClass) {
+            self.destination = [[routerClass alloc] init];
         }
-            break;
-        default:
-            return [self _submitActionWithCompletion:self.action completion:completion];
-            break;
     }
+    return self;
 }
 
-- (BOOL)_submitActionWithCompletion:(JWIntentAction)action completion:(void (^)(void))completion {
-    if (action == JWIntentActionPresent) {
-        [self.source presentViewController:self.target animated:YES completion:completion];
-        return YES;
-    } else if(action == JWIntentActionPush) {
-        if (!self.source.navigationController) {
-            NSLog(@"%@ does not have navigationController", self.source);
-            return NO;
-        }
-        [self.source.navigationController pushViewController:self.target animated:YES];
-        if (completion) {
-            completion();
-        }
-        return YES;
-    } else if(action == JWIntentActionPerformBlock) {
-        JWIntentContextCallBack callBack = self.target;
-        if (callBack) {
-            callBack(self.extraData, completion);
-        }
-        return YES;
+- (void)submitWithCompletion:(void (^)(void))completionBlock {
+    [super submitWithCompletion:completionBlock];
+    
+    if (!self.source) {
+        self.source = [self __autoGetRootSourceViewController];
     }
     
-    return NO;
+    if (!(self.option & JWIntentOptionsPresent ||
+          self.option & JWIntentOptionsPush)) {
+        self.option = self.option | [self __autoGetActionOptions];
+    }
+    
+    [self __submitRouterWithCompletion:completionBlock];
+}
+
+- (void)setExtraData:(NSDictionary *)extraData {
+    [super setExtraData:extraData];
+    if ([self.destination isKindOfClass:[NSObject class]]) {
+        ((NSObject*)self.destination).extraData = extraData;
+    }
+}
+
+#pragma mark - Private
+- (JWIntentOptions)__autoGetActionOptions {
+    if (![self.source isKindOfClass:[UIViewController class]]) {
+        return 0;
+    }
+    
+    UIViewController *sourceViewController = self.source;
+    
+    if (sourceViewController.navigationController || [sourceViewController isKindOfClass:[UINavigationController class]]) {
+        return JWIntentOptionsPush;
+    } else {
+        return JWIntentOptionsPresent;
+    }
+}
+
+- (void)__submitRouterWithCompletion:(void (^)(void))completionBlock {
+    UIViewController *sourceViewController = self.source;
+    if (self.option & JWIntentOptionsPresent) {
+        [sourceViewController presentViewController:self.destination animated:YES completion:completionBlock];
+    } else if(self.option & JWIntentOptionsPush) {
+        UINavigationController *navigationController = nil;
+        if ([sourceViewController isKindOfClass:[UINavigationController class]]) {
+            navigationController = (id)sourceViewController;
+        } else {
+            UIViewController *superViewController = sourceViewController.parentViewController;
+            while (superViewController) {
+                if ([superViewController isKindOfClass:[UINavigationController class]]) {
+                    navigationController = (id)superViewController;
+                    break;
+                } else {
+                    superViewController = superViewController.parentViewController;
+                }
+            }
+        }
+        
+        NSAssert(navigationController, @"Trying to submit push action with no navigationController");
+        [navigationController pushViewController:self.destination animated:YES];
+        if (completionBlock) {
+            completionBlock();
+        }
+    }
+}
+
+- (UIViewController*)__autoGetRootSourceViewController {
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    UIViewController *topVC = keyWindow.rootViewController;
+    while (topVC.presentedViewController) {
+        topVC = topVC.presentedViewController;
+    }
+    return topVC;
+}
+
+@end
+
+@implementation JWHandler
+
+- (instancetype)initWithHandlerKey:(NSString*)handlerKey {
+    if (self = [super init]) {
+        self.destination = [self.context handlerForKey:handlerKey];
+    }
+    return self;
+}
+
+- (void)submitWithCompletion:(void (^)(void))completion {
+    [super submitWithCompletion:completion];
+
+    JWIntentContextHandler block = (JWIntentContextHandler)self.destination;
+    block(self.extraData, completion);
 }
 
 @end

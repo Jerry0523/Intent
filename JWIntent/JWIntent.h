@@ -25,55 +25,87 @@
 
 #import "JWIntentContext.h"
 
-@class UIViewController;
-
-typedef NS_ENUM(NSInteger, JWIntentAction) {
-    JWIntentActionAuto    = 0,            // automatically choose an action
-    
-    JWIntentActionPresent,                //call presentViewController:animated:completion
-    JWIntentActionPush,                   //call pushViewController:animated
-    JWIntentActionPerformBlock,           //perform block stored in JWIntentContext
+typedef NS_OPTIONS(NSUInteger, JWIntentOptions) {
+    JWIntentOptionsPresent      = 1 << 0,
+    JWIntentOptionsPush         = 2 << 0,
 };
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class UIViewController;
+
 @interface JWIntent : NSObject
 
-@property (strong, nonatomic, nullable) NSDictionary *extraData;// the parameter passed by intent. In target viewController, you can get extraData by calling self.extraData. In block, it will be passed to block input params.
+@property (strong, nonatomic, readonly) id destination;
 
-@property (strong, nonatomic, null_resettable) JWIntentContext *context; // if not set, will use [JWIntentContext defaultContext]
+/**
+ *  the parameter passed by intent. 
+ *  In target viewController, you can get extraData by calling self.extraData.
+ *  In block, it will be passed to block input params.
+ *
+ */
+@property (strong, nonatomic, nullable) NSDictionary *extraData;
 
-@property (strong, nonatomic, readonly, nullable) id target;//the target, can be block and vc
+/**
+ *  if not set, will use [JWIntentContext defaultContext]
+ *
+ */
+@property (strong, nonatomic, null_resettable) JWIntentContext *context;
 
-@property (assign, nonatomic) JWIntentAction action;    //default is JWIntentActionAuto
+
+@property (assign, nonatomic) JWIntentOptions option;
 
 /**
  *  Init function.
  *
- *  @param source                   perform the action from source
- *  @param targetClassName          target ViewController class name.
- */
-- (instancetype)initWithSource:(UIViewController*) source
-               targetClassName:(NSString*) targetClassName;
-
-/**
- *  Init function.
+ *  @param destinationURLString
+ *  @param context
  *
- *  @param source                   perform the action from source
- *  @param targetURLString          targetURLString contains action,extraData. e.g. "router://testHost?extraData={\"name\":\"Jerry\"}" The scheme "router" is equal to JWIntentContext.routerScheme, so we know that it's a router action. The host "testHost" indicates targetClassName, which is registered by the class or app loaded in JWIntentContext mannually. The query part(formatted "extraData={}") indicates the json value of extraData, which will be translated and set automatically. Similarlly, if scheme is equal to JWIntentContext.callBackScheme, we know that it's a perform-block action.
+ *  destinationURLString contains action,extraData.
+ *  e.g. "router://testHost?extraData={\"name\":\"Jerry\"}"
+ *  The scheme "router" is equal to JWIntentContext.routerScheme, so we know that it's a router action.
+ *  The host "testHost" indicates targetClassName, which is registered by the class or app loaded in JWIntentContext mannually.
+ *  The query part(formatted "extraData={}") indicates the json value of extraData, which will be translated and set automatically.
+ *  Similarlly, if scheme is equal to JWIntentContext.handlerScheme, we know that it's a perform-block action.
  */
-- (instancetype)initWithSource:(UIViewController*) source
-               targetURLString:(NSString*) targetURLString;
++ (instancetype)intentWithURLString:(NSString*)destinationURLString
+                            context:(nullable JWIntentContext*)context;
 
 /**
  *  submit the action
  */
-- (BOOL)submit;
+- (void)submit;
 
 /**
  *  submit the action with a completion block.
  */
-- (BOOL)submitWithCompletion:(void (^ __nullable)(void))completion;
+- (void)submitWithCompletion:(void (^ __nullable)(void))completionBlock;
+
+@end
+
+@interface JWRouter : JWIntent
+
+/**
+ *  Init function.
+ *
+ *  @param source        if not set, will auto iterate window and get a UIViewController to perform router
+ *  @param routerKey     used to create destination UIViewController stored in context
+ *
+ */
+- (instancetype)initWithSource:(nullable UIViewController*)source
+                     routerKey:(NSString*)routerKey;
+
+@end
+
+@interface JWHandler : JWIntent
+
+/**
+ *  Init function.
+ *
+ *  @param handlerKey     used to create destination handler stored in context
+ *
+ */
+- (instancetype)initWithHandlerKey:(NSString*)handlerKey;
 
 @end
 

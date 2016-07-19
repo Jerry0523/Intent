@@ -27,7 +27,7 @@
 #import <objc/runtime.h>
 
 @implementation JWIntentContext {
-    NSMutableDictionary *_callBackDict;
+    NSMutableDictionary *_handlerDict;
     NSMutableDictionary *_routerDict;
 }
 
@@ -42,53 +42,61 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.routerScheme = @"router";
-        self.callBackScheme = @"callBack";
-        
-        _callBackDict = @{}.mutableCopy;
-        _routerDict = @{}.mutableCopy;
+        NSString *bundleIdentifier = [NSBundle mainBundle].bundleIdentifier;
+        _routerScheme = [NSString stringWithFormat:@"%@.router", bundleIdentifier];;
+        _handlerScheme = [NSString stringWithFormat:@"%@.func", bundleIdentifier];
+        _routerDict = [NSMutableDictionary dictionary];
+        _handlerDict = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
-- (void)registerViewControllerClassName:(NSString*) vcClassName
-                        forKey:(NSString*)key {
-    @synchronized (_routerDict) {
-        [_routerDict setObject:vcClassName forKey:[NSString stringWithFormat:@"%@://%@", self.routerScheme, key]];
-    }
+- (void)registerHandler:(JWIntentContextHandler)handler
+                 forKey:(NSString*)key {
     
-}
-
-- (void)removeViewControllerClassNameForKey:(NSString*)key {
-    @synchronized (_routerDict) {
-        [_routerDict removeObjectForKey:[NSString stringWithFormat:@"%@://%@", self.routerScheme, key]];
+    if (!handler || !key.length) {
+        return;
+    }
+    @synchronized (_handlerDict) {
+        [_handlerDict setObject:handler forKey:key];
     }
 }
 
-- (NSString*)viewControllerClassNameForKey:(NSString *)key {
+- (void)unRegisterHandlerForKey:(NSString*)key {
+    if (key.length) {
+        @synchronized (_handlerDict) {
+            [_handlerDict removeObjectForKey:key];
+        }
+    }
+}
+
+- (JWIntentContextHandler)handlerForKey:(NSString *)key {
+    @synchronized (_handlerDict) {
+        return [_handlerDict objectForKey:key];
+    }
+}
+
+- (void)registerRouterClass:(Class)aClass
+                     forKey:(NSString*)key {
+    if (!aClass || !key.length) {
+        return;
+    }
+    @synchronized (_routerDict) {
+        [_routerDict setObject:aClass forKey:key];
+    }
+}
+
+- (void)unRegisterRouterClassForKey:(NSString*)key {
+    if (key.length) {
+        @synchronized (_routerDict) {
+            [_routerDict removeObjectForKey:key];
+        }
+    }
+}
+
+- (Class)routerClassForKey:(NSString*)key {
     @synchronized (_routerDict) {
         return [_routerDict objectForKey:key];
-    }
-}
-
-- (void)registerCallBack:(JWIntentContextCallBack) callBack
-                  forKey:(NSString*)key {
-    @synchronized (_callBackDict) {
-        NSString *callBackKey = [NSString stringWithFormat:@"%@://%@", self.callBackScheme, key];
-        [_callBackDict setObject:callBack forKey:callBackKey];
-    }
-}
-
-- (void)removeCallBackForKey:(NSString*)key {
-    @synchronized (_callBackDict) {
-        NSString *callBackKey = [NSString stringWithFormat:@"%@://%@", self.callBackScheme, key];
-        [_callBackDict removeObjectForKey:callBackKey];
-    }
-}
-
-- (JWIntentContextCallBack)callBackForKey:(NSString*)key {
-    @synchronized (_callBackDict) {
-       return [_callBackDict objectForKey:key];
     }
 }
 
