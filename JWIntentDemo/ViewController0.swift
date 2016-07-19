@@ -35,7 +35,8 @@ class ViewController0: UIViewController {
     }
     
     @IBAction func didPushByURL(sender: AnyObject) {
-        
+        let intent = JWIntent(URLString: "router://vc1?extraData={\"stringValue\":\"I AM FROM URL\"}", context: nil)
+        intent.submit()
     }
     
     @IBAction func didPerformBlock(sender: AnyObject) {

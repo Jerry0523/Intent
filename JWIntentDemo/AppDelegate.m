@@ -54,6 +54,8 @@
 - (void)registerRouter {
     
     JWIntentContext *defaultContext = [JWIntentContext defaultContext];
+    defaultContext.routerScheme = @"router";
+    defaultContext.handlerScheme = @"handler";
 
     [defaultContext registerRouterClass:NSClassFromString(@"JWIntentDemo.ViewController0") forKey:@"vc0"];
     [defaultContext registerRouterClass:NSClassFromString(@"ViewController1") forKey:@"vc1"];
