@@ -25,11 +25,12 @@
 
 #import "JWIntent.h"
 #import <objc/runtime.h>
-#import <UIKit/UIKit.h>
+
+#import "JWRouter.h"
+#import "JWHandler.h"
 
 @interface JWIntent()
 
-@property (strong, nonatomic) id source;
 @property (strong, nonatomic) id destination;
 
 @end
@@ -52,9 +53,9 @@
     
     JWIntent *aIntent = nil;
     if ([scheme isEqualToString:context.routerScheme]) {
-        aIntent = [[JWRouter alloc] initWithSource:nil routerKey:host];
+        aIntent = [[JWRouter alloc] initWithSource:nil routerKey:host context:context];
     } else if([scheme isEqualToString:context.handlerScheme]) {
-        aIntent = [[JWHandler alloc] initWithHandlerKey:host];
+        aIntent = [[JWHandler alloc] initWithHandlerKey:host context:context];
     }
     
     if (aIntent) {
@@ -100,114 +101,6 @@
             }
         }
     }
-}
-
-@end
-
-@implementation JWRouter
-
-- (instancetype)initWithSource:(nullable id)source
-                     routerKey:(NSString*)routerKey {
-    if (self = [super init]) {
-        self.source = source;
-        Class routerClass = [self.context routerClassForKey:routerKey];
-        if (routerClass) {
-            self.destination = [[routerClass alloc] init];
-        }
-    }
-    return self;
-}
-
-- (void)submitWithCompletion:(void (^)(void))completionBlock {
-    [super submitWithCompletion:completionBlock];
-    
-    if (!self.source) {
-        self.source = [self __autoGetRootSourceViewController];
-    }
-    
-    if (!(self.option & JWIntentOptionsPresent ||
-          self.option & JWIntentOptionsPush)) {
-        self.option = self.option | [self __autoGetActionOptions];
-    }
-    
-    [self __submitRouterWithCompletion:completionBlock];
-}
-
-- (void)setExtraData:(NSDictionary *)extraData {
-    [super setExtraData:extraData];
-    if ([self.destination isKindOfClass:[NSObject class]]) {
-        ((NSObject*)self.destination).extraData = extraData;
-    }
-}
-
-#pragma mark - Private
-- (JWIntentOptions)__autoGetActionOptions {
-    if (![self.source isKindOfClass:[UIViewController class]]) {
-        return 0;
-    }
-    
-    UIViewController *sourceViewController = self.source;
-    
-    if (sourceViewController.navigationController || [sourceViewController isKindOfClass:[UINavigationController class]]) {
-        return JWIntentOptionsPush;
-    } else {
-        return JWIntentOptionsPresent;
-    }
-}
-
-- (void)__submitRouterWithCompletion:(void (^)(void))completionBlock {
-    UIViewController *sourceViewController = self.source;
-    if (self.option & JWIntentOptionsPresent) {
-        [sourceViewController presentViewController:self.destination animated:YES completion:completionBlock];
-    } else if(self.option & JWIntentOptionsPush) {
-        UINavigationController *navigationController = nil;
-        if ([sourceViewController isKindOfClass:[UINavigationController class]]) {
-            navigationController = (id)sourceViewController;
-        } else {
-            UIViewController *superViewController = sourceViewController.parentViewController;
-            while (superViewController) {
-                if ([superViewController isKindOfClass:[UINavigationController class]]) {
-                    navigationController = (id)superViewController;
-                    break;
-                } else {
-                    superViewController = superViewController.parentViewController;
-                }
-            }
-        }
-        
-        NSAssert(navigationController, @"Trying to submit push action with no navigationController");
-        [navigationController pushViewController:self.destination animated:YES];
-        if (completionBlock) {
-            completionBlock();
-        }
-    }
-}
-
-- (UIViewController*)__autoGetRootSourceViewController {
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    UIViewController *topVC = keyWindow.rootViewController;
-    while (topVC.presentedViewController) {
-        topVC = topVC.presentedViewController;
-    }
-    return topVC;
-}
-
-@end
-
-@implementation JWHandler
-
-- (instancetype)initWithHandlerKey:(NSString*)handlerKey {
-    if (self = [super init]) {
-        self.destination = [self.context handlerForKey:handlerKey];
-    }
-    return self;
-}
-
-- (void)submitWithCompletion:(void (^)(void))completion {
-    [super submitWithCompletion:completion];
-
-    JWIntentContextHandler block = (JWIntentContextHandler)self.destination;
-    block(self.extraData, completion);
 }
 
 @end

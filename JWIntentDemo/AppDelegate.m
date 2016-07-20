@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "JWIntent.h"
+#import "JWRouter.h"
 #import "JWIntentDemo-Swift.h"
 
 @interface AppDelegate ()

@@ -25,14 +25,7 @@
 
 #import "JWIntentContext.h"
 
-typedef NS_OPTIONS(NSUInteger, JWIntentOptions) {
-    JWIntentOptionsPresent      = 1 << 0,
-    JWIntentOptionsPush         = 2 << 0,
-};
-
 NS_ASSUME_NONNULL_BEGIN
-
-@class UIViewController;
 
 @interface JWIntent : NSObject
 
@@ -52,8 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, null_resettable) JWIntentContext *context;
 
-
-@property (assign, nonatomic) JWIntentOptions option;
 
 /**
  *  Init function.
@@ -80,32 +71,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  submit the action with a completion block.
  */
 - (void)submitWithCompletion:(void (^ __nullable)(void))completionBlock;
-
-@end
-
-@interface JWRouter : JWIntent
-
-/**
- *  Init function.
- *
- *  @param source        if not set, will auto iterate window and get a UIViewController to perform router
- *  @param routerKey     used to create destination UIViewController stored in context
- *
- */
-- (instancetype)initWithSource:(nullable UIViewController*)source
-                     routerKey:(NSString*)routerKey;
-
-@end
-
-@interface JWHandler : JWIntent
-
-/**
- *  Init function.
- *
- *  @param handlerKey     used to create destination handler stored in context
- *
- */
-- (instancetype)initWithHandlerKey:(NSString*)handlerKey;
 
 @end
 

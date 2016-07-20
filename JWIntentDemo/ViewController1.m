@@ -7,11 +7,13 @@
 //
 
 #import "ViewController1.h"
-#import "JWIntent.h"
+#import "JWRouter.h"
 
 @interface ViewController1 ()
 
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
+
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 @end
 
@@ -27,6 +29,8 @@
     self.textLabel.textColor = extraData[@"textColor"] ?: [UIColor blackColor];
     self.textLabel.text = extraData[@"stringValue"];
     self.view.backgroundColor = extraData[@"backgroundColor"] ?: [UIColor whiteColor];
+    
+    self.closeButton.hidden = (self.navigationController != nil);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,6 +41,10 @@
     JWRouter *intent = [[JWRouter alloc] initWithSource:self
                                               routerKey:@"vc0"];
     [intent submit];
+}
+
+- (IBAction)didPressDismissButton:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)dealloc {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C487BFE01D3F0C17006C0623 /* JWRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = C487BFDF1D3F0C17006C0623 /* JWRouter.m */; };
+		C487BFE31D3F0D5D006C0623 /* JWHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C487BFE21D3F0D5D006C0623 /* JWHandler.m */; };
 		C4E869951CE1A6BD0046434E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869941CE1A6BD0046434E /* main.m */; };
 		C4E869981CE1A6BD0046434E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869971CE1A6BD0046434E /* AppDelegate.m */; };
 		C4E869A01CE1A6BD0046434E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4E8699F1CE1A6BD0046434E /* Assets.xcassets */; };
@@ -22,6 +24,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C487BFDE1D3F0C17006C0623 /* JWRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWRouter.h; sourceTree = "<group>"; };
+		C487BFDF1D3F0C17006C0623 /* JWRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JWRouter.m; sourceTree = "<group>"; };
+		C487BFE11D3F0D5D006C0623 /* JWHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWHandler.h; sourceTree = "<group>"; };
+		C487BFE21D3F0D5D006C0623 /* JWHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JWHandler.m; sourceTree = "<group>"; };
 		C4E869901CE1A6BD0046434E /* JWIntentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JWIntentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4E869941CE1A6BD0046434E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C4E869961CE1A6BD0046434E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -107,6 +113,10 @@
 			children = (
 				C4E869AB1CE1A6E60046434E /* JWIntent.h */,
 				C4E869AC1CE1A6E60046434E /* JWIntent.m */,
+				C487BFDE1D3F0C17006C0623 /* JWRouter.h */,
+				C487BFDF1D3F0C17006C0623 /* JWRouter.m */,
+				C487BFE11D3F0D5D006C0623 /* JWHandler.h */,
+				C487BFE21D3F0D5D006C0623 /* JWHandler.m */,
 				C4E869DC1CE1D5AE0046434E /* JWIntentContext.h */,
 				C4E869DD1CE1D5AE0046434E /* JWIntentContext.m */,
 			);
@@ -189,7 +199,9 @@
 				C4E869B91CE1A8B30046434E /* ViewController1.m in Sources */,
 				C4E869AD1CE1A6E60046434E /* JWIntent.m in Sources */,
 				C4E869981CE1A6BD0046434E /* AppDelegate.m in Sources */,
+				C487BFE01D3F0C17006C0623 /* JWRouter.m in Sources */,
 				C4E869951CE1A6BD0046434E /* main.m in Sources */,
+				C487BFE31D3F0D5D006C0623 /* JWHandler.m in Sources */,
 				C4E869DE1CE1D5AE0046434E /* JWIntentContext.m in Sources */,
 				C4E869B11CE1A8240046434E /* ViewController0.swift in Sources */,
 			);
