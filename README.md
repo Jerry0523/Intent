@@ -5,44 +5,59 @@ Features
 
 ### You can register LoginViewController by the following
 
-```objective-c
-[JWIntentContext registerRouterClass:"LoginViewController"
-                              forKey:@"login"];
+```swift
+IntentCtx.default.register(LoginViewController.self, forKey: "login")
+
 ```
 
 ### You can register Block by the following
 
-```objective-c
-[JWIntentContext registerHandler:^(NSDictionary *param) {
-    NSLog(@"%@", param[@"message"]);
-} 
-                         forKey:@"testAlert"];
+```swift
+IntentCtx.default.register({ (param) in
+    print(param)
+}, forKey: "showAlert")
+
 ```
 
 ### You can route to LoginViewController by router key
 
-```objective-c
-JWRouter *intent = [[JWRouter alloc] initWithSource:self
-                                          routerKey:@"login"];
-[intent submit];
+```swift
+let router = try? Router.init(key: "login", extra: ["stringValue": "This message came from a router"])
+router?.submit()
 
 ```
 
-### Or you can route to LoginViewController by remote URL
+### You can route with custom transition
 
-```objective-c
-JWIntent *intent = [JWIntent intentWithURLString:@"router://login?extraData={\"username\":\"jerry\"}" 
-                                         context:nil];
-[intent submit];
+```swift
+var router = try? Router.init(key: "login", extra: ["stringValue": "This message came from a router"])
+router?.transition = SystemTransition.init(axis: .horizontal, style: .zoom(factor: 0.8))
+router?.submit()
 
 ```
 
-### Or you can perform block by remote URL
+### You can specify how to route to the dest
 
-```objective-c
-JWIntent *intent = [JWIntent intentWithURLString:@"handler://testAlert?extraData={\"title\":\"Hello Alert\",\"message\":\"I have a message for you.\"}" 
-                                         context:nil];
-[intent submit];
+```swift
+var router = try? Router.init(key: "login", extra: ["stringValue": "This message came from a router"])
+router?.config = .present([.fakePush, .wrapNC])
+router?.transition = SystemTransition.init(axis: .horizontal, style: .zoom(factor: 0.8))
+router?.submit()
+
+```
+### Currently, we support
+
+- Present
+- Push
+- Switch
+- Modal
+- Child
+
+### You can route to LoginViewController by remote URL
+
+```swift
+let router = try? Router.init(urlString: "router://login?stringValue=This message came from a url string")
+router?.submit()
 
 ```
 
@@ -59,7 +74,7 @@ To integrate JWIntent into your Xcode project using CocoaPods, specify it in you
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '7.0'
+platform :ios, '8.0'
 
 pod 'JWIntent'
 ```

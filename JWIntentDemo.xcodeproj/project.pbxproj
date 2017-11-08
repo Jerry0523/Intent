@@ -7,44 +7,53 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C487BFE01D3F0C17006C0623 /* JWRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = C487BFDF1D3F0C17006C0623 /* JWRouter.m */; };
-		C487BFE31D3F0D5D006C0623 /* JWHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C487BFE21D3F0D5D006C0623 /* JWHandler.m */; };
-		C4E869951CE1A6BD0046434E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869941CE1A6BD0046434E /* main.m */; };
-		C4E869981CE1A6BD0046434E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869971CE1A6BD0046434E /* AppDelegate.m */; };
+		C48E37271FB2AF8800857553 /* AssociatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */; };
+		C48E37281FB2AF8800857553 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371F1FB2AF8700857553 /* Transition.swift */; };
+		C48E37291FB2AF8800857553 /* SystemTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37201FB2AF8700857553 /* SystemTransition.swift */; };
+		C48E372A1FB2AF8800857553 /* RingTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37211FB2AF8700857553 /* RingTransition.swift */; };
+		C48E372B1FB2AF8800857553 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37221FB2AF8700857553 /* Handler.swift */; };
+		C48E372C1FB2AF8800857553 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37231FB2AF8700857553 /* Router.swift */; };
+		C48E372D1FB2AF8800857553 /* IntentCtx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37241FB2AF8700857553 /* IntentCtx.swift */; };
+		C48E372E1FB2AF8800857553 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37251FB2AF8700857553 /* Utility.swift */; };
+		C48E372F1FB2AF8800857553 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37261FB2AF8700857553 /* Intent.swift */; };
+		C48E37311FB2B2C600857553 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37301FB2B2C600857553 /* AppDelegate.swift */; };
+		C48E37331FB2B59300857553 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37321FB2B59300857553 /* ContentViewController.swift */; };
+		C48E37361FB2C2E700857553 /* EntryViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37341FB2C2E700857553 /* EntryViewContoller.swift */; };
+		C48E37371FB2C2E700857553 /* EntryViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C48E37351FB2C2E700857553 /* EntryViewContoller.xib */; };
+		C48E374A1FB2D41B00857553 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37481FB2D41B00857553 /* ModalViewController.swift */; };
+		C48E374B1FB2D41B00857553 /* ModalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C48E37491FB2D41B00857553 /* ModalViewController.xib */; };
+		C48E374D1FB2DCE700857553 /* UIViewController+PopHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E374C1FB2DCE700857553 /* UIViewController+PopHandler.swift */; };
+		C48E37511FB2DD8600857553 /* __init__.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37501FB2DD8500857553 /* __init__.swift */; };
 		C4E869A01CE1A6BD0046434E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4E8699F1CE1A6BD0046434E /* Assets.xcassets */; };
 		C4E869A31CE1A6BD0046434E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4E869A11CE1A6BD0046434E /* LaunchScreen.storyboard */; };
-		C4E869AD1CE1A6E60046434E /* JWIntent.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869AC1CE1A6E60046434E /* JWIntent.m */; };
-		C4E869B11CE1A8240046434E /* ViewController0.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E869AF1CE1A8240046434E /* ViewController0.swift */; };
-		C4E869B21CE1A8240046434E /* ViewController0.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E869B01CE1A8240046434E /* ViewController0.xib */; };
-		C4E869B91CE1A8B30046434E /* ViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869B71CE1A8B30046434E /* ViewController1.m */; };
-		C4E869BA1CE1A8B30046434E /* ViewController1.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E869B81CE1A8B30046434E /* ViewController1.xib */; };
-		C4E869DE1CE1D5AE0046434E /* JWIntentContext.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E869DD1CE1D5AE0046434E /* JWIntentContext.m */; };
+		C4E869BA1CE1A8B30046434E /* ContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E869B81CE1A8B30046434E /* ContentViewController.xib */; };
 		C4E869F71CE2FE770046434E /* JWIntent.podspec in Resources */ = {isa = PBXBuildFile; fileRef = C4E869F41CE2FE770046434E /* JWIntent.podspec */; };
 		C4E869F81CE2FE770046434E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = C4E869F51CE2FE770046434E /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C487BFDE1D3F0C17006C0623 /* JWRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWRouter.h; sourceTree = "<group>"; };
-		C487BFDF1D3F0C17006C0623 /* JWRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JWRouter.m; sourceTree = "<group>"; };
-		C487BFE11D3F0D5D006C0623 /* JWHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWHandler.h; sourceTree = "<group>"; };
-		C487BFE21D3F0D5D006C0623 /* JWHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JWHandler.m; sourceTree = "<group>"; };
+		C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedTransition.swift; sourceTree = "<group>"; };
+		C48E371F1FB2AF8700857553 /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
+		C48E37201FB2AF8700857553 /* SystemTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTransition.swift; sourceTree = "<group>"; };
+		C48E37211FB2AF8700857553 /* RingTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RingTransition.swift; sourceTree = "<group>"; };
+		C48E37221FB2AF8700857553 /* Handler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
+		C48E37231FB2AF8700857553 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		C48E37241FB2AF8700857553 /* IntentCtx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntentCtx.swift; sourceTree = "<group>"; };
+		C48E37251FB2AF8700857553 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		C48E37261FB2AF8700857553 /* Intent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
+		C48E37301FB2B2C600857553 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C48E37321FB2B59300857553 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		C48E37341FB2C2E700857553 /* EntryViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewContoller.swift; sourceTree = "<group>"; };
+		C48E37351FB2C2E700857553 /* EntryViewContoller.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EntryViewContoller.xib; sourceTree = "<group>"; };
+		C48E37481FB2D41B00857553 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
+		C48E37491FB2D41B00857553 /* ModalViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModalViewController.xib; sourceTree = "<group>"; };
+		C48E374C1FB2DCE700857553 /* UIViewController+PopHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PopHandler.swift"; sourceTree = "<group>"; };
+		C48E37501FB2DD8500857553 /* __init__.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = __init__.swift; sourceTree = "<group>"; };
 		C4E869901CE1A6BD0046434E /* JWIntentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JWIntentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C4E869941CE1A6BD0046434E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C4E869961CE1A6BD0046434E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		C4E869971CE1A6BD0046434E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C4E8699F1CE1A6BD0046434E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4E869A21CE1A6BD0046434E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C4E869A41CE1A6BD0046434E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C4E869AB1CE1A6E60046434E /* JWIntent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWIntent.h; sourceTree = "<group>"; };
-		C4E869AC1CE1A6E60046434E /* JWIntent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JWIntent.m; sourceTree = "<group>"; };
-		C4E869AE1CE1A8230046434E /* JWIntentDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JWIntentDemo-Bridging-Header.h"; sourceTree = "<group>"; };
-		C4E869AF1CE1A8240046434E /* ViewController0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController0.swift; sourceTree = "<group>"; };
-		C4E869B01CE1A8240046434E /* ViewController0.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController0.xib; sourceTree = "<group>"; };
-		C4E869B61CE1A8B30046434E /* ViewController1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController1.h; sourceTree = "<group>"; };
-		C4E869B71CE1A8B30046434E /* ViewController1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController1.m; sourceTree = "<group>"; };
-		C4E869B81CE1A8B30046434E /* ViewController1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController1.xib; sourceTree = "<group>"; };
-		C4E869DC1CE1D5AE0046434E /* JWIntentContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWIntentContext.h; sourceTree = "<group>"; };
-		C4E869DD1CE1D5AE0046434E /* JWIntentContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JWIntentContext.m; sourceTree = "<group>"; };
+		C4E869B81CE1A8B30046434E /* ContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentViewController.xib; sourceTree = "<group>"; };
 		C4E869F41CE2FE770046434E /* JWIntent.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JWIntent.podspec; sourceTree = "<group>"; };
 		C4E869F51CE2FE770046434E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C4E869F61CE2FE770046434E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -61,13 +70,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C48E371C1FB2AF8700857553 /* Intent */ = {
+			isa = PBXGroup;
+			children = (
+				C48E371D1FB2AF8700857553 /* Transition */,
+				C48E37261FB2AF8700857553 /* Intent.swift */,
+				C48E37241FB2AF8700857553 /* IntentCtx.swift */,
+				C48E37231FB2AF8700857553 /* Router.swift */,
+				C48E37221FB2AF8700857553 /* Handler.swift */,
+				C48E37251FB2AF8700857553 /* Utility.swift */,
+			);
+			path = Intent;
+			sourceTree = "<group>";
+		};
+		C48E371D1FB2AF8700857553 /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+				C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */,
+				C48E371F1FB2AF8700857553 /* Transition.swift */,
+				C48E37201FB2AF8700857553 /* SystemTransition.swift */,
+				C48E37211FB2AF8700857553 /* RingTransition.swift */,
+			);
+			path = Transition;
+			sourceTree = "<group>";
+		};
 		C4E869871CE1A6BD0046434E = {
 			isa = PBXGroup;
 			children = (
 				C4E869F41CE2FE770046434E /* JWIntent.podspec */,
 				C4E869F51CE2FE770046434E /* LICENSE */,
 				C4E869F61CE2FE770046434E /* README.md */,
-				C4E869AA1CE1A6E60046434E /* JWIntent */,
+				C48E371C1FB2AF8700857553 /* Intent */,
 				C4E869921CE1A6BD0046434E /* JWIntentDemo */,
 				C4E869911CE1A6BD0046434E /* Products */,
 			);
@@ -84,43 +117,20 @@
 		C4E869921CE1A6BD0046434E /* JWIntentDemo */ = {
 			isa = PBXGroup;
 			children = (
-				C4E869961CE1A6BD0046434E /* AppDelegate.h */,
-				C4E869971CE1A6BD0046434E /* AppDelegate.m */,
-				C4E869AF1CE1A8240046434E /* ViewController0.swift */,
-				C4E869B01CE1A8240046434E /* ViewController0.xib */,
-				C4E869B61CE1A8B30046434E /* ViewController1.h */,
-				C4E869B71CE1A8B30046434E /* ViewController1.m */,
-				C4E869B81CE1A8B30046434E /* ViewController1.xib */,
+				C48E37301FB2B2C600857553 /* AppDelegate.swift */,
+				C48E37501FB2DD8500857553 /* __init__.swift */,
+				C48E374C1FB2DCE700857553 /* UIViewController+PopHandler.swift */,
+				C48E37341FB2C2E700857553 /* EntryViewContoller.swift */,
+				C48E37351FB2C2E700857553 /* EntryViewContoller.xib */,
+				C48E37321FB2B59300857553 /* ContentViewController.swift */,
+				C4E869B81CE1A8B30046434E /* ContentViewController.xib */,
+				C48E37481FB2D41B00857553 /* ModalViewController.swift */,
+				C48E37491FB2D41B00857553 /* ModalViewController.xib */,
 				C4E8699F1CE1A6BD0046434E /* Assets.xcassets */,
 				C4E869A11CE1A6BD0046434E /* LaunchScreen.storyboard */,
 				C4E869A41CE1A6BD0046434E /* Info.plist */,
-				C4E869931CE1A6BD0046434E /* Supporting Files */,
-				C4E869AE1CE1A8230046434E /* JWIntentDemo-Bridging-Header.h */,
 			);
 			path = JWIntentDemo;
-			sourceTree = "<group>";
-		};
-		C4E869931CE1A6BD0046434E /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C4E869941CE1A6BD0046434E /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		C4E869AA1CE1A6E60046434E /* JWIntent */ = {
-			isa = PBXGroup;
-			children = (
-				C4E869AB1CE1A6E60046434E /* JWIntent.h */,
-				C4E869AC1CE1A6E60046434E /* JWIntent.m */,
-				C487BFDE1D3F0C17006C0623 /* JWRouter.h */,
-				C487BFDF1D3F0C17006C0623 /* JWRouter.m */,
-				C487BFE11D3F0D5D006C0623 /* JWHandler.h */,
-				C487BFE21D3F0D5D006C0623 /* JWHandler.m */,
-				C4E869DC1CE1D5AE0046434E /* JWIntentContext.h */,
-				C4E869DD1CE1D5AE0046434E /* JWIntentContext.m */,
-			);
-			path = JWIntent;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,7 +159,7 @@
 		C4E869881CE1A6BD0046434E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Jerry Wong";
 				TargetAttributes = {
 					C4E8698F1CE1A6BD0046434E = {
@@ -181,9 +191,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4E869F81CE2FE770046434E /* LICENSE in Resources */,
-				C4E869BA1CE1A8B30046434E /* ViewController1.xib in Resources */,
+				C48E374B1FB2D41B00857553 /* ModalViewController.xib in Resources */,
+				C48E37371FB2C2E700857553 /* EntryViewContoller.xib in Resources */,
+				C4E869BA1CE1A8B30046434E /* ContentViewController.xib in Resources */,
 				C4E869F71CE2FE770046434E /* JWIntent.podspec in Resources */,
-				C4E869B21CE1A8240046434E /* ViewController0.xib in Resources */,
 				C4E869A31CE1A6BD0046434E /* LaunchScreen.storyboard in Resources */,
 				C4E869A01CE1A6BD0046434E /* Assets.xcassets in Resources */,
 			);
@@ -196,14 +207,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4E869B91CE1A8B30046434E /* ViewController1.m in Sources */,
-				C4E869AD1CE1A6E60046434E /* JWIntent.m in Sources */,
-				C4E869981CE1A6BD0046434E /* AppDelegate.m in Sources */,
-				C487BFE01D3F0C17006C0623 /* JWRouter.m in Sources */,
-				C4E869951CE1A6BD0046434E /* main.m in Sources */,
-				C487BFE31D3F0D5D006C0623 /* JWHandler.m in Sources */,
-				C4E869DE1CE1D5AE0046434E /* JWIntentContext.m in Sources */,
-				C4E869B11CE1A8240046434E /* ViewController0.swift in Sources */,
+				C48E37281FB2AF8800857553 /* Transition.swift in Sources */,
+				C48E37511FB2DD8600857553 /* __init__.swift in Sources */,
+				C48E372C1FB2AF8800857553 /* Router.swift in Sources */,
+				C48E372A1FB2AF8800857553 /* RingTransition.swift in Sources */,
+				C48E37331FB2B59300857553 /* ContentViewController.swift in Sources */,
+				C48E37311FB2B2C600857553 /* AppDelegate.swift in Sources */,
+				C48E374D1FB2DCE700857553 /* UIViewController+PopHandler.swift in Sources */,
+				C48E372F1FB2AF8800857553 /* Intent.swift in Sources */,
+				C48E37271FB2AF8800857553 /* AssociatedTransition.swift in Sources */,
+				C48E372B1FB2AF8800857553 /* Handler.swift in Sources */,
+				C48E372E1FB2AF8800857553 /* Utility.swift in Sources */,
+				C48E374A1FB2D41B00857553 /* ModalViewController.swift in Sources */,
+				C48E37361FB2C2E700857553 /* EntryViewContoller.swift in Sources */,
+				C48E37291FB2AF8800857553 /* SystemTransition.swift in Sources */,
+				C48E372D1FB2AF8800857553 /* IntentCtx.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,13 +248,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -258,7 +284,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -274,13 +300,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -296,9 +330,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -312,8 +347,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jerry.JWIntentDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "JWIntentDemo/JWIntentDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -327,7 +363,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jerry.JWIntentDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "JWIntentDemo/JWIntentDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

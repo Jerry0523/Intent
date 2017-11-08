@@ -7,8 +7,8 @@ s.summary      = "A solution for iOS modules and components separation. You can 
 s.homepage     = "https://github.com/Jerry0523/JWIntent"
 s.license      = 'MIT'
 s.author       = { "Jerry Wong" => "jerrywong0523@icloud.com" }
-s.platform     = :ios, "7.0"
-s.ios.deployment_target = "7.0"
+s.platform     = :ios, "8.0"
+s.ios.deployment_target = "8.0"
 s.source       = { :git => "https://github.com/Jerry0523/JWIntent.git", :tag => s.version}
 s.source_files  = 'JWIntent/*.{h,m}'
 s.requires_arc = true

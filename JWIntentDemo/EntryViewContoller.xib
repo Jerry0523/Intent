@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EntryViewContoller" customModule="JWIntentDemo" customModuleProvider="target">
+            <connections>
+                <outlet property="fakePushSwitch" destination="cMs-1e-17q" id="Vzc-it-rDy"/>
+                <outlet property="modalPositionSegmentControl" destination="uwa-5O-diF" id="trz-qs-mO7"/>
+                <outlet property="pushAnimationSegmentControl" destination="caZ-im-MEk" id="xKX-mw-kcW"/>
+                <outlet property="view" destination="Dfc-y8-DRt" id="cny-j4-1Ng"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" id="Dfc-y8-DRt">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ADg-d4-dXu">
+                    <rect key="frame" x="10" y="10" width="375" height="231"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="7vl-iZ-uZQ">
+                            <rect key="frame" x="0.0" y="0.0" width="350" height="31"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ZR-9b-H1G">
+                                    <rect key="frame" x="0.0" y="0.0" width="115" height="31"/>
+                                    <state key="normal" title="Present with Key"/>
+                                    <connections>
+                                        <action selector="didTapPresentWithKeyBtn:" destination="-1" eventType="touchUpInside" id="IFs-25-beG"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="fakePush" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pKM-ew-2RE">
+                                    <rect key="frame" x="125" y="0.0" width="166" height="31"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cMs-1e-17q">
+                                    <rect key="frame" x="301" y="0.0" width="51" height="31"/>
+                                    <color key="onTintColor" red="0.082352941176470587" green="0.44313725490196076" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
+                                </switch>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="q6O-nJ-Uy6">
+                            <rect key="frame" x="0.0" y="41" width="350" height="30"/>
+                            <subviews>
+                                <button opaque="NO" tag="112" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yEU-gq-knN">
+                                    <rect key="frame" x="0.0" y="0.0" width="96" height="30"/>
+                                    <state key="normal" title="Push with Key"/>
+                                    <connections>
+                                        <action selector="didTapPushWithKeyBtn:" destination="-1" eventType="touchUpInside" id="s4z-0U-M6z"/>
+                                    </connections>
+                                </button>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="caZ-im-MEk">
+                                    <rect key="frame" x="170" y="0.0" width="180" height="31"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="180" id="fdD-Bg-6sy"/>
+                                    </constraints>
+                                    <segments>
+                                        <segment title="Default"/>
+                                        <segment title="Zoom"/>
+                                        <segment title="Ring"/>
+                                    </segments>
+                                </segmentedControl>
+                            </subviews>
+                        </stackView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UDC-MD-9mo">
+                            <rect key="frame" x="0.0" y="81" width="144" height="30"/>
+                            <state key="normal" title="Show with key (auto)"/>
+                            <connections>
+                                <action selector="didTapShowWithKeyBtn:" destination="-1" eventType="touchUpInside" id="Rsz-Cf-ejZ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r4h-rQ-jWl">
+                            <rect key="frame" x="0.0" y="121" width="194" height="30"/>
+                            <state key="normal" title="Show with URL String (auto)"/>
+                            <connections>
+                                <action selector="didTapShowWithURLBtn:" destination="-1" eventType="touchUpInside" id="0kl-i2-Ss9"/>
+                            </connections>
+                        </button>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Frd-yU-cUF">
+                            <rect key="frame" x="0.0" y="161" width="350" height="30"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gA-PB-Bni">
+                                    <rect key="frame" x="0.0" y="0.0" width="84" height="30"/>
+                                    <state key="normal" title="Show Modal"/>
+                                    <connections>
+                                        <action selector="didTapShowModalWithKeyBtn:" destination="-1" eventType="touchUpInside" id="tA7-F6-uQB"/>
+                                    </connections>
+                                </button>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="uwa-5O-diF">
+                                    <rect key="frame" x="170" y="0.0" width="180" height="31"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="180" id="nOH-Tf-qVO"/>
+                                    </constraints>
+                                    <segments>
+                                        <segment title="Top"/>
+                                        <segment title="Center"/>
+                                        <segment title="Bottom"/>
+                                    </segments>
+                                </segmentedControl>
+                            </subviews>
+                        </stackView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="duh-gh-u9d">
+                            <rect key="frame" x="0.0" y="201" width="173" height="30"/>
+                            <state key="normal" title="Call Native Func with Key"/>
+                            <connections>
+                                <action selector="didTapHandlerBtn:" destination="-1" eventType="touchUpInside" id="MDg-2Q-c8n"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="7vl-iZ-uZQ" secondAttribute="trailing" constant="25" id="0qg-yh-52j"/>
+                        <constraint firstAttribute="trailing" secondItem="q6O-nJ-Uy6" secondAttribute="trailing" constant="25" id="cp9-ao-u3T"/>
+                        <constraint firstAttribute="trailing" secondItem="Frd-yU-cUF" secondAttribute="trailing" constant="25" id="mCv-dQ-hEK"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="ADg-d4-dXu" firstAttribute="trailing" secondItem="hW2-bV-eNM" secondAttribute="trailing" constant="10" id="181-hd-qlC"/>
+                <constraint firstItem="ADg-d4-dXu" firstAttribute="leading" secondItem="hW2-bV-eNM" secondAttribute="leading" constant="10" id="Xdy-kA-jeg"/>
+                <constraint firstItem="ADg-d4-dXu" firstAttribute="top" secondItem="Dfc-y8-DRt" secondAttribute="top" constant="10" id="ave-mv-h3y"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="hW2-bV-eNM"/>
+            <point key="canvasLocation" x="41.5" y="90.5"/>
+        </scrollView>
+    </objects>
+</document>
