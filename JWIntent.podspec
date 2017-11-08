@@ -10,6 +10,6 @@ s.author       = { "Jerry Wong" => "jerrywong0523@icloud.com" }
 s.platform     = :ios, "8.0"
 s.ios.deployment_target = "8.0"
 s.source       = { :git => "https://github.com/Jerry0523/JWIntent.git", :tag => s.version}
-s.source_files  = 'Intent/*.swift'
+s.source_files  = 'Intent/*.swift', 'Intent/Transition/*.swift'
 s.requires_arc = true
 end
