@@ -76,7 +76,7 @@ To integrate JWIntent into your Xcode project using CocoaPods, specify it in you
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
-pod 'JWIntent'
+pod 'Intent'
 ```
 
 Then, run the following command:
