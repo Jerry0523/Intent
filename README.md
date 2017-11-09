@@ -3,14 +3,14 @@ A solution for iOS modules and components separation. You can route to viewContr
 Features
 -------
 
-### You can register LoginViewController by the following
+### Register LoginViewController as follow
 
 ```swift
 IntentCtx.default.register(LoginViewController.self, forKey: "login")
 
 ```
 
-### You can register Block by the following
+### Register closure as follow
 
 ```swift
 IntentCtx.default.register({ (param) in
@@ -19,7 +19,7 @@ IntentCtx.default.register({ (param) in
 
 ```
 
-### You can route to LoginViewController by router key
+### Route to LoginViewController by a router key
 
 ```swift
 let router = try? Router.init(key: "login", extra: ["stringValue": "This message came from a router"])
@@ -27,7 +27,7 @@ router?.submit()
 
 ```
 
-### You can route with custom transition
+### Route to LoginViewController with a custom transition
 
 ```swift
 var router = try? Router.init(key: "login", extra: ["stringValue": "This message came from a router"])
@@ -36,7 +36,7 @@ router?.submit()
 
 ```
 
-### You can specify how to route to the dest
+### Route to LoginViewController with a custom config
 
 ```swift
 var router = try? Router.init(key: "login", extra: ["stringValue": "This message came from a router"])
@@ -53,7 +53,7 @@ router?.submit()
 - Modal
 - Child
 
-### You can route to LoginViewController by remote URL
+### Route to LoginViewController by a remote URL
 
 ```swift
 let router = try? Router.init(urlString: "router://login?stringValue=This message came from a url string")
