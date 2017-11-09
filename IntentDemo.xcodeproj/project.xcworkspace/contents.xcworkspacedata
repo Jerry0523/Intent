@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:JWIntentDemo.xcodeproj">
+      location = "self:/Users/Jerry/Code/JWIntent/IntentDemo.xcodeproj">
    </FileRef>
 </Workspace>
