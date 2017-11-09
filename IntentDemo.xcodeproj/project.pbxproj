@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C402AAB31FB3E98600B8FA09 /* Intent.podspec in Resources */ = {isa = PBXBuildFile; fileRef = C402AAB21FB3E98600B8FA09 /* Intent.podspec */; };
 		C402AAC21FB3E9FC00B8FA09 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AAB51FB3E9FC00B8FA09 /* ContentViewController.swift */; };
 		C402AAC31FB3E9FC00B8FA09 /* ModalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C402AAB61FB3E9FC00B8FA09 /* ModalViewController.xib */; };
 		C402AAC41FB3E9FC00B8FA09 /* UIViewController+PopHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AAB71FB3E9FC00B8FA09 /* UIViewController+PopHandler.swift */; };
@@ -18,7 +17,6 @@
 		C402AAC91FB3E9FC00B8FA09 /* __init__.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AABD1FB3E9FC00B8FA09 /* __init__.swift */; };
 		C402AACA1FB3E9FC00B8FA09 /* EntryViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C402AABE1FB3E9FC00B8FA09 /* EntryViewContoller.xib */; };
 		C402AACB1FB3E9FC00B8FA09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AABF1FB3E9FC00B8FA09 /* AppDelegate.swift */; };
-		C402AACC1FB3E9FC00B8FA09 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C402AAC01FB3E9FC00B8FA09 /* Info.plist */; };
 		C402AACD1FB3E9FC00B8FA09 /* EntryViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */; };
 		C48E37271FB2AF8800857553 /* AssociatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */; };
 		C48E37281FB2AF8800857553 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371F1FB2AF8700857553 /* Transition.swift */; };
@@ -29,7 +27,6 @@
 		C48E372D1FB2AF8800857553 /* IntentCtx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37241FB2AF8700857553 /* IntentCtx.swift */; };
 		C48E372E1FB2AF8800857553 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37251FB2AF8700857553 /* Utility.swift */; };
 		C48E372F1FB2AF8800857553 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37261FB2AF8700857553 /* Intent.swift */; };
-		C4E869F81CE2FE770046434E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = C4E869F51CE2FE770046434E /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -191,11 +188,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C402AACC1FB3E9FC00B8FA09 /* Info.plist in Resources */,
 				C402AAC61FB3E9FC00B8FA09 /* ContentViewController.xib in Resources */,
 				C402AACA1FB3E9FC00B8FA09 /* EntryViewContoller.xib in Resources */,
-				C4E869F81CE2FE770046434E /* LICENSE in Resources */,
-				C402AAB31FB3E98600B8FA09 /* Intent.podspec in Resources */,
 				C402AAC81FB3E9FC00B8FA09 /* LaunchScreen.storyboard in Resources */,
 				C402AAC51FB3E9FC00B8FA09 /* Assets.xcassets in Resources */,
 				C402AAC31FB3E9FC00B8FA09 /* ModalViewController.xib in Resources */,
