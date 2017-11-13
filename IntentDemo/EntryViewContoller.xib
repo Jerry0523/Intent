@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EntryViewContoller" customModule="JWIntentDemo" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EntryViewContoller" customModule="IntentDemo" customModuleProvider="target">
             <connections>
                 <outlet property="fakePushSwitch" destination="cMs-1e-17q" id="Vzc-it-rDy"/>
                 <outlet property="modalPositionSegmentControl" destination="uwa-5O-diF" id="trz-qs-mO7"/>
@@ -64,7 +64,7 @@
                                         <constraint firstAttribute="width" constant="180" id="fdD-Bg-6sy"/>
                                     </constraints>
                                     <segments>
-                                        <segment title="Default"/>
+                                        <segment title="Flip"/>
                                         <segment title="Zoom"/>
                                         <segment title="Ring"/>
                                     </segments>

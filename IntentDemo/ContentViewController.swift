@@ -17,6 +17,7 @@ import UIKit
     var backgroundColor: UIColor?
     
     var ringTransition: RingTransition?
+    var flipTransition: FlipTransition?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,15 +29,23 @@ import UIKit
         
         if let transition = self.pushTransition as? RingTransition {
             self.ringTransition = transition
-            let ges = UIPanGestureRecognizer.init(target: self, action: #selector(handlePanGesture(_:)))
-            self.view.addGestureRecognizer(ges)
-            self.navigationController?.interactivePopGestureRecognizer?.require(toFail: ges)
+            self.setupVerticalPanGesture()
+            
+        } else if let transition = self.pushTransition as? FlipTransition {
+            self.flipTransition = transition
+            self.setupVerticalPanGesture()
         }
-        
+    }
+    
+    private func setupVerticalPanGesture() {
+        let ges = UIPanGestureRecognizer.init(target: self, action: #selector(handlePanGesture(_:)))
+        self.view.addGestureRecognizer(ges)
+        self.navigationController?.interactivePopGestureRecognizer?.require(toFail: ges)
     }
     
     @objc private func handlePanGesture(_ sender: UIPanGestureRecognizer) {
-        self.ringTransition?.handle(interactivePanGesture: sender, axis: .vertical, threshold: 0.5, beginAction: {
+        let transition: Transition? = (self.ringTransition != nil) ? self.ringTransition : self.flipTransition
+        transition?.handle(interactivePanGesture: sender, axis: .vertical, threshold: 0.3, beginAction: {
             self.navigationController?.popViewController(animated: true)
         })
     }

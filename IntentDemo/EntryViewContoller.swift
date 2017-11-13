@@ -35,8 +35,9 @@ class EntryViewContoller: UIViewController {
     @IBAction func didTapPushWithKeyBtn(_ sender: Any) {
         var router = try? Router.init(key: "content", extra: ["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
         router?.config = .push(nil)
-        
-        if pushAnimationSegmentControl.selectedSegmentIndex == 1 {
+        if pushAnimationSegmentControl.selectedSegmentIndex == 0 {
+            router?.transition = FlipTransition.init()
+        } else if pushAnimationSegmentControl.selectedSegmentIndex == 1 {
             router?.transition = SystemTransition.init(axis: .horizontal, style: .zoom(factor: 0.8))
         } else if pushAnimationSegmentControl.selectedSegmentIndex == 2 {
             router?.transition = RingTransition.init()

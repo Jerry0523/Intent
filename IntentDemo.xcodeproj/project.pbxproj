@@ -18,6 +18,7 @@
 		C402AACA1FB3E9FC00B8FA09 /* EntryViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C402AABE1FB3E9FC00B8FA09 /* EntryViewContoller.xib */; };
 		C402AACB1FB3E9FC00B8FA09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AABF1FB3E9FC00B8FA09 /* AppDelegate.swift */; };
 		C402AACD1FB3E9FC00B8FA09 /* EntryViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */; };
+		C431F4FC1FB97DC100FAD488 /* FlipTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */; };
 		C48E37271FB2AF8800857553 /* AssociatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */; };
 		C48E37281FB2AF8800857553 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371F1FB2AF8700857553 /* Transition.swift */; };
 		C48E37291FB2AF8800857553 /* SystemTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37201FB2AF8700857553 /* SystemTransition.swift */; };
@@ -43,6 +44,7 @@
 		C402AABF1FB3E9FC00B8FA09 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C402AAC01FB3E9FC00B8FA09 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryViewContoller.swift; sourceTree = "<group>"; };
+		C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipTransition.swift; sourceTree = "<group>"; };
 		C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedTransition.swift; sourceTree = "<group>"; };
 		C48E371F1FB2AF8700857553 /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		C48E37201FB2AF8700857553 /* SystemTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTransition.swift; sourceTree = "<group>"; };
@@ -71,18 +73,18 @@
 		C402AAB41FB3E9FC00B8FA09 /* IntentDemo */ = {
 			isa = PBXGroup;
 			children = (
+				C402AABF1FB3E9FC00B8FA09 /* AppDelegate.swift */,
+				C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */,
+				C402AABE1FB3E9FC00B8FA09 /* EntryViewContoller.xib */,
 				C402AAB51FB3E9FC00B8FA09 /* ContentViewController.swift */,
-				C402AAB61FB3E9FC00B8FA09 /* ModalViewController.xib */,
-				C402AAB71FB3E9FC00B8FA09 /* UIViewController+PopHandler.swift */,
-				C402AAB81FB3E9FC00B8FA09 /* Assets.xcassets */,
 				C402AAB91FB3E9FC00B8FA09 /* ContentViewController.xib */,
 				C402AABA1FB3E9FC00B8FA09 /* ModalViewController.swift */,
+				C402AAB61FB3E9FC00B8FA09 /* ModalViewController.xib */,
 				C402AABB1FB3E9FC00B8FA09 /* LaunchScreen.storyboard */,
 				C402AABD1FB3E9FC00B8FA09 /* __init__.swift */,
-				C402AABE1FB3E9FC00B8FA09 /* EntryViewContoller.xib */,
-				C402AABF1FB3E9FC00B8FA09 /* AppDelegate.swift */,
+				C402AAB71FB3E9FC00B8FA09 /* UIViewController+PopHandler.swift */,
+				C402AAB81FB3E9FC00B8FA09 /* Assets.xcassets */,
 				C402AAC01FB3E9FC00B8FA09 /* Info.plist */,
-				C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */,
 			);
 			path = IntentDemo;
 			sourceTree = "<group>";
@@ -96,6 +98,7 @@
 				C48E37231FB2AF8700857553 /* Router.swift */,
 				C48E37221FB2AF8700857553 /* Handler.swift */,
 				C48E37251FB2AF8700857553 /* Utility.swift */,
+				C48E371F1FB2AF8700857553 /* Transition.swift */,
 			);
 			path = Intent;
 			sourceTree = "<group>";
@@ -103,10 +106,10 @@
 		C48E371D1FB2AF8700857553 /* Transition */ = {
 			isa = PBXGroup;
 			children = (
-				C48E371F1FB2AF8700857553 /* Transition.swift */,
 				C48E37201FB2AF8700857553 /* SystemTransition.swift */,
 				C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */,
 				C48E37211FB2AF8700857553 /* RingTransition.swift */,
+				C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */,
 			);
 			path = Transition;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 				C48E37281FB2AF8800857553 /* Transition.swift in Sources */,
 				C48E372C1FB2AF8800857553 /* Router.swift in Sources */,
 				C402AACB1FB3E9FC00B8FA09 /* AppDelegate.swift in Sources */,
+				C431F4FC1FB97DC100FAD488 /* FlipTransition.swift in Sources */,
 				C402AAC41FB3E9FC00B8FA09 /* UIViewController+PopHandler.swift in Sources */,
 				C402AAC71FB3E9FC00B8FA09 /* ModalViewController.swift in Sources */,
 				C48E372A1FB2AF8800857553 /* RingTransition.swift in Sources */,
