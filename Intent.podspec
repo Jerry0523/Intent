@@ -20,7 +20,7 @@ end
 
 s.subspec 'Transition' do |tran|
 tran.source_files = 'Intent/Transition/*.swift'
-gif.dependency 'Intent/Core'
+tran.dependency 'Intent/Core'
 end
 
 end
