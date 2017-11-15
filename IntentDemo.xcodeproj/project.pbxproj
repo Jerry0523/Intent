@@ -19,6 +19,19 @@
 		C402AACB1FB3E9FC00B8FA09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AABF1FB3E9FC00B8FA09 /* AppDelegate.swift */; };
 		C402AACD1FB3E9FC00B8FA09 /* EntryViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */; };
 		C431F4FC1FB97DC100FAD488 /* FlipTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */; };
+		C431F5371FBC20F700FAD488 /* Intent.h in Headers */ = {isa = PBXBuildFile; fileRef = C431F5351FBC20F700FAD488 /* Intent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C431F53A1FBC20F700FAD488 /* Intent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C431F5331FBC20F700FAD488 /* Intent.framework */; };
+		C431F53B1FBC20F700FAD488 /* Intent.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C431F5331FBC20F700FAD488 /* Intent.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C431F5401FBC210900FAD488 /* SystemTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37201FB2AF8700857553 /* SystemTransition.swift */; };
+		C431F5411FBC210900FAD488 /* AssociatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */; };
+		C431F5421FBC210900FAD488 /* RingTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37211FB2AF8700857553 /* RingTransition.swift */; };
+		C431F5431FBC210900FAD488 /* FlipTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */; };
+		C431F5441FBC210900FAD488 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37261FB2AF8700857553 /* Intent.swift */; };
+		C431F5451FBC210900FAD488 /* IntentCtx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37241FB2AF8700857553 /* IntentCtx.swift */; };
+		C431F5461FBC210900FAD488 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37231FB2AF8700857553 /* Router.swift */; };
+		C431F5471FBC210900FAD488 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37221FB2AF8700857553 /* Handler.swift */; };
+		C431F5481FBC210900FAD488 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37251FB2AF8700857553 /* Utility.swift */; };
+		C431F5491FBC210900FAD488 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371F1FB2AF8700857553 /* Transition.swift */; };
 		C48E37271FB2AF8800857553 /* AssociatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */; };
 		C48E37281FB2AF8800857553 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371F1FB2AF8700857553 /* Transition.swift */; };
 		C48E37291FB2AF8800857553 /* SystemTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37201FB2AF8700857553 /* SystemTransition.swift */; };
@@ -29,6 +42,30 @@
 		C48E372E1FB2AF8800857553 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37251FB2AF8700857553 /* Utility.swift */; };
 		C48E372F1FB2AF8800857553 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37261FB2AF8700857553 /* Intent.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C431F5381FBC20F700FAD488 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4E869881CE1A6BD0046434E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C431F5321FBC20F700FAD488;
+			remoteInfo = Intent;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C431F53F1FBC20F700FAD488 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C431F53B1FBC20F700FAD488 /* Intent.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C402AAB21FB3E98600B8FA09 /* Intent.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Intent.podspec; sourceTree = "<group>"; };
@@ -45,6 +82,9 @@
 		C402AAC01FB3E9FC00B8FA09 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryViewContoller.swift; sourceTree = "<group>"; };
 		C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipTransition.swift; sourceTree = "<group>"; };
+		C431F5331FBC20F700FAD488 /* Intent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Intent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C431F5351FBC20F700FAD488 /* Intent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Intent.h; sourceTree = "<group>"; };
+		C431F5361FBC20F700FAD488 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedTransition.swift; sourceTree = "<group>"; };
 		C48E371F1FB2AF8700857553 /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		C48E37201FB2AF8700857553 /* SystemTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTransition.swift; sourceTree = "<group>"; };
@@ -60,10 +100,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C431F52F1FBC20F700FAD488 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C4E8698D1CE1A6BD0046434E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C431F53A1FBC20F700FAD488 /* Intent.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +135,15 @@
 				C402AAC01FB3E9FC00B8FA09 /* Info.plist */,
 			);
 			path = IntentDemo;
+			sourceTree = "<group>";
+		};
+		C431F5341FBC20F700FAD488 /* Intent */ = {
+			isa = PBXGroup;
+			children = (
+				C431F5351FBC20F700FAD488 /* Intent.h */,
+				C431F5361FBC20F700FAD488 /* Info.plist */,
+			);
+			path = Intent;
 			sourceTree = "<group>";
 		};
 		C48E371C1FB2AF8700857553 /* Intent */ = {
@@ -122,6 +179,7 @@
 				C402AAB21FB3E98600B8FA09 /* Intent.podspec */,
 				C4E869F51CE2FE770046434E /* LICENSE */,
 				C4E869F61CE2FE770046434E /* README.md */,
+				C431F5341FBC20F700FAD488 /* Intent */,
 				C4E869911CE1A6BD0046434E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,13 +188,43 @@
 			isa = PBXGroup;
 			children = (
 				C4E869901CE1A6BD0046434E /* IntentDemo.app */,
+				C431F5331FBC20F700FAD488 /* Intent.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		C431F5301FBC20F700FAD488 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C431F5371FBC20F700FAD488 /* Intent.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		C431F5321FBC20F700FAD488 /* Intent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C431F53C1FBC20F700FAD488 /* Build configuration list for PBXNativeTarget "Intent" */;
+			buildPhases = (
+				C431F52E1FBC20F700FAD488 /* Sources */,
+				C431F52F1FBC20F700FAD488 /* Frameworks */,
+				C431F5301FBC20F700FAD488 /* Headers */,
+				C431F5311FBC20F700FAD488 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Intent;
+			productName = Intent;
+			productReference = C431F5331FBC20F700FAD488 /* Intent.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		C4E8698F1CE1A6BD0046434E /* IntentDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C4E869A71CE1A6BD0046434E /* Build configuration list for PBXNativeTarget "IntentDemo" */;
@@ -144,10 +232,12 @@
 				C4E8698C1CE1A6BD0046434E /* Sources */,
 				C4E8698D1CE1A6BD0046434E /* Frameworks */,
 				C4E8698E1CE1A6BD0046434E /* Resources */,
+				C431F53F1FBC20F700FAD488 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C431F5391FBC20F700FAD488 /* PBXTargetDependency */,
 			);
 			name = IntentDemo;
 			productName = JWIntentDemo;
@@ -163,6 +253,10 @@
 				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Jerry Wong";
 				TargetAttributes = {
+					C431F5321FBC20F700FAD488 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
 					C4E8698F1CE1A6BD0046434E = {
 						CreatedOnToolsVersion = 7.3.1;
 						ProvisioningStyle = Automatic;
@@ -183,11 +277,19 @@
 			projectRoot = "";
 			targets = (
 				C4E8698F1CE1A6BD0046434E /* IntentDemo */,
+				C431F5321FBC20F700FAD488 /* Intent */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C431F5311FBC20F700FAD488 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C4E8698E1CE1A6BD0046434E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -203,6 +305,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C431F52E1FBC20F700FAD488 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C431F5401FBC210900FAD488 /* SystemTransition.swift in Sources */,
+				C431F5411FBC210900FAD488 /* AssociatedTransition.swift in Sources */,
+				C431F5421FBC210900FAD488 /* RingTransition.swift in Sources */,
+				C431F5431FBC210900FAD488 /* FlipTransition.swift in Sources */,
+				C431F5441FBC210900FAD488 /* Intent.swift in Sources */,
+				C431F5451FBC210900FAD488 /* IntentCtx.swift in Sources */,
+				C431F5461FBC210900FAD488 /* Router.swift in Sources */,
+				C431F5471FBC210900FAD488 /* Handler.swift in Sources */,
+				C431F5481FBC210900FAD488 /* Utility.swift in Sources */,
+				C431F5491FBC210900FAD488 /* Transition.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C4E8698C1CE1A6BD0046434E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -228,6 +347,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		C431F5391FBC20F700FAD488 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C431F5321FBC20F700FAD488 /* Intent */;
+			targetProxy = C431F5381FBC20F700FAD488 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		C402AABB1FB3E9FC00B8FA09 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -240,6 +367,68 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		C431F53D1FBC20F700FAD488 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Intent/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jerry.Intent;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		C431F53E1FBC20F700FAD488 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Intent/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jerry.Intent;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		C4E869A51CE1A6BD0046434E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -342,8 +531,10 @@
 		C4E869A81CE1A6BD0046434E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -362,8 +553,10 @@
 		C4E869A91CE1A6BD0046434E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -381,6 +574,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C431F53C1FBC20F700FAD488 /* Build configuration list for PBXNativeTarget "Intent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C431F53D1FBC20F700FAD488 /* Debug */,
+				C431F53E1FBC20F700FAD488 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C4E8698B1CE1A6BD0046434E /* Build configuration list for PBXProject "IntentDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

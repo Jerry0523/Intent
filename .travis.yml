@@ -4,4 +4,4 @@ script:
   - set -o pipefail
   - xcodebuild -version
   - xcodebuild -showsdks
-  - xcodebuild -project "IntentDemo.xcodeproj" -scheme "IntentDemo" -destination "OS=11.0,name=iPhone X" -configuration Debug ONLY_ACTIVE_ARCH=NO ENABLE_TESTABILITY=YES test | xcpretty
+  - xcodebuild -project "IntentDemo.xcodeproj" -scheme "Intent" -configuration Debug ONLY_ACTIVE_ARCH=NO build
