@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/Jerry0523/Intent.svg?branch=master)](https://travis-ci.org/Jerry0523/Intent)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Intent.svg)](https://img.shields.io/cocoapods/v/Intent.svg)
+
 A solution for iOS modules and components separation. You can route to viewController or perform native block with url.
 
 Features
