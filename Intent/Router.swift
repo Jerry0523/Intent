@@ -97,56 +97,6 @@ public struct Router : Intent {
 
 extension Router {
     
-    public static var backIndicatorImage: UIImage = {
-        if let image = UINavigationBar.appearance().backIndicatorImage {
-            return image
-        }
-        UIGraphicsBeginImageContextWithOptions(CGSize.init(width: 13, height: 21), false, 0)
-        defer {
-            UIGraphicsEndImageContext()
-        }
-        
-        let ctx = UIGraphicsGetCurrentContext()
-        ctx?.move(to: CGPoint.init(x: 11.5, y: 1.5))
-        ctx?.addLine(to: CGPoint.init(x: 2.5, y: 10.5))
-        ctx?.addLine(to: CGPoint.init(x: 11.5, y: 19.5))
-        ctx?.setStrokeColor((UINavigationBar.appearance().tintColor ?? UIColor.init(red: 21.0 / 255.0, green: 126.0 / 255.0, blue: 251.0 / 255.0, alpha: 1.0)).cgColor)
-        ctx?.setLineWidth(3.0)
-        ctx?.setLineCap(.round)
-        ctx?.setLineJoin(CGLineJoin.round)
-        ctx?.strokePath()
-        
-        return UIGraphicsGetImageFromCurrentImageContext()!
-    }()
-    
-    public static var topViewController: UIViewController? {
-        get {
-            let keyWindow = UIApplication.shared.keyWindow
-            var topVC = keyWindow?.rootViewController
-            while topVC?.presentedViewController != nil {
-                topVC = topVC?.presentedViewController
-            }
-            
-            while let topAbility = topVC as? GetTopViewController {
-                topVC = topAbility.topViewController
-            }
-            
-            return topVC
-        }
-    }
-    
-    public static var topWindow: UIWindow {
-        get {
-            let appDelegate = UIApplication.shared.delegate as? GetTopWindow
-            assert(appDelegate != nil, "AppDelegate should confirm to Protocol GetTopWindow")
-            return appDelegate!.topWindow
-        }
-    }
-    
-}
-
-extension Router {
-    
     private func submit(executer: UIViewController, config: RouterConfig, complete:(() -> ())?) {
         var newConfig = config
         
