@@ -23,18 +23,6 @@
 
 import UIKit
 
-public protocol GetTopViewController {
-    
-    var topViewController: UIViewController? { get }
-    
-}
-
-public protocol GetTopWindow {
-    
-    var topWindow: UIWindow { get }
-    
-}
-
 extension UINavigationController : GetTopViewController {
     
 }

@@ -23,6 +23,18 @@
 
 import UIKit
 
+public protocol GetTopViewController {
+    
+    var topViewController: UIViewController? { get }
+    
+}
+
+public protocol GetTopWindow {
+    
+    var topWindow: UIWindow { get }
+    
+}
+
 public protocol PreferredRouterConfig {
     
     var preferredRouterConfig: RouterConfig? { get }
@@ -85,7 +97,27 @@ public struct Router : Intent {
 
 extension Router {
     
-    public static var backImageName = "navigation_back"
+    public static var backIndicatorImage: UIImage = {
+        if let image = UINavigationBar.appearance().backIndicatorImage {
+            return image
+        }
+        UIGraphicsBeginImageContextWithOptions(CGSize.init(width: 13, height: 21), false, 0)
+        defer {
+            UIGraphicsEndImageContext()
+        }
+        
+        let ctx = UIGraphicsGetCurrentContext()
+        ctx?.move(to: CGPoint.init(x: 11.5, y: 1.5))
+        ctx?.addLine(to: CGPoint.init(x: 2.5, y: 10.5))
+        ctx?.addLine(to: CGPoint.init(x: 11.5, y: 19.5))
+        ctx?.setStrokeColor((UINavigationBar.appearance().tintColor ?? UIColor.init(red: 21.0 / 255.0, green: 126.0 / 255.0, blue: 251.0 / 255.0, alpha: 1.0)).cgColor)
+        ctx?.setLineWidth(3.0)
+        ctx?.setLineCap(.round)
+        ctx?.setLineJoin(CGLineJoin.round)
+        ctx?.strokePath()
+        
+        return UIGraphicsGetImageFromCurrentImageContext()!
+    }()
     
     public static var topViewController: UIViewController? {
         get {
@@ -106,7 +138,7 @@ extension Router {
     public static var topWindow: UIWindow {
         get {
             let appDelegate = UIApplication.shared.delegate as? GetTopWindow
-            assert(appDelegate != nil, "AppDelegate should confirm to GetTopWindow Protocol")
+            assert(appDelegate != nil, "AppDelegate should confirm to Protocol GetTopWindow")
             return appDelegate!.topWindow
         }
     }
@@ -154,7 +186,7 @@ extension Router {
             targetDest = UINavigationController.init(rootViewController: intentionVC)
             var items = Array<UIBarButtonItem>()
             
-            let backItem = UIBarButtonItem.init(image: UIImage.init(named: Router.backImageName), style: .plain, target: targetDest, action: #selector(UIViewController.internal_dismiss))
+            let backItem = UIBarButtonItem.init(image: Router.backIndicatorImage, style: .plain, target: targetDest, action: #selector(UIViewController.internal_dismiss))
             if #available(iOS 11.0, *) {
                 backItem.imageInsets = UIEdgeInsets.init(top: 0, left: -8, bottom: 0, right: 8)
             } else {
