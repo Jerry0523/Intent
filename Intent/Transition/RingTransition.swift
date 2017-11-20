@@ -29,7 +29,7 @@ import UIKit
     
 }
 
-open class RingTransition: Transition, CAAnimationDelegate {
+open class RingTransition: Transition {
     
     override func present(_ vcToBePresent: UIViewController, fromVC: UIViewController, container: UIView, context: UIViewControllerContextTransitioning) {
         
@@ -67,19 +67,20 @@ open class RingTransition: Transition, CAAnimationDelegate {
     
         viewToBePresent.layer.mask = maskLayer
         
-        let pathAnimation = CABasicAnimation.init(keyPath: "path")
-        pathAnimation.fromValue = self.startPath?.cgPath
-        pathAnimation.toValue = self.endPath?.cgPath
-        pathAnimation.duration = self.duration
-        pathAnimation.timingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut)
-        pathAnimation.delegate = self
-        
-        maskLayer.add(pathAnimation, forKey: "ringAnimation")
-        
-        self.clearFunction = {
+        CATransaction.begin()
+        CATransaction.setValue(self.duration, forKey: kCATransactionAnimationDuration)
+        CATransaction.setValue(CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut), forKey: kCATransactionAnimationTimingFunction)
+        CATransaction.setCompletionBlock {
             viewToBePresent.layer.mask = nil
             context.completeTransition(!context.transitionWasCancelled)
         }
+        
+        let pathAnimation = CABasicAnimation.init(keyPath: "path")
+        pathAnimation.fromValue = self.startPath?.cgPath
+        pathAnimation.toValue = self.endPath?.cgPath
+        maskLayer.add(pathAnimation, forKey: "ringAnimation")
+        
+        CATransaction.commit()
     }
     
     override func dismiss(_ vcToBeDismissed: UIViewController, toVC: UIViewController, container: UIView, context: UIViewControllerContextTransitioning) {
@@ -98,33 +99,26 @@ open class RingTransition: Transition, CAAnimationDelegate {
         
         viewToBeDismissed.layer.mask = maskLayer
         
-        let pathAnimation = CABasicAnimation.init(keyPath: "path")
-        pathAnimation.fromValue = self.endPath?.cgPath
-        pathAnimation.toValue = self.startPath?.cgPath
-        pathAnimation.duration = self.duration
-        pathAnimation.timingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut)
-        pathAnimation.delegate = self
-        
-        maskLayer.add(pathAnimation, forKey: "ringInvertAnimation")
-        
-        self.clearFunction = {
+        CATransaction.begin()
+        CATransaction.setValue(self.duration, forKey: kCATransactionAnimationDuration)
+        CATransaction.setValue(CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut), forKey: kCATransactionAnimationTimingFunction)
+        CATransaction.setCompletionBlock {
             UIView.performWithoutAnimation {
                 viewToBeDismissed.layer.mask = nil
             }
             context.completeTransition(!context.transitionWasCancelled)
         }
-    }
-    
-    // MARK: - CAAnimationDelegate
-    public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        self.clearFunction?()
-        self.clearFunction = nil
+        
+        let pathAnimation = CABasicAnimation.init(keyPath: "path")
+        pathAnimation.fromValue = self.endPath?.cgPath
+        pathAnimation.toValue = self.startPath?.cgPath
+        maskLayer.add(pathAnimation, forKey: "ringInvertAnimation")
+        
+        CATransaction.commit()
     }
     
     private var startPath: UIBezierPath?
     private var endPath: UIBezierPath?
-    
-    private var clearFunction: (()-> Swift.Void)?
     
     override var useBaseAnimation: Bool {
         return true
