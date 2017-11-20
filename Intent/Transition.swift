@@ -159,15 +159,56 @@ extension Transition : UIViewControllerAnimatedTransitioning {
 
 extension Transition {
     
-    public func handle(interactivePanGesture recognizer: UIPanGestureRecognizer, axis: UILayoutConstraintAxis, threshold: CGFloat, beginAction: () -> ()) {
+    public enum TransitionGestureAxis {
+        
+        case horizontalLeftToRight
+        
+        case horizontalRightToLeft
+        
+        case verticalTopToBottom
+        
+        case verticalBottomToTop
+        
+        func getRefrenceLength(forView view: UIView?) -> CGFloat {
+            switch self {
+            case .horizontalLeftToRight, .horizontalRightToLeft:
+                return view?.frame.size.width ?? 0
+            case .verticalTopToBottom, .verticalBottomToTop:
+                return view?.frame.size.height ?? 0
+            }
+        }
+        
+        func getTranslatePercent(forView view: UIView?, pointer: CGPoint) -> CGFloat {
+            let refrenceLength = self.getRefrenceLength(forView: view)
+            switch self {
+            case .horizontalLeftToRight:
+                return pointer.x / refrenceLength
+            case .horizontalRightToLeft:
+                return -pointer.x / refrenceLength
+            case .verticalTopToBottom:
+                return pointer.y / refrenceLength
+            case .verticalBottomToTop:
+                return -pointer.y / refrenceLength
+            }
+        }
+    }
+    
+    public func handle(interactivePanGesture recognizer: UIPanGestureRecognizer, beginAction: () -> (), axis: TransitionGestureAxis = .horizontalLeftToRight , threshold: CGFloat = 0.5) {
         let actionView = recognizer.view
-        let refrenceLength = (axis == .vertical ? actionView?.frame.size.height : actionView?.frame.size.width) ?? 0
-
+        let refrenceLength = axis.getRefrenceLength(forView: actionView)
+        
         assert(refrenceLength > 0)
         assert(threshold > 0 && threshold < 1)
         
         let point = recognizer.translation(in: actionView)
-        let per = max((axis == .vertical ? point.y : point.x) / refrenceLength, 0)
+        let per = axis.getTranslatePercent(forView: actionView, pointer: point)
+        
+        if per < 0 {
+            recognizer.isEnabled = false
+            defer {
+                recognizer.isEnabled = true
+            }
+        }
         
         switch recognizer.state {
         case .began:

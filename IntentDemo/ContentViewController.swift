@@ -44,10 +44,16 @@ import UIKit
     }
     
     @objc private func handlePanGesture(_ sender: UIPanGestureRecognizer) {
-        let transition: Transition? = (self.ringTransition != nil) ? self.ringTransition : self.flipTransition
-        transition?.handle(interactivePanGesture: sender, axis: .vertical, threshold: 0.3, beginAction: {
-            self.navigationController?.popViewController(animated: true)
-        })
+        if let transition = self.ringTransition {
+            transition.handle(interactivePanGesture: sender, beginAction: {
+                self.navigationController?.popViewController(animated: true)
+            }, axis: .verticalBottomToTop, threshold: 0.3)
+            
+        } else if let transition = self.flipTransition {
+            transition.handle(interactivePanGesture: sender, beginAction: {
+                self.navigationController?.popViewController(animated: true)
+            }, axis: .verticalTopToBottom, threshold: 0.3)
+        }
     }
 
     override func didReceiveMemoryWarning() {

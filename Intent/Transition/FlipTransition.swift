@@ -62,8 +62,6 @@ class FlipTransition: Transition {
                 let shadowAnimation = CABasicAnimation.init(keyPath: "opacity")
                 shadowAnimation.fromValue = 0
                 shadowAnimation.toValue = 0.4
-                shadowAnimation.isRemovedOnCompletion = false
-                shadowAnimation.fillMode = kCAFillModeForwards
                 shadowView.layer.add(shadowAnimation, forKey: nil)
                 shadowView.layer.opacity = 0.4
             }, complete: {
@@ -71,8 +69,6 @@ class FlipTransition: Transition {
                     let shadowAnimation = CABasicAnimation.init(keyPath: "opacity")
                     shadowAnimation.fromValue = 0.4
                     shadowAnimation.toValue = 0.7
-                    shadowAnimation.isRemovedOnCompletion = false
-                    shadowAnimation.fillMode = kCAFillModeForwards
                     shadowView.layer.add(shadowAnimation, forKey: nil)
                     shadowView.layer.opacity = 0.7
                 }, complete: {
@@ -82,8 +78,6 @@ class FlipTransition: Transition {
                         let shadowAnimation = CABasicAnimation.init(keyPath: "opacity")
                         shadowAnimation.fromValue = 0.7
                         shadowAnimation.toValue = 1.0
-                        shadowAnimation.isRemovedOnCompletion = false
-                        shadowAnimation.fillMode = kCAFillModeForwards
                         shadowView.layer.add(shadowAnimation, forKey: nil)
                         shadowView.layer.opacity = 1.0
                     }, complete: {
@@ -252,7 +246,7 @@ class FlipTransition: Transition {
         
         func prepare(_ isPresent: Bool, complete: (() -> ())?) {
             CATransaction.begin()
-            CATransaction.setValue(0.0, forKey: kCATransactionAnimationDuration)
+            CATransaction.setDisableActions(true)
             CATransaction.setCompletionBlock(complete)
             
             if isPresent {
@@ -290,8 +284,6 @@ class FlipTransition: Transition {
             let easeInAnimation = CABasicAnimation.init(keyPath: "transform.translation.y")
             easeInAnimation.fromValue = isPresent ? UIScreen.main.bounds.size.height : -AppearExtraDistance
             easeInAnimation.toValue = isPresent ? -AppearExtraDistance : UIScreen.main.bounds.size.height
-            easeInAnimation.fillMode = kCAFillModeForwards
-            easeInAnimation.isRemovedOnCompletion = false
             self.layer.add(easeInAnimation, forKey: nil)
             self.layer.transform = transform
             
@@ -308,16 +300,12 @@ class FlipTransition: Transition {
             let rotateAnimation = CABasicAnimation.init(keyPath: "transform.rotation.x")
             rotateAnimation.fromValue = isPresent ? 0 : .pi / 2.0
             rotateAnimation.toValue = isPresent ? .pi / 2.0 : 0
-            rotateAnimation.fillMode = kCAFillModeForwards
-            rotateAnimation.isRemovedOnCompletion = false
             upperFrontLayer.add(rotateAnimation, forKey: nil)
             upperFrontLayer.transform = CATransform3DRotate(upperFrontLayer.transform, .pi * 0.5 * (isPresent ? 1 : -1), 1.0, 0, 0);
             
             let opacityLowerAnimation = CABasicAnimation.init(keyPath: "opacity")
             opacityLowerAnimation.fromValue = isPresent ? 1 : 0.5
             opacityLowerAnimation.toValue = isPresent ? 0.5 : 1.0
-            opacityLowerAnimation.fillMode = kCAFillModeForwards
-            opacityLowerAnimation.isRemovedOnCompletion = false
             lowerLayer.shadowCover.add(opacityLowerAnimation, forKey: nil)
             lowerLayer.shadowCover.opacity = isPresent ? 0.5 : 1.0
             
@@ -344,24 +332,18 @@ class FlipTransition: Transition {
             let transformLayerAnimation = CABasicAnimation.init(keyPath: "transform")
             transformLayerAnimation.fromValue = self.layer.transform
             transformLayerAnimation.toValue = transform
-            transformLayerAnimation.fillMode = kCAFillModeForwards
-            transformLayerAnimation.isRemovedOnCompletion = false
             self.layer.add(transformLayerAnimation, forKey: nil)
             self.layer.transform = transform
             
             let animation = CABasicAnimation.init(keyPath: "transform.rotation.x")
             animation.fromValue = isPresent ? -.pi / 2.0 : 0
             animation.toValue = isPresent ? 0 : -.pi / 2.0
-            animation.fillMode = kCAFillModeForwards
-            animation.isRemovedOnCompletion = false
             upperBackLayer.add(animation, forKey: nil)
             upperBackLayer.transform = CATransform3DRotate(upperBackLayer.transform, .pi / 2.0 * (isPresent ? 1 : -1), 1.0, 0, 0);
             
             let opacityAnimation = CABasicAnimation.init(keyPath: "opacity")
             opacityAnimation.fromValue = isPresent ? 0.5 : 0.0
             opacityAnimation.toValue = isPresent ? 0.0 : 0.5
-            opacityAnimation.fillMode = kCAFillModeForwards
-            opacityAnimation.isRemovedOnCompletion = false
             upperBackLayer.shadowCover.add(opacityAnimation, forKey: nil)
             lowerLayer.shadowCover.add(opacityAnimation, forKey: nil)
             

@@ -265,7 +265,7 @@ extension Router {
     private func exeModal(executer: UIViewController, intentionVC: UIViewController, option: ModalOption, complete:(() -> ())?) {
         let modalVC = ModalVC.init()
         modalVC.modalOption = option
-        modalVC.add(contentVC: intentionVC)
+        modalVC.addChildViewController(intentionVC)
         modalVC.present()
         complete?()
     }

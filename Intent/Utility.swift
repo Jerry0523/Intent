@@ -144,14 +144,11 @@ extension UIViewController {
 
 class ModalVC: UIViewController {
     
-    func add(contentVC: UIViewController) {
-        for childVC in self.childViewControllers {
-            if (childVC.isViewLoaded && childVC.view.superview == self.view) {
-                childVC.view.removeFromSuperview()
-            }
-            childVC.removeFromParentViewController()
+    private func addContentViewIfNeeded() {
+        
+        guard self.isViewLoaded, let contentVC = self.childViewControllers.last else {
+            return
         }
-        self.addChildViewController(contentVC)
         
         let contentView = contentVC.view!
         self.view.addSubview(contentView)
@@ -172,8 +169,33 @@ class ModalVC: UIViewController {
         contentView.layoutIfNeeded()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if (self.modalOption.contains(.dimBlur)) {
+            self.view.addSubview(self.dimBlurView)
+        } else {
+            self.view.addSubview(self.dimView)
+        }
+        self.addContentViewIfNeeded()
+    }
+    
+    override func addChildViewController(_ childController: UIViewController) {
+        for childVC in self.childViewControllers {
+            if (self.isViewLoaded && childVC.isViewLoaded && childVC.view.superview == self.view) {
+                childVC.view.removeFromSuperview()
+            }
+            childVC.removeFromParentViewController()
+        }
+        super.addChildViewController(childController)
+        self.addContentViewIfNeeded()
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     func present() {
-        guard let childVC = self.childViewControllers.first else {
+        guard let childVC = self.childViewControllers.last else {
             return
         }
         
@@ -186,7 +208,7 @@ class ModalVC: UIViewController {
             dimBlurView.effect = UIBlurEffect.init(style: .dark)
             dimView.backgroundColor = UIColor.init(white: 0, alpha: 0.6)
         } else {
-            self.applyTransformForAnimation()
+            self.transform(forContentView: childVC.view)
             dimBlurView.effect = nil
             dimView.backgroundColor = UIColor.clear
             
@@ -204,20 +226,11 @@ class ModalVC: UIViewController {
         bottomRootVC?.viewDidDisappear(true)
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if (self.modalOption.contains(.dimBlur)) {
-            self.view.addSubview(self.dimBlurView)
-        } else {
-            self.view.addSubview(self.dimView)
-        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        guard let childVC = self.childViewControllers.last else {
+            return
+        }
+        
         let bottomRootVC = Router.topViewController
         bottomRootVC?.viewWillAppear(flag)
         
@@ -235,7 +248,7 @@ class ModalVC: UIViewController {
             UIView.animate(withDuration: 0.3, animations: {
                 self.dimBlurView.effect = nil
                 self.dimView.backgroundColor = UIColor.clear
-                self.applyTransformForAnimation()
+                self.transform(forContentView: childVC.view)
             }, completion: completionBlock)
             
         } else {
@@ -243,12 +256,7 @@ class ModalVC: UIViewController {
         }
     }
     
-    private func applyTransformForAnimation() {
-        guard let childVC = self.childViewControllers.first else {
-            return
-        }
-        
-        let contentView = childVC.view!
+    private func transform(forContentView contentView: UIView) {
         if self.modalOption.contains(.contentBottom) {
             contentView.transform = CGAffineTransform(translationX: 0, y: contentView.bounds.size.height)
         } else if self.modalOption.contains(.contentTop) {
@@ -303,7 +311,7 @@ class NCProxyDelegate : NSObject {
     }
     
     @objc private func handleInteractivePopGesture(recognizer: UIPanGestureRecognizer) {
-        self.currentTransition?.handle(interactivePanGesture: recognizer, axis: .horizontal, threshold: 0.5, beginAction: {
+        self.currentTransition?.handle(interactivePanGesture: recognizer, beginAction: {
             let nc: UINavigationController = objc_getAssociatedObject(recognizer, &NCProxyDelegate.instanceNCKey) as! UINavigationController
             nc.popViewController(animated: true)
         })
@@ -407,7 +415,7 @@ class ScreenEdgeDetectorViewController : UIViewController, UIGestureRecognizerDe
     }
     
     @objc private func handleScreenEdgeGesture(_ sender: UIScreenEdgePanGestureRecognizer) {
-        self.presentTransition?.handle(interactivePanGesture: sender, axis: .horizontal, threshold: 0.5, beginAction: {
+        self.presentTransition?.handle(interactivePanGesture: sender, beginAction: {
             self.dismiss(animated: true, completion: nil)
         })
     }
