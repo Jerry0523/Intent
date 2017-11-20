@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Intent
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {

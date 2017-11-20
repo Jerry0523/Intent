@@ -23,9 +23,9 @@
 
 import UIKit
 
-class FlipTransition: Transition {
+open class FlipTransition: Transition {
     
-    override var duration: Double {
+    override open var duration: Double {
         get {
             return AppearDuration + FlipDuration
         }

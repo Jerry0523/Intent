@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Intent
 
 @objcMembers class ContentViewController: UIViewController {
     

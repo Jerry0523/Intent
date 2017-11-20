@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Intent
 
 class EntryViewContoller: UIViewController {
     

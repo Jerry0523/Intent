@@ -18,8 +18,6 @@
 		C402AACA1FB3E9FC00B8FA09 /* EntryViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C402AABE1FB3E9FC00B8FA09 /* EntryViewContoller.xib */; };
 		C402AACB1FB3E9FC00B8FA09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AABF1FB3E9FC00B8FA09 /* AppDelegate.swift */; };
 		C402AACD1FB3E9FC00B8FA09 /* EntryViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */; };
-		C431F4FC1FB97DC100FAD488 /* FlipTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */; };
-		C431F5371FBC20F700FAD488 /* Intent.h in Headers */ = {isa = PBXBuildFile; fileRef = C431F5351FBC20F700FAD488 /* Intent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C431F53A1FBC20F700FAD488 /* Intent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C431F5331FBC20F700FAD488 /* Intent.framework */; };
 		C431F53B1FBC20F700FAD488 /* Intent.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C431F5331FBC20F700FAD488 /* Intent.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C431F5401FBC210900FAD488 /* SystemTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37201FB2AF8700857553 /* SystemTransition.swift */; };
@@ -32,15 +30,6 @@
 		C431F5471FBC210900FAD488 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37221FB2AF8700857553 /* Handler.swift */; };
 		C431F5481FBC210900FAD488 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37251FB2AF8700857553 /* Utility.swift */; };
 		C431F5491FBC210900FAD488 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371F1FB2AF8700857553 /* Transition.swift */; };
-		C48E37271FB2AF8800857553 /* AssociatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */; };
-		C48E37281FB2AF8800857553 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371F1FB2AF8700857553 /* Transition.swift */; };
-		C48E37291FB2AF8800857553 /* SystemTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37201FB2AF8700857553 /* SystemTransition.swift */; };
-		C48E372A1FB2AF8800857553 /* RingTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37211FB2AF8700857553 /* RingTransition.swift */; };
-		C48E372B1FB2AF8800857553 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37221FB2AF8700857553 /* Handler.swift */; };
-		C48E372C1FB2AF8800857553 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37231FB2AF8700857553 /* Router.swift */; };
-		C48E372D1FB2AF8800857553 /* IntentCtx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37241FB2AF8700857553 /* IntentCtx.swift */; };
-		C48E372E1FB2AF8800857553 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37251FB2AF8700857553 /* Utility.swift */; };
-		C48E372F1FB2AF8800857553 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37261FB2AF8700857553 /* Intent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,8 +72,6 @@
 		C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryViewContoller.swift; sourceTree = "<group>"; };
 		C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipTransition.swift; sourceTree = "<group>"; };
 		C431F5331FBC20F700FAD488 /* Intent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Intent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C431F5351FBC20F700FAD488 /* Intent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Intent.h; sourceTree = "<group>"; };
-		C431F5361FBC20F700FAD488 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedTransition.swift; sourceTree = "<group>"; };
 		C48E371F1FB2AF8700857553 /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		C48E37201FB2AF8700857553 /* SystemTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTransition.swift; sourceTree = "<group>"; };
@@ -137,15 +124,6 @@
 			path = IntentDemo;
 			sourceTree = "<group>";
 		};
-		C431F5341FBC20F700FAD488 /* Intent */ = {
-			isa = PBXGroup;
-			children = (
-				C431F5351FBC20F700FAD488 /* Intent.h */,
-				C431F5361FBC20F700FAD488 /* Info.plist */,
-			);
-			path = Intent;
-			sourceTree = "<group>";
-		};
 		C48E371C1FB2AF8700857553 /* Intent */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,7 +157,6 @@
 				C402AAB21FB3E98600B8FA09 /* Intent.podspec */,
 				C4E869F51CE2FE770046434E /* LICENSE */,
 				C4E869F61CE2FE770046434E /* README.md */,
-				C431F5341FBC20F700FAD488 /* Intent */,
 				C4E869911CE1A6BD0046434E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -200,7 +177,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C431F5371FBC20F700FAD488 /* Intent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,20 +304,10 @@
 			files = (
 				C402AAC21FB3E9FC00B8FA09 /* ContentViewController.swift in Sources */,
 				C402AAC91FB3E9FC00B8FA09 /* __init__.swift in Sources */,
-				C48E37281FB2AF8800857553 /* Transition.swift in Sources */,
-				C48E372C1FB2AF8800857553 /* Router.swift in Sources */,
 				C402AACB1FB3E9FC00B8FA09 /* AppDelegate.swift in Sources */,
-				C431F4FC1FB97DC100FAD488 /* FlipTransition.swift in Sources */,
 				C402AAC41FB3E9FC00B8FA09 /* UIViewController+PopHandler.swift in Sources */,
 				C402AAC71FB3E9FC00B8FA09 /* ModalViewController.swift in Sources */,
-				C48E372A1FB2AF8800857553 /* RingTransition.swift in Sources */,
 				C402AACD1FB3E9FC00B8FA09 /* EntryViewContoller.swift in Sources */,
-				C48E372F1FB2AF8800857553 /* Intent.swift in Sources */,
-				C48E37271FB2AF8800857553 /* AssociatedTransition.swift in Sources */,
-				C48E372B1FB2AF8800857553 /* Handler.swift in Sources */,
-				C48E372E1FB2AF8800857553 /* Utility.swift in Sources */,
-				C48E37291FB2AF8800857553 /* SystemTransition.swift in Sources */,
-				C48E372D1FB2AF8800857553 /* IntentCtx.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +351,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Intent/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jerry.Intent;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -417,7 +383,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Intent/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jerry.Intent;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
