@@ -8,17 +8,14 @@
 
 import UIKit
 
-public struct JWKit {
-    
-    public static func load() {
-        _ = JWKit.__init__
-    }
-    
-    private static let __init__: Bool = {
-        UINavigationController.exchange(#selector(UINavigationController.viewDidLoad), withSEL: #selector(UINavigationController.new_viewDidLoad))
-        return true
-    }()
+func load() {
+    _ = __init__
 }
+
+private let __init__: Bool = {
+    UINavigationController.exchange(#selector(UINavigationController.viewDidLoad), withSEL: #selector(UINavigationController.new_viewDidLoad))
+    return true
+}()
 
 fileprivate extension NSObject {
     

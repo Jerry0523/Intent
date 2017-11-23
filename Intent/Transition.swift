@@ -60,6 +60,7 @@ extension UIViewController : CustomTransition {
 @objc public protocol TransitionDelegate : NSObjectProtocol {
     
     @objc optional func paramToBeSentBeforeTransitionBegin() -> [AnyHashable: Any]? //e.g., when A -> B, before transition, animation will delivery A's param to B
+    
     @objc optional func transitionWillBegin(withParamToBeReceived param: [AnyHashable: Any]?)//e.g., when A -> B, B will receive param sent from A after transition
     
 }
@@ -67,6 +68,7 @@ extension UIViewController : CustomTransition {
 open class Transition: NSObject {
     
     open var duration = CATransaction.animationDuration() * 2.0
+    
     open var interactiveController: UIPercentDrivenInteractiveTransition?
     
     public override init() {
@@ -111,6 +113,7 @@ open class Transition: NSObject {
     }
     
     weak var fromVC: UIViewController?
+    
     weak var toVC: UIViewController?
 }
 
@@ -232,7 +235,9 @@ extension Transition {
 fileprivate class CAPercentDrivenInteractiveTransition : UIPercentDrivenInteractiveTransition {
     
     private var pausedTime: CFTimeInterval = 0
+    
     private var currentPercent: CGFloat = 0
+    
     private weak var transitionCtx: UIViewControllerContextTransitioning?
     
     override func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {

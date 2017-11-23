@@ -26,13 +26,17 @@ import UIKit
 open class IntentCtx {
     
     open var routerScheme = Bundle.main.bundleIdentifier ?? "" + ".router"
+    
     open var handlerScheme = Bundle.main.bundleIdentifier ?? "" + ".func"
+    
     open var actionScheme = Bundle.main.bundleIdentifier ?? "" + ".action"
     
     static open let `default` = IntentCtx()
     
     private var routerDict: [String: Router.Intention] = [:]
+    
     private var handlerDict: [String: Handler.Intention] = [:]
+    
     private let ioLock: DispatchSemaphore = DispatchSemaphore(value: 1)
     
     private init() {
@@ -40,6 +44,7 @@ open class IntentCtx {
     }
     
     open func fetch(withURL: URL) throws -> (Any?, [String: Any]?)  {
+        
         guard let urlComponent = URLComponents.init(url: withURL, resolvingAgainstBaseURL: false),
               let scheme = urlComponent.scheme,
               let host = urlComponent.host else {
@@ -105,6 +110,7 @@ open class IntentCtx {
 }
 
 extension IntentCtx {
+    
     open func register<T>(_ routerClass: T.Type, forKey: String) where T: UIViewController {
         self.internal_register(routerClass, forKey: forKey)
     }
@@ -120,6 +126,7 @@ extension IntentCtx {
 }
 
 extension IntentCtx {
+    
     open func register(_ handlerClosure: @escaping Handler.Intention, forKey: String) {
         self.internal_register(handlerClosure, forKey: forKey)
     }

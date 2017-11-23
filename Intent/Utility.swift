@@ -337,6 +337,7 @@ class NCProxyDelegate : NSObject {
 }
 
 extension NCProxyDelegate : UINavigationControllerDelegate {
+    
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         if viewController.pushTransition != nil {
             if objc_getAssociatedObject(navigationController, &NCProxyDelegate.oldInteractivePopTargetKey) == nil {
@@ -377,6 +378,7 @@ extension NCProxyDelegate : UINavigationControllerDelegate {
 }
 
 class ScreenEdgeDetectorViewController : UIViewController, UIGestureRecognizerDelegate {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addChildViewIfNeeded()

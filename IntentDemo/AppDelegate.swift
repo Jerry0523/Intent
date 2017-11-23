@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        JWKit.load()
+        IntentDemo.load()
         
         self.registerIntent()
         
