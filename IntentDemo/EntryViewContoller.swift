@@ -20,7 +20,7 @@ class EntryViewContoller: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Intent Demo"
+        title = "Intent Demo"
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,10 +58,10 @@ class EntryViewContoller: UIViewController {
     
     @IBAction func didTapShowModalWithKeyBtn(_ sender: Any) {
         var router = Router(intention: ModalViewController.self)
-        var modalOption: ModalOption = []
-        if self.modalPositionSegmentControl.selectedSegmentIndex == 0 {
+        var modalOption: Router.RouterConfig.ModalOption = []
+        if modalPositionSegmentControl.selectedSegmentIndex == 0 {
             modalOption = .contentTop
-        } else if self.modalPositionSegmentControl.selectedSegmentIndex == 2 {
+        } else if modalPositionSegmentControl.selectedSegmentIndex == 2 {
             modalOption = .contentBottom
         }
             
@@ -78,6 +78,6 @@ class EntryViewContoller: UIViewController {
 extension EntryViewContoller : RingTransitionDataSource {
     
     func viewForTransition() -> UIView? {
-        return self.view.viewWithTag(112)
+        return view.viewWithTag(112)
     }
 }

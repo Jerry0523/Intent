@@ -66,15 +66,15 @@ open class SystemTransition: Transition {
         let viewToBePresent = (context.view(forKey: .to) ?? vcToBePresent.view)!
         let fromView = (context.view(forKey: .from) ?? fromVC.view)!
         
-        self.applyShadow(forView: viewToBePresent)
+        applyShadow(forView: viewToBePresent)
         
-        if self.axis == .vertical {
+        if axis == .vertical {
             viewToBePresent.transform = CGAffineTransform.init(translationX: 0, y: viewToBePresent.frame.size.height)
         } else {
             viewToBePresent.transform = CGAffineTransform.init(translationX: viewToBePresent.frame.size.width, y: 0)
         }
         
-        UIView.animate(withDuration: self.duration, animations: {
+        UIView.animate(withDuration: duration, animations: {
             viewToBePresent.transform = .identity
             fromView.transform = self.style.transform(forView: fromView, axis: self.axis)
             self.applyShadow(forView: fromView)
@@ -100,10 +100,10 @@ open class SystemTransition: Transition {
         
         let viewToBeDismissed = (context.view(forKey: .from) ?? vcToBeDismissed.view)!
         let toView = (context.view(forKey: .to) ?? toVC.view)!
-        toView.transform = self.style.transform(forView: toView, axis: self.axis)
-        self.applyShadow(forView: toView)
+        toView.transform = style.transform(forView: toView, axis: axis)
+        applyShadow(forView: toView)
         
-        UIView.animate(withDuration: self.duration, animations: {
+        UIView.animate(withDuration: duration, animations: {
             toView.transform = .identity
             if self.axis == .vertical {
                 viewToBeDismissed.transform = CGAffineTransform.init(translationX: 0, y: viewToBeDismissed.frame.size.height)

@@ -22,37 +22,37 @@ import Intent
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Content View Controller"
+        title = "Content View Controller"
         
-        self.textLabel.textColor = self.textColor ?? UIColor.black
-        self.textLabel.text = self.stringValue
-        self.view.backgroundColor = self.backgroundColor ?? UIColor.white
+        textLabel.textColor = textColor ?? UIColor.black
+        textLabel.text = stringValue
+        view.backgroundColor = backgroundColor ?? UIColor.white
         
-        if let transition = self.pushTransition as? RingTransition {
-            self.ringTransition = transition
-            self.setupVerticalPanGesture()
+        if let transition = pushTransition as? RingTransition {
+            ringTransition = transition
+            setupVerticalPanGesture()
             
-        } else if let transition = self.pushTransition as? FlipTransition {
-            self.flipTransition = transition
-            self.setupVerticalPanGesture()
+        } else if let transition = pushTransition as? FlipTransition {
+            flipTransition = transition
+            setupVerticalPanGesture()
         }
     }
     
     private func setupVerticalPanGesture() {
         let ges = UIPanGestureRecognizer.init(target: self, action: #selector(handlePanGesture(_:)))
-        self.view.addGestureRecognizer(ges)
-        self.navigationController?.interactivePopGestureRecognizer?.require(toFail: ges)
+        view.addGestureRecognizer(ges)
+        navigationController?.interactivePopGestureRecognizer?.require(toFail: ges)
     }
     
     @objc private func handlePanGesture(_ sender: UIPanGestureRecognizer) {
-        if let transition = self.ringTransition {
+        if let transition = ringTransition {
             transition.handle(interactivePanGesture: sender, beginAction: {
-                self.navigationController?.popViewController(animated: true)
+                navigationController?.popViewController(animated: true)
             }, axis: .verticalBottomToTop, threshold: 0.3)
             
-        } else if let transition = self.flipTransition {
+        } else if let transition = flipTransition {
             transition.handle(interactivePanGesture: sender, beginAction: {
-                self.navigationController?.popViewController(animated: true)
+                navigationController?.popViewController(animated: true)
             }, axis: .verticalTopToBottom, threshold: 0.3)
         }
     }

@@ -89,7 +89,7 @@ open class Transition: NSObject {
             container.addSubview(finalView)
         }
         
-        self.deliveryParamBeforeTransition(sender: self.fromVC, executer: self.toVC)
+        deliveryParamBeforeTransition(sender: fromVC, executer: toVC)
     }
     
     func dismiss(_ vcToBeDismissed: UIViewController, toVC: UIViewController, container: UIView, context: UIViewControllerContextTransitioning) {
@@ -99,7 +99,7 @@ open class Transition: NSObject {
             finalView.frame = finalFrame
             container.insertSubview(finalView, belowSubview: fromView)
         }
-        self.deliveryParamBeforeTransition(sender: self.toVC, executer: self.fromVC)
+        deliveryParamBeforeTransition(sender: toVC, executer: fromVC)
     }
     
     private func deliveryParamBeforeTransition(sender: UIViewController?, executer: UIViewController?) {
@@ -124,18 +124,18 @@ extension Transition : UIViewControllerTransitioningDelegate {
     }
     
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if (self.fromVC != nil) {
+        if (fromVC != nil) {
             return self
         }
         return nil
     }
     
     public func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return self.interactiveController
+        return interactiveController
     }
     
     public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return self.interactiveController
+        return interactiveController
     }
     
 }
@@ -143,7 +143,7 @@ extension Transition : UIViewControllerTransitioningDelegate {
 extension Transition : UIViewControllerAnimatedTransitioning {
     
     public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return self.duration
+        return duration
     }
     
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -151,10 +151,10 @@ extension Transition : UIViewControllerAnimatedTransitioning {
         let from = transitionContext.viewController(forKey: .from)
         let container = transitionContext.containerView
         
-        if (to == self.toVC) {//present
-            self.present(to!, fromVC: from!, container: container, context: transitionContext)
+        if (to == toVC) {//present
+            present(to!, fromVC: from!, container: container, context: transitionContext)
         } else {//dismiss
-            self.dismiss(from!, toVC: to!, container: container, context: transitionContext)
+            dismiss(from!, toVC: to!, container: container, context: transitionContext)
         }
     }
     
@@ -182,7 +182,7 @@ extension Transition {
         }
         
         func getTranslatePercent(forView view: UIView?, pointer: CGPoint) -> CGFloat {
-            let refrenceLength = self.getRefrenceLength(forView: view)
+            let refrenceLength = getRefrenceLength(forView: view)
             switch self {
             case .horizontalLeftToRight:
                 return pointer.x / refrenceLength
@@ -215,17 +215,17 @@ extension Transition {
         
         switch recognizer.state {
         case .began:
-            self.interactiveController = self.useBaseAnimation ? CAPercentDrivenInteractiveTransition.init() : UIPercentDrivenInteractiveTransition.init()
+            interactiveController = useBaseAnimation ? CAPercentDrivenInteractiveTransition.init() : UIPercentDrivenInteractiveTransition.init()
             beginAction()
         case .changed:
-            self.interactiveController?.update(per)
+            interactiveController?.update(per)
         case .ended, .cancelled:
             if per > threshold {
-                self.interactiveController?.finish()
+                interactiveController?.finish()
             } else {
-                self.interactiveController?.cancel()
+                interactiveController?.cancel()
             }
-            self.interactiveController = nil
+            interactiveController = nil
         default:
             break
         }
@@ -242,26 +242,26 @@ fileprivate class CAPercentDrivenInteractiveTransition : UIPercentDrivenInteract
     
     override func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
         super.startInteractiveTransition(transitionContext)
-        self.transitionCtx = transitionContext
-        self.pause(layer: transitionContext.containerView.layer)
+        transitionCtx = transitionContext
+        pause(layer: transitionContext.containerView.layer)
     }
     
     override func update(_ percentComplete: CGFloat) {
-        self.currentPercent = percentComplete
-        self.transitionCtx?.updateInteractiveTransition(percentComplete)
-        if self.transitionCtx != nil {
-            self.transitionCtx!.containerView.layer.timeOffset = self.pausedTime + CFTimeInterval(self.duration * percentComplete)
+        currentPercent = percentComplete
+        transitionCtx?.updateInteractiveTransition(percentComplete)
+        if transitionCtx != nil {
+            transitionCtx!.containerView.layer.timeOffset = pausedTime + CFTimeInterval(duration * percentComplete)
         }
     }
     
     override func cancel() {
-        self.transitionCtx?.cancelInteractiveTransition()
-        if self.transitionCtx != nil {
-            let containerLayer = self.transitionCtx!.containerView.layer
+        transitionCtx?.cancelInteractiveTransition()
+        if transitionCtx != nil {
+            let containerLayer = transitionCtx!.containerView.layer
             containerLayer.speed = -1.0
             containerLayer.beginTime = CACurrentMediaTime()
             
-            let delay = (1.0 - currentPercent) * self.duration + 0.1
+            let delay = (1.0 - currentPercent) * duration + 0.1
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(delay), execute: {
                 self.resume(layer: containerLayer)
                 self.transitionCtx = nil
@@ -270,10 +270,10 @@ fileprivate class CAPercentDrivenInteractiveTransition : UIPercentDrivenInteract
     }
     
     override func finish() {
-        self.transitionCtx?.finishInteractiveTransition()
-        if self.transitionCtx != nil {
-            self.resume(layer: self.transitionCtx!.containerView.layer)
-            self.transitionCtx = nil
+        transitionCtx?.finishInteractiveTransition()
+        if transitionCtx != nil {
+            resume(layer: transitionCtx!.containerView.layer)
+            transitionCtx = nil
         }
         
     }

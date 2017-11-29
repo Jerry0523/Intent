@@ -28,12 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
         
         IntentDemo.load()
         
-        self.registerIntent()
+        registerIntent()
         
-        self.window = UIWindow.init(frame: UIScreen.main.bounds)
+        window = UIWindow.init(frame: UIScreen.main.bounds)
     
-        self.window?.rootViewController = UINavigationController.init(rootViewController: EntryViewContoller())
-        self.window?.makeKeyAndVisible()
+        window?.rootViewController = UINavigationController.init(rootViewController: EntryViewContoller())
+        window?.makeKeyAndVisible()
         
         return true
     }

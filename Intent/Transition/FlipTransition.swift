@@ -44,7 +44,7 @@ open class FlipTransition: Transition {
         super.present(vcToBePresent, fromVC: fromVC, container: container, context: context)
         let viewToBePresent = (context.view(forKey: .to) ?? vcToBePresent.view)!
         viewToBePresent.removeFromSuperview()
-        let contentImg = self.updateContentSnapshot(forView: viewToBePresent)
+        let contentImg = updateContentSnapshot(forView: viewToBePresent)
         let transformView = FlipTransformView.init(frame: container.bounds)
         let shadowView = UIView.init(frame: container.bounds)
         shadowView.backgroundColor = UIColor.init(white: 0, alpha: 0.8)
@@ -99,7 +99,7 @@ open class FlipTransition: Transition {
         super.dismiss(vcToBeDismissed, toVC: toVC, container: container, context: context)
         
         let viewToBeDismissed = (context.view(forKey: .from) ?? vcToBeDismissed.view)!
-        let contentImg = self.updateContentSnapshot(forView: viewToBeDismissed)
+        let contentImg = updateContentSnapshot(forView: viewToBeDismissed)
         
         viewToBeDismissed.alpha = 0
         
@@ -203,7 +203,7 @@ open class FlipTransition: Transition {
         override init(frame: CGRect) {
             super.init(frame: frame)
                 
-            self.layer.addSublayer(transformLayer)
+            layer.addSublayer(transformLayer)
             
             let backgroundColor = UIColor.init(white: 0.9, alpha: 1.0).cgColor
             
@@ -231,17 +231,17 @@ open class FlipTransition: Transition {
         
         override func layoutSubviews() {
             super.layoutSubviews()
-            self.transformLayer.frame = self.bounds
-            var sublayerTransform = self.transformLayer.sublayerTransform
-            sublayerTransform.m34 = -1.0 / (self.bounds.size.height * 4.7 * 0.5);
-            self.transformLayer.sublayerTransform = sublayerTransform;
+            transformLayer.frame = bounds
+            var sublayerTransform = transformLayer.sublayerTransform
+            sublayerTransform.m34 = -1.0 / (bounds.size.height * 4.7 * 0.5);
+            transformLayer.sublayerTransform = sublayerTransform;
             
-            let upperRect = CGRect.init(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height / 2.0)
+            let upperRect = CGRect.init(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height / 2.0)
             let lowerRect = CGRect.init(x: 0, y: upperRect.size.height, width: upperRect.size.width, height: upperRect.size.height)
             
             lowerLayer.frame = lowerRect
             upperFrontLayer.frame = lowerRect
-            self.upperBackLayer.frame = upperRect
+            upperBackLayer.frame = upperRect
         }
         
         func prepare(_ isPresent: Bool, complete: (() -> ())?) {
@@ -256,18 +256,18 @@ open class FlipTransition: Transition {
                 lowerLayer.transform = CATransform3DIdentity
                 lowerLayer.shadowCover.opacity = 1.0
                 
-                var transform = self.layer.transform
+                var transform = layer.transform
                 transform = CATransform3DScale(transform, ScaleFactor, ScaleFactor, 1.0)
                 transform = CATransform3DTranslate(transform, 0, UIScreen.main.bounds.size.height, 0)
                 
-                self.layer.transform = transform
+                layer.transform = transform
             } else {
                 upperFrontLayer.transform = CATransform3DMakeRotation(.pi / 2.0, 1.0, 0.0, 0.0)
                 upperBackLayer.transform = CATransform3DIdentity
                 upperBackLayer.shadowCover.opacity = 0.0
                 lowerLayer.transform = CATransform3DIdentity
                 lowerLayer.shadowCover.opacity = 0.0
-                self.layer.transform = CATransform3DIdentity
+                layer.transform = CATransform3DIdentity
             }
             
             CATransaction.commit()
@@ -279,13 +279,13 @@ open class FlipTransition: Transition {
             CATransaction.setValue(CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut), forKey: kCATransactionAnimationTimingFunction)
             CATransaction.setCompletionBlock(complete)
             
-            var transform = self.layer.transform
+            var transform = layer.transform
             transform = CATransform3DTranslate(transform, 0, (UIScreen.main.bounds.size.height + AppearExtraDistance) * (isPresent ? -1 : 1) , 0);
             let easeInAnimation = CABasicAnimation.init(keyPath: "transform.translation.y")
             easeInAnimation.fromValue = isPresent ? UIScreen.main.bounds.size.height : -AppearExtraDistance
             easeInAnimation.toValue = isPresent ? -AppearExtraDistance : UIScreen.main.bounds.size.height
-            self.layer.add(easeInAnimation, forKey: nil)
-            self.layer.transform = transform
+            layer.add(easeInAnimation, forKey: nil)
+            layer.transform = transform
             
             meanwhile?()
             CATransaction.commit()
@@ -319,7 +319,7 @@ open class FlipTransition: Transition {
             CATransaction.setValue(CAMediaTimingFunction.init(name: isPresent ? kCAMediaTimingFunctionEaseOut : kCAMediaTimingFunctionEaseIn), forKey: kCATransactionAnimationTimingFunction)
             CATransaction.setCompletionBlock(complete)
             
-            var transform = self.layer.transform
+            var transform = layer.transform
             
             if isPresent {
                 transform = CATransform3DTranslate(transform, 0, AppearExtraDistance, 0);
@@ -330,10 +330,10 @@ open class FlipTransition: Transition {
             }
             
             let transformLayerAnimation = CABasicAnimation.init(keyPath: "transform")
-            transformLayerAnimation.fromValue = self.layer.transform
+            transformLayerAnimation.fromValue = layer.transform
             transformLayerAnimation.toValue = transform
-            self.layer.add(transformLayerAnimation, forKey: nil)
-            self.layer.transform = transform
+            layer.add(transformLayerAnimation, forKey: nil)
+            layer.transform = transform
             
             let animation = CABasicAnimation.init(keyPath: "transform.rotation.x")
             animation.fromValue = isPresent ? -.pi / 2.0 : 0
@@ -364,7 +364,7 @@ open class FlipTransition: Transition {
         init(shadowPosition: GradientShadowLayerPosition) {
             super.init()
             self.shadowPosition = shadowPosition
-            self.setup()
+            setup()
         }
         
         override init(layer: Any) {
@@ -377,18 +377,18 @@ open class FlipTransition: Transition {
         
         func setup() {
             shadowCover.colors = shadowPosition.colors()
-            self.addSublayer(shadowCover)
+            addSublayer(shadowCover)
             
-            self.shadowColor = UIColor.init(white: 0, alpha: 0.6).cgColor
-            self.shadowOffset = CGSize.init(width: 0, height: shadowPosition.shadowYOffset())
-            self.shadowRadius = 2.0
-            self.shadowOpacity = 0.8
+            shadowColor = UIColor.init(white: 0, alpha: 0.6).cgColor
+            shadowOffset = CGSize.init(width: 0, height: shadowPosition.shadowYOffset())
+            shadowRadius = 2.0
+            shadowOpacity = 0.8
         }
         
         override func layoutSublayers() {
             super.layoutSublayers()
-            self.shadowCover.frame = self.bounds
-            self.shadowPath = UIBezierPath.init(rect: self.bounds).cgPath
+            shadowCover.frame = bounds
+            shadowPath = UIBezierPath.init(rect: bounds).cgPath
         }
     }
 }

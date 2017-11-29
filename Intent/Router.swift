@@ -37,31 +37,7 @@ public protocol GetTopWindow {
 
 public protocol PreferredRouterConfig {
     
-    var preferredRouterConfig: RouterConfig? { get }
-    
-}
-
-public enum RouterConfig {
-    
-    case auto
-    
-    case present(PresentOption?)    //call presentViewController:animated:completion:
-    
-    case push(PushOption?)       //call pushViewController:animated:
-    
-    case `switch`(RouterOption?)
-    
-    case modal(ModalOption?)
-    
-    case child      //call addChildViewController: and view.addSubview
-    
-    fileprivate func autoTransform(forExecuter executer: UIViewController) -> RouterConfig {
-        if (executer.navigationController != nil) || (executer is UINavigationController) {
-            return .push(nil)
-        } else {
-            return .present(nil)
-        }
-    }
+    var preferredRouterConfig: Router.RouterConfig? { get }
     
 }
 
@@ -93,6 +69,95 @@ public struct Router : Intent {
     public init() {
         
     }
+    
+    public enum RouterConfig {
+        
+        case auto
+        
+        case present(PresentOption?)    //call presentViewController:animated:completion:
+        
+        case push(PushOption?)       //call pushViewController:animated:
+        
+        case `switch`(RouterOption?)
+        
+        case modal(ModalOption?)
+        
+        case child      //call addChildViewController: and view.addSubview
+        
+        fileprivate func autoTransform(forExecuter executer: UIViewController) -> RouterConfig {
+            if (executer.navigationController != nil) || (executer is UINavigationController) {
+                return .push(nil)
+            } else {
+                return .present(nil)
+            }
+        }
+        
+        public struct RouterOption : OptionSet {
+            
+            public var rawValue = 0
+            
+            public init(rawValue: Int) {
+                self.rawValue = rawValue
+            }
+            
+            public static let cancelAnimation = RouterOption(rawValue: 1 << 0)
+            
+        }
+        
+        public struct PresentOption : OptionSet {
+            
+            public var rawValue = 0
+            
+            public init(rawValue: Int) {
+                self.rawValue = rawValue
+            }
+            
+            public static let cancelAnimation = PresentOption(rawValue: 1 << 0)
+            
+            public static let wrapNC = PresentOption(rawValue: 1 << 1)      //wrap destination with UINavigationController
+            
+            public static let fakePush = PresentOption(rawValue: 1 << 2)    //present with a push animation
+            
+        }
+        
+        public struct PushOption : OptionSet {
+            
+            public var rawValue = 0
+            
+            public init(rawValue: Int) {
+                self.rawValue = rawValue
+            }
+            
+            public static let cancelAnimation = PushOption(rawValue: 1 << 0)
+            
+            public static let clearTop = PushOption(rawValue: 1 << 1)      //push item and clear items before
+            
+            public static let singleTop = PushOption(rawValue: 1 << 2)    //remove all item.class in stack before pushing it
+            
+            public static let rootTop = PushOption(rawValue: 1 << 3)    //push item and remove items to make sure that there are less equal than two vcs in stack
+            
+            public static let clearLast = PushOption(rawValue: 1 << 4)    //push item and remove the last one
+        }
+        
+        public struct ModalOption : OptionSet {
+            
+            public var rawValue = 0
+            
+            public init(rawValue: Int) {
+                self.rawValue = rawValue
+            }
+            
+            public static let cancelAnimation = ModalOption(rawValue: 1 << 0)
+            
+            public static let dimBlur = ModalOption(rawValue: 1 << 1)      //add a dark blur background, default is a alpha-dark background when on modal window and transparent on top window
+            
+            public static let contentBottom = ModalOption(rawValue: 1 << 2)    //content view will be placed at bottom, default is centered
+            
+            public static let contentTop = ModalOption(rawValue: 1 << 3)    //content view will be placed at top
+            
+        }
+        
+    }
 }
 
 extension Router {
@@ -100,7 +165,7 @@ extension Router {
     private func submit(executer: UIViewController, config: RouterConfig, complete:(() -> ())?) {
         var newConfig = config
         
-        guard let vc = self.intention?.init() else {
+        guard let vc = intention?.init() else {
             return
         }
         if let presetVC = vc as? PreferredRouterConfig, let presetConfig = presetVC.preferredRouterConfig {
@@ -115,21 +180,21 @@ extension Router {
         
         switch newConfig {
         case .present(let presentOpt):
-            self.exePresent(executer: executer, intentionVC: vc, option: presentOpt ?? [], complete: complete)
+            exePresent(executer: executer, intentionVC: vc, option: presentOpt ?? [], complete: complete)
         case .push(let pushOpt):
-            self.exePush(executer: executer, intentionVC: vc, option: pushOpt ?? [], complete: complete)
+            exePush(executer: executer, intentionVC: vc, option: pushOpt ?? [], complete: complete)
         case .`switch`(let switchOpt):
-            self.exeSwitch(executer: executer, intentionVC: vc, option: switchOpt ?? [], complete: complete)
+            exeSwitch(executer: executer, intentionVC: vc, option: switchOpt ?? [], complete: complete)
         case .modal(let modalOpt):
-            self.exeModal(executer: executer, intentionVC: vc, option: modalOpt ?? [], complete: complete)
+            exeModal(executer: executer, intentionVC: vc, option: modalOpt ?? [], complete: complete)
         case .child:
-            self.exeAddChild(executer: executer, intentionVC: vc, complete: complete)
+            exeAddChild(executer: executer, intentionVC: vc, complete: complete)
         default:
             break
         }
     }
     
-    private func exePresent(executer: UIViewController, intentionVC: UIViewController, option: PresentOption, complete:(() -> ())?) {
+    private func exePresent(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.PresentOption, complete:(() -> ())?) {
         let animated = !option.contains(.cancelAnimation)
         var targetDest = intentionVC
         if option.contains(.wrapNC) {
@@ -149,7 +214,7 @@ extension Router {
             intentionVC.navigationItem.leftBarButtonItems = items
         }
         
-        var mTransition = self.transition
+        var mTransition = transition
         
         if option.contains(.fakePush) {
             let containerVC = ScreenEdgeDetectorViewController.init()
@@ -169,7 +234,7 @@ extension Router {
         executer.present(targetDest, animated: animated, completion: complete)
     }
     
-    private func exePush(executer: UIViewController, intentionVC: UIViewController, option: PushOption, complete:(() -> ())?) {
+    private func exePush(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.PushOption, complete:(() -> ())?) {
         guard let pushableNC = Router.autoGetPushableViewController(executer: executer) else {
             fatalError("Trying to submit push action with no navigationController")
         }
@@ -182,7 +247,7 @@ extension Router {
             }
         } else if option.contains(.singleTop) {
             for vc in pushableNC.viewControllers {
-                if vc != intentionVC && vc.isMember(of: self.intention!) {
+                if vc != intentionVC && vc.isMember(of: intention!) {
                     vc.isRemovingFromStack = true
                 }
             }
@@ -195,7 +260,7 @@ extension Router {
             pushableNC.viewControllers.last?.isRemovingFromStack = true
         }
         
-        if animated, let transition = self.transition {
+        if animated, let transition = transition {
             transition.fromVC = executer
             transition.toVC = intentionVC
             intentionVC.pushTransition = transition
@@ -232,7 +297,7 @@ extension Router {
         complete?()
     }
     
-    private func exeSwitch(executer: UIViewController, intentionVC: UIViewController, option: RouterOption, complete:(() -> ())?) {
+    private func exeSwitch(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.RouterOption, complete:(() -> ())?) {
         if (executer.isKind(of: intentionVC.classForCoder)) {
             return
         }
@@ -243,7 +308,7 @@ extension Router {
         
         var comparedVC: UIViewController? = executer
         while comparedVC != nil {
-            if comparedVC!.switchTo(class: self.intention!) {
+            if comparedVC!.switchTo(class: intention!) {
                 executer.viewDidDisappear(animated)
                 break
             } else {
@@ -262,7 +327,7 @@ extension Router {
         complete?()
     }
     
-    private func exeModal(executer: UIViewController, intentionVC: UIViewController, option: ModalOption, complete:(() -> ())?) {
+    private func exeModal(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.ModalOption, complete:(() -> ())?) {
         let modalVC = ModalVC.init()
         modalVC.modalOption = option
         modalVC.addChildViewController(intentionVC)
@@ -285,69 +350,4 @@ extension Router {
         }
         return nc
     }
-}
-
-public struct RouterOption : OptionSet {
-    
-    public var rawValue = 0
-    
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
-    }
-    
-    public static let cancelAnimation = RouterOption(rawValue: 1 << 0)
-    
-}
-
-public struct PresentOption : OptionSet {
-    
-    public var rawValue = 0
-    
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
-    }
-    
-    public static let cancelAnimation = PresentOption(rawValue: 1 << 0)
-    
-    public static let wrapNC = PresentOption(rawValue: 1 << 1)      //wrap destination with UINavigationController
-    
-    public static let fakePush = PresentOption(rawValue: 1 << 2)    //present with a push animation
-    
-}
-
-public struct PushOption : OptionSet {
-    
-    public var rawValue = 0
-    
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
-    }
-    
-    public static let cancelAnimation = PushOption(rawValue: 1 << 0)
-    
-    public static let clearTop = PushOption(rawValue: 1 << 1)      //push item and clear items before
-    
-    public static let singleTop = PushOption(rawValue: 1 << 2)    //remove all item.class in stack before pushing it
-    
-    public static let rootTop = PushOption(rawValue: 1 << 3)    //push item and remove items to make sure that there are less equal than two vcs in stack
-    
-    public static let clearLast = PushOption(rawValue: 1 << 4)    //push item and remove the last one
-}
-
-public struct ModalOption : OptionSet {
-    
-    public var rawValue = 0
-    
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
-    }
-    
-    public static let cancelAnimation = ModalOption(rawValue: 1 << 0)
-    
-    public static let dimBlur = ModalOption(rawValue: 1 << 1)      //add a dark blur background, default is a alpha-dark background when on modal window and transparent on top window
-    
-    public static let contentBottom = ModalOption(rawValue: 1 << 2)    //content view will be placed at bottom, default is centered
-    
-    public static let contentTop = ModalOption(rawValue: 1 << 3)    //content view will be placed at top
-    
 }

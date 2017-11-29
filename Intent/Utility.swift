@@ -30,7 +30,7 @@ extension UINavigationController : GetTopViewController {
 extension UITabBarController : GetTopViewController {
     
     public var topViewController: UIViewController? {
-        return self.selectedViewController
+        return selectedViewController
     }
     
 }
@@ -98,7 +98,7 @@ extension UIViewController {
     }
     
     func switchTo(index: Int) -> Bool {
-        let viewControllers = self.childViewControllers
+        let viewControllers = childViewControllers
         if index >= 0 && index < viewControllers.count {
             let selectedVC = viewControllers[index]
             selectedVC.viewWillAppear(true)
@@ -115,19 +115,19 @@ extension UIViewController {
     }
     
     func switchTo<T>(class theClass: T.Type) -> Bool where T: UIViewController {
-        let viewControllers = self.childViewControllers
+        let viewControllers = childViewControllers
         for i in 0..<viewControllers.count {
             let aVC = viewControllers[i]
-            if aVC.classForCoder == theClass && self.switchTo(index: i) {
+            if aVC.classForCoder == theClass && switchTo(index: i) {
                 return true
             } else if let tbc = aVC as? UITabBarController {
                 let hasFound = tbc.switchTo(class: theClass)
-                if hasFound && self.switchTo(index: i) {
+                if hasFound && switchTo(index: i) {
                     return true
                 }
             } else if let nc = aVC as? UINavigationController {
                 let hasFound = nc.switchTo(class: theClass)
-                if hasFound && self.switchTo(index: i) {
+                if hasFound && switchTo(index: i) {
                     return true
                 }
             }
@@ -136,7 +136,7 @@ extension UIViewController {
     }
     
     @objc func internal_dismiss() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     private static var isRemovingFromStackKey: Void?
@@ -146,21 +146,21 @@ class ModalVC: UIViewController {
     
     private func addContentViewIfNeeded() {
         
-        guard self.isViewLoaded, let contentVC = self.childViewControllers.last else {
+        guard isViewLoaded, let contentVC = childViewControllers.last else {
             return
         }
         
         let contentView = contentVC.view!
-        self.view.addSubview(contentView)
+        view.addSubview(contentView)
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
         var constraints: [NSLayoutConstraint] = []
         constraints.append(NSLayoutConstraint(item: contentView, attribute: .left, relatedBy: .equal, toItem: contentView.superview, attribute: .left, multiplier: 1.0, constant: 0))
         constraints.append(NSLayoutConstraint(item: contentView, attribute: .right, relatedBy: .equal, toItem: contentView.superview, attribute: .right, multiplier: 1.0, constant: 0))
-        if self.modalOption.contains(.contentBottom) {
+        if modalOption.contains(.contentBottom) {
             constraints.append(NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: .equal, toItem: contentView.superview, attribute: .bottom, multiplier: 1.0, constant: 0))
-        } else if self.modalOption.contains(.contentTop) {
+        } else if modalOption.contains(.contentTop) {
             constraints.append(NSLayoutConstraint(item: contentView, attribute: .top, relatedBy: .equal, toItem: contentView.superview, attribute: .top, multiplier: 1.0, constant: 0))
         } else {//centered
             constraints.append(NSLayoutConstraint(item: contentView, attribute: .centerY, relatedBy: .equal, toItem: contentView.superview, attribute: .centerY, multiplier: 1.0, constant: 0))
@@ -171,23 +171,23 @@ class ModalVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (self.modalOption.contains(.dimBlur)) {
-            self.view.addSubview(self.dimBlurView)
+        if (modalOption.contains(.dimBlur)) {
+            view.addSubview(dimBlurView)
         } else {
-            self.view.addSubview(self.dimView)
+            view.addSubview(dimView)
         }
-        self.addContentViewIfNeeded()
+        addContentViewIfNeeded()
     }
     
     override func addChildViewController(_ childController: UIViewController) {
-        for childVC in self.childViewControllers {
-            if (self.isViewLoaded && childVC.isViewLoaded && childVC.view.superview == self.view) {
+        for childVC in childViewControllers {
+            if (isViewLoaded && childVC.isViewLoaded && childVC.view.superview == view) {
                 childVC.view.removeFromSuperview()
             }
             childVC.removeFromParentViewController()
         }
         super.addChildViewController(childController)
-        self.addContentViewIfNeeded()
+        addContentViewIfNeeded()
     }
 
     override func didReceiveMemoryWarning() {
@@ -195,7 +195,7 @@ class ModalVC: UIViewController {
     }
     
     func present() {
-        guard let childVC = self.childViewControllers.last else {
+        guard let childVC = childViewControllers.last else {
             return
         }
         
@@ -204,11 +204,11 @@ class ModalVC: UIViewController {
         
         let contentView = childVC.view
         
-        if (self.modalOption.contains(.cancelAnimation)) {
+        if (modalOption.contains(.cancelAnimation)) {
             dimBlurView.effect = UIBlurEffect.init(style: .dark)
             dimView.backgroundColor = UIColor.init(white: 0, alpha: 0.6)
         } else {
-            self.transform(forContentView: childVC.view)
+            transform(forContentView: childVC.view)
             dimBlurView.effect = nil
             dimView.backgroundColor = UIColor.clear
             
@@ -227,7 +227,7 @@ class ModalVC: UIViewController {
     }
 
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        guard let childVC = self.childViewControllers.last else {
+        guard let childVC = childViewControllers.last else {
             return
         }
         
@@ -257,9 +257,9 @@ class ModalVC: UIViewController {
     }
     
     private func transform(forContentView contentView: UIView) {
-        if self.modalOption.contains(.contentBottom) {
+        if modalOption.contains(.contentBottom) {
             contentView.transform = CGAffineTransform(translationX: 0, y: contentView.bounds.size.height)
-        } else if self.modalOption.contains(.contentTop) {
+        } else if modalOption.contains(.contentTop) {
             contentView.transform = CGAffineTransform(translationX: 0, y: -contentView.bounds.size.height)
         } else {//centered
             contentView.transform = CGAffineTransform.init(scaleX: 0, y: 0)
@@ -267,13 +267,13 @@ class ModalVC: UIViewController {
     }
     
     @objc private func dismissAnimated() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    var modalOption: ModalOption = []
+    var modalOption: Router.RouterConfig.ModalOption = []
     
     private lazy var dimView: UIView = {
-        let _dimView = UIView.init(frame: self.view.bounds)
+        let _dimView = UIView.init(frame: view.bounds)
         _dimView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         let tapGes = UITapGestureRecognizer.init(target: self, action: #selector(dismissAnimated))
         _dimView.addGestureRecognizer(tapGes)
@@ -281,7 +281,7 @@ class ModalVC: UIViewController {
     }()
     
     private lazy var dimBlurView: UIVisualEffectView = {
-        let _effectView = UIVisualEffectView.init(frame: self.view.bounds)
+        let _effectView = UIVisualEffectView.init(frame: view.bounds)
         _effectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         let tapGes = UITapGestureRecognizer.init(target: self, action: #selector(dismissAnimated))
         _effectView.addGestureRecognizer(tapGes)
@@ -296,7 +296,7 @@ class NCProxyDelegate : NSObject {
     weak var currentTransition: Transition?
     
     class func addProxy(forNavigationController nc: UINavigationController) {
-        if (nc.delegate?.isKind(of: self.classForCoder()) ?? false) {
+        if (nc.delegate?.isKind(of: classForCoder()) ?? false) {
             return
         }
         
@@ -311,14 +311,14 @@ class NCProxyDelegate : NSObject {
     }
     
     @objc private func handleInteractivePopGesture(recognizer: UIPanGestureRecognizer) {
-        self.currentTransition?.handle(interactivePanGesture: recognizer, beginAction: {
+        currentTransition?.handle(interactivePanGesture: recognizer, beginAction: {
             let nc: UINavigationController = objc_getAssociatedObject(recognizer, &NCProxyDelegate.instanceNCKey) as! UINavigationController
             nc.popViewController(animated: true)
         })
     }
     
     open override func forwardingTarget(for aSelector: Selector!) -> Any? {
-        return self.target
+        return target
     }
     
     override func responds(to aSelector: Selector!) -> Bool {
@@ -327,7 +327,7 @@ class NCProxyDelegate : NSObject {
             aSelector == #selector(navigationController(_:interactionControllerFor:)) {
             return true
         }
-        return self.target?.responds(to:aSelector) ?? false
+        return target?.responds(to:aSelector) ?? false
     }
     
     private static var instanceNCKey: Void?
@@ -355,8 +355,8 @@ extension NCProxyDelegate : UINavigationControllerDelegate {
                 allTargets?.add(oldInteractivePopTarget!)
             }
         }
-        self.currentTransition = viewController.pushTransition
-        self.target?.navigationController?(navigationController, didShow: viewController, animated: animated)
+        currentTransition = viewController.pushTransition
+        target?.navigationController?(navigationController, didShow: viewController, animated: animated)
     }
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -365,14 +365,14 @@ extension NCProxyDelegate : UINavigationControllerDelegate {
         if transition != nil {
             return transition
         }
-        return self.target?.navigationController?(navigationController, animationControllerFor:operation, from:fromVC, to:toVC)
+        return target?.navigationController?(navigationController, animationControllerFor:operation, from:fromVC, to:toVC)
     }
     
     func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         if let transition = animationController as? Transition {
              return transition.interactiveController
         }
-        return self.currentTransition?.interactiveController
+        return currentTransition?.interactiveController
     }
     
 }
@@ -381,44 +381,44 @@ class ScreenEdgeDetectorViewController : UIViewController, UIGestureRecognizerDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.addChildViewIfNeeded()
+        addChildViewIfNeeded()
         
         let gesture = UIScreenEdgePanGestureRecognizer.init(target: self, action: #selector(handleScreenEdgeGesture(_:)))
         gesture.edges = UIRectEdge.left
         gesture.delegate = self
-        self.view.addGestureRecognizer(gesture)
+        view.addGestureRecognizer(gesture)
     }
     
     override func addChildViewController(_ childController: UIViewController) {
-        if self.isViewLoaded {
-            for subView in self.view.subviews {
+        if isViewLoaded {
+            for subView in view.subviews {
                 subView.removeFromSuperview()
             }
         }
         
-        for subVC in self.childViewControllers {
+        for subVC in childViewControllers {
             subVC.removeFromParentViewController()
         }
         super.addChildViewController(childController)
-        self.addChildViewIfNeeded()
+        addChildViewIfNeeded()
     }
     
     private func addChildViewIfNeeded() {
-        if !self.isViewLoaded {
+        if !isViewLoaded {
             return
         }
         
-        if let childController = self.childViewControllers.first {
-            childController.view.frame = self.view.bounds
+        if let childController = childViewControllers.first {
+            childController.view.frame = view.bounds
             childController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            self.view.addSubview(childController.view)
+            view.addSubview(childController.view)
             childController.didMove(toParentViewController: self)
         }
     }
     
     @objc private func handleScreenEdgeGesture(_ sender: UIScreenEdgePanGestureRecognizer) {
-        self.presentTransition?.handle(interactivePanGesture: sender, beginAction: {
-            self.dismiss(animated: true, completion: nil)
+        presentTransition?.handle(interactivePanGesture: sender, beginAction: {
+            dismiss(animated: true, completion: nil)
         })
     }
 }
@@ -426,7 +426,7 @@ class ScreenEdgeDetectorViewController : UIViewController, UIGestureRecognizerDe
 extension ScreenEdgeDetectorViewController : GetTopViewController {
     
     var topViewController: UIViewController? {
-        return self.childViewControllers.last
+        return childViewControllers.last
     }
     
 }

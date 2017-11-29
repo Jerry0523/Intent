@@ -17,18 +17,18 @@ public protocol PopHandler {
 extension UINavigationController : UINavigationBarDelegate {
     
     @objc func new_viewDidLoad() {
-        self.new_viewDidLoad()
+        new_viewDidLoad()
         
-        objc_setAssociatedObject(self, &UINavigationController.originDelegateKey, self.interactivePopGestureRecognizer?.delegate, .OBJC_ASSOCIATION_ASSIGN)
-        self.interactivePopGestureRecognizer?.delegate = self
+        objc_setAssociatedObject(self, &UINavigationController.originDelegateKey, interactivePopGestureRecognizer?.delegate, .OBJC_ASSOCIATION_ASSIGN)
+        interactivePopGestureRecognizer?.delegate = self
     }
     
     public func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
-        if self.viewControllers.count < navigationBar.items?.count ?? 0 {
+        if viewControllers.count < navigationBar.items?.count ?? 0 {
             return true
         }
         var shouldPop = true
-        if let vc = self.topViewController as? PopHandler {
+        if let vc = topViewController as? PopHandler {
             shouldPop = vc.shouldPop
         }
         
@@ -53,12 +53,12 @@ extension UINavigationController : UINavigationBarDelegate {
 
 extension UINavigationController : UIGestureRecognizerDelegate {
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer == self.interactivePopGestureRecognizer {
-            if self.viewControllers.count <= 1 {
+        if gestureRecognizer == interactivePopGestureRecognizer {
+            if viewControllers.count <= 1 {
                 return false
             }
             
-            if let vc = self.topViewController as? PopHandler {
+            if let vc = topViewController as? PopHandler {
                 return vc.shouldPop
             }
             
@@ -69,7 +69,7 @@ extension UINavigationController : UIGestureRecognizerDelegate {
     }
     
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer == self.interactivePopGestureRecognizer {
+        if gestureRecognizer == interactivePopGestureRecognizer {
             return true
         }
         return false

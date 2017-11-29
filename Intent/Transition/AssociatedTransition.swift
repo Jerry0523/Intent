@@ -46,7 +46,7 @@ open class AssociatedTransition: Transition {
         var toViews: [UIView]? = nil
         var fixedFrames: [CGRect]? = nil
         
-        self.calculate(fromViews: &fromViews, toViews: &toViews, fixedFrames: &fixedFrames, isPresent: true)
+        calculate(fromViews: &fromViews, toViews: &toViews, fixedFrames: &fixedFrames, isPresent: true)
         var snapshotViewArray = [UIView]()
         
         for aView in toViews! {
@@ -55,7 +55,7 @@ open class AssociatedTransition: Transition {
         
         for i in 0..<fromViews!.count {
             let aView = fromViews![i]
-            let snapshotView = self.createSnapshotView(referenceView: aView, referenceFrame: .zero, containerView: container)
+            let snapshotView = createSnapshotView(referenceView: aView, referenceFrame: .zero, containerView: container)
             snapshotViewArray.append(snapshotView)
             container.addSubview(snapshotView)
         }
@@ -65,7 +65,7 @@ open class AssociatedTransition: Transition {
             fixedFramesCount = 0
         }
         
-        UIView.animate(withDuration: self.duration, animations: {
+        UIView.animate(withDuration: duration, animations: {
             viewToBePresent.alpha = 1.0
             for i in 0..<snapshotViewArray.count {
                 let snapShotView = snapshotViewArray[i]
@@ -106,7 +106,7 @@ open class AssociatedTransition: Transition {
         var toViews: [UIView]? = nil
         var fixedFrames: [CGRect]? = nil
         
-        self.calculate(fromViews: &fromViews, toViews: &toViews, fixedFrames: &fixedFrames, isPresent: false)
+        calculate(fromViews: &fromViews, toViews: &toViews, fixedFrames: &fixedFrames, isPresent: false)
         var snapshotViewArray = [UIView]()
         
         for aView in fromViews! {
@@ -115,12 +115,12 @@ open class AssociatedTransition: Transition {
         
         for i in 0..<toViews!.count {
             let aView = toViews![i]
-            let snapshotView = self.createSnapshotView(referenceView: aView, referenceFrame: .zero, containerView: container)
+            let snapshotView = createSnapshotView(referenceView: aView, referenceFrame: .zero, containerView: container)
             snapshotViewArray.append(snapshotView)
             container.addSubview(snapshotView)
         }
         
-        UIView.animate(withDuration: self.duration, animations: {
+        UIView.animate(withDuration: duration, animations: {
             viewToBeDismissed.alpha = 0
             for i in 0..<snapshotViewArray.count {
                 let snapShotView = snapshotViewArray[i]
@@ -146,8 +146,8 @@ open class AssociatedTransition: Transition {
     }
     
     private func calculate(fromViews: inout [UIView]?, toViews: inout [UIView]?, fixedFrames: inout [CGRect]?, isPresent: Bool) {
-        var mFromViews = (self.fromVC as? AssociatedTransitionDataSource)?.viewsForTransition?()
-        var mToViews = (self.toVC as? AssociatedTransitionDataSource)?.viewsForTransition?()
+        var mFromViews = (fromVC as? AssociatedTransitionDataSource)?.viewsForTransition?()
+        var mToViews = (toVC as? AssociatedTransitionDataSource)?.viewsForTransition?()
         
         guard mFromViews != nil && mToViews != nil else {
             return
@@ -162,7 +162,7 @@ open class AssociatedTransition: Transition {
         fromViews = mFromViews
         toViews = mToViews
         
-        let fixedFramesOwner = (isPresent ? self.toVC : self.fromVC) as? AssociatedTransitionDataSource
+        let fixedFramesOwner = (isPresent ? toVC : fromVC) as? AssociatedTransitionDataSource
         fixedFrames = fixedFramesOwner?.fixedDestFrames?(withRefrence: (isPresent ? mFromViews : mToViews))
     }
     

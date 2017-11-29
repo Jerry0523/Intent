@@ -54,13 +54,13 @@ open class IntentCtx {
         var obj: Any?
         
         switch scheme {
-        case self.routerScheme:
-            let routerObj: Router.Intention? = try self.fetch(forKey: host)
+        case routerScheme:
+            let routerObj: Router.Intention? = try fetch(forKey: host)
             obj = routerObj
-        case self.handlerScheme:
-            let handlerObj: Handler.Intention? = try self.fetch(forKey: host)
+        case handlerScheme:
+            let handlerObj: Handler.Intention? = try fetch(forKey: host)
             obj = handlerObj
-        case self.actionScheme:
+        case actionScheme:
             break
         default:
             throw IntentError.invalidScheme(scheme: scheme)
@@ -88,9 +88,9 @@ open class IntentCtx {
         }
         
         if T.self == Router.Intention.self {
-            return self.routerDict[forKey] as? T
+            return routerDict[forKey] as? T
         } else if T.self == Handler.Intention.self {
-            return self.handlerDict[forKey] as? T
+            return handlerDict[forKey] as? T
         }
         
         throw IntentError.invalidKey(key: forKey)
@@ -102,9 +102,9 @@ open class IntentCtx {
             ioLock.signal()
         }
         if let routerObj = obj as? Router.Intention {
-            self.routerDict[forKey] = routerObj
+            routerDict[forKey] = routerObj
         } else if let handlerObj = obj as? Handler.Intention {
-            self.handlerDict[forKey] = handlerObj
+            handlerDict[forKey] = handlerObj
         }
     }
 }
@@ -112,7 +112,7 @@ open class IntentCtx {
 extension IntentCtx {
     
     open func register<T>(_ routerClass: T.Type, forKey: String) where T: UIViewController {
-        self.internal_register(routerClass, forKey: forKey)
+        internal_register(routerClass, forKey: forKey)
     }
     
     open func unregisterRouter(forKey: String) {
@@ -128,7 +128,7 @@ extension IntentCtx {
 extension IntentCtx {
     
     open func register(_ handlerClosure: @escaping Handler.Intention, forKey: String) {
-        self.internal_register(handlerClosure, forKey: forKey)
+        internal_register(handlerClosure, forKey: forKey)
     }
     
     open func unregisterHandler(forKey: String) {
@@ -153,8 +153,8 @@ extension NSObject {
                 for (key, value) in extraData {
                     let setterKey = key.replacingCharacters(in: Range.init(NSRange.init(location: 0, length: 1), in: key)!, with: String.init(key[..<key.index(key.startIndex, offsetBy: 1)]).uppercased())
                     let setter = NSSelectorFromString("set" + setterKey + ":")
-                    if self.responds(to: setter) {
-                        self.setValue(value, forKey: key)
+                    if responds(to: setter) {
+                        setValue(value, forKey: key)
                     }
                 }
             }

@@ -50,7 +50,7 @@ public struct Handler : Intent {
     public var intention: (([String : Any]?) -> ())?
     
     public func submit(complete: (() -> ())? = nil) {
-        self.config.preferredQueue().async {
+        config.preferredQueue().async {
             self.intention?(self.extra)
             complete?()
         }
