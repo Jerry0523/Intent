@@ -39,7 +39,7 @@ import Intent
     }
     
     private func setupVerticalPanGesture() {
-        let ges = UIPanGestureRecognizer.init(target: self, action: #selector(handlePanGesture(_:)))
+        let ges = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
         view.addGestureRecognizer(ges)
         navigationController?.interactivePopGestureRecognizer?.require(toFail: ges)
     }
@@ -47,12 +47,12 @@ import Intent
     @objc private func handlePanGesture(_ sender: UIPanGestureRecognizer) {
         if let transition = ringTransition {
             transition.handle(interactivePanGesture: sender, beginAction: {
-                navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }, axis: .verticalBottomToTop, threshold: 0.3)
             
         } else if let transition = flipTransition {
             transition.handle(interactivePanGesture: sender, beginAction: {
-                navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }, axis: .verticalTopToBottom, threshold: 0.3)
         }
     }
@@ -63,7 +63,7 @@ import Intent
     
     
     @IBAction func switchToEntry(_ sender: Any) {
-        var router = try? Router.init(key: "entry")
+        var router = try? Router(key: "entry")
         router?.config = .switch(nil)
         router?.submit()
     }

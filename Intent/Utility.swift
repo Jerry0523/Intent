@@ -23,34 +23,63 @@
 
 import UIKit
 
-extension UINavigationController : GetTopViewController {
+extension UINavigationController : GetActiveViewController {
+    
+    public var activeViewController: UIViewController? {
+        return topViewController
+    }
     
 }
 
-extension UITabBarController : GetTopViewController {
+extension UITabBarController : GetActiveViewController {
     
-    public var topViewController: UIViewController? {
+    public var activeViewController: UIViewController? {
         return selectedViewController
     }
     
 }
 
+extension NSObject {
+    
+    @objc var extra: [String: Any]? {
+        get {
+            return objc_getAssociatedObject(self, &NSObject.extraKey) as? [String: Any]
+        }
+        
+        set {
+            if let extraData = newValue {
+                for (key, value) in extraData {
+                    let setterKey = key.replacingCharacters(in: Range(NSRange(location: 0, length: 1), in: key)!, with: String(key[..<key.index(key.startIndex, offsetBy: 1)]).uppercased())
+                    let setter = NSSelectorFromString("set" + setterKey + ":")
+                    if responds(to: setter) {
+                        setValue(value, forKey: key)
+                    }
+                }
+            }
+            objc_setAssociatedObject(self, &NSObject.extraKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    private static var extraKey: Void?
+}
+
 extension Router {
     
+    /// The default back arrow image. Used for .fakePush config.
     public static var backIndicatorImage: UIImage = {
         if let image = UINavigationBar.appearance().backIndicatorImage {
             return image
         }
-        UIGraphicsBeginImageContextWithOptions(CGSize.init(width: 13, height: 21), false, 0)
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: 13, height: 21), false, 0)
         defer {
             UIGraphicsEndImageContext()
         }
         
         let ctx = UIGraphicsGetCurrentContext()
-        ctx?.move(to: CGPoint.init(x: 11.5, y: 1.5))
-        ctx?.addLine(to: CGPoint.init(x: 2.5, y: 10.5))
-        ctx?.addLine(to: CGPoint.init(x: 11.5, y: 19.5))
-        ctx?.setStrokeColor((UINavigationBar.appearance().tintColor ?? UIColor.init(red: 21.0 / 255.0, green: 126.0 / 255.0, blue: 251.0 / 255.0, alpha: 1.0)).cgColor)
+        ctx?.move(to: CGPoint(x: 11.5, y: 1.5))
+        ctx?.addLine(to: CGPoint(x: 2.5, y: 10.5))
+        ctx?.addLine(to: CGPoint(x: 11.5, y: 19.5))
+        ctx?.setStrokeColor((UINavigationBar.appearance().tintColor ?? UIColor(red: 21.0 / 255.0, green: 126.0 / 255.0, blue: 251.0 / 255.0, alpha: 1.0)).cgColor)
         ctx?.setLineWidth(3.0)
         ctx?.setLineCap(.round)
         ctx?.setLineJoin(CGLineJoin.round)
@@ -59,6 +88,7 @@ extension Router {
         return UIGraphicsGetImageFromCurrentImageContext()!
     }()
     
+    /// The active topViewController for the current key window.
     public static var topViewController: UIViewController? {
         get {
             let keyWindow = UIApplication.shared.keyWindow
@@ -67,14 +97,15 @@ extension Router {
                 topVC = topVC?.presentedViewController
             }
             
-            while let topAbility = topVC as? GetTopViewController {
-                topVC = topAbility.topViewController
+            while let topAbility = topVC as? GetActiveViewController {
+                topVC = topAbility.activeViewController
             }
             
             return topVC
         }
     }
-    
+
+    /// The top window for modal ViewControllers.
     public static var topWindow: UIWindow {
         get {
             let appDelegate = UIApplication.shared.delegate as? GetTopWindow
@@ -114,19 +145,21 @@ extension UIViewController {
         }
     }
     
-    func switchTo<T>(class theClass: T.Type) -> Bool where T: UIViewController {
+    func switchTo<T>(class theClass: T.Type, isReversed: Bool) -> Bool where T: UIViewController {
         let viewControllers = childViewControllers
-        for i in 0..<viewControllers.count {
+        let bounds = 0..<viewControllers.count
+        let indexes = isReversed ? Array(bounds.reversed()) : Array(bounds)
+        for i in indexes {
             let aVC = viewControllers[i]
             if aVC.classForCoder == theClass && switchTo(index: i) {
                 return true
             } else if let tbc = aVC as? UITabBarController {
-                let hasFound = tbc.switchTo(class: theClass)
+                let hasFound = tbc.switchTo(class: theClass, isReversed: isReversed)
                 if hasFound && switchTo(index: i) {
                     return true
                 }
             } else if let nc = aVC as? UINavigationController {
-                let hasFound = nc.switchTo(class: theClass)
+                let hasFound = nc.switchTo(class: theClass, isReversed: isReversed)
                 if hasFound && switchTo(index: i) {
                     return true
                 }
@@ -205,16 +238,16 @@ class ModalVC: UIViewController {
         let contentView = childVC.view
         
         if (modalOption.contains(.cancelAnimation)) {
-            dimBlurView.effect = UIBlurEffect.init(style: .dark)
-            dimView.backgroundColor = UIColor.init(white: 0, alpha: 0.6)
+            dimBlurView.effect = UIBlurEffect(style: .dark)
+            dimView.backgroundColor = UIColor(white: 0, alpha: 0.6)
         } else {
             transform(forContentView: childVC.view)
             dimBlurView.effect = nil
             dimView.backgroundColor = UIColor.clear
             
             UIView.animate(withDuration: 0.3, animations: {
-                self.dimBlurView.effect = UIBlurEffect.init(style: .dark)
-                self.dimView.backgroundColor = UIColor.init(white: 0, alpha: 0.6)
+                self.dimBlurView.effect = UIBlurEffect(style: .dark)
+                self.dimView.backgroundColor = UIColor(white: 0, alpha: 0.6)
                 contentView?.transform = CGAffineTransform.identity
             })
         }
@@ -236,7 +269,7 @@ class ModalVC: UIViewController {
         
         let completionBlock = {(finished: Bool) -> Void in
             let targetWindow = Router.topWindow
-            targetWindow.rootViewController = UIViewController.init()
+            targetWindow.rootViewController = UIViewController()
             targetWindow.isHidden = true
             bottomRootVC?.viewDidAppear(flag)
             if (completion != nil) {
@@ -262,7 +295,7 @@ class ModalVC: UIViewController {
         } else if modalOption.contains(.contentTop) {
             contentView.transform = CGAffineTransform(translationX: 0, y: -contentView.bounds.size.height)
         } else {//centered
-            contentView.transform = CGAffineTransform.init(scaleX: 0, y: 0)
+            contentView.transform = CGAffineTransform(scaleX: 0, y: 0)
         }
     }
     
@@ -273,17 +306,17 @@ class ModalVC: UIViewController {
     var modalOption: Router.RouterConfig.ModalOption = []
     
     private lazy var dimView: UIView = {
-        let _dimView = UIView.init(frame: view.bounds)
+        let _dimView = UIView(frame: view.bounds)
         _dimView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        let tapGes = UITapGestureRecognizer.init(target: self, action: #selector(dismissAnimated))
+        let tapGes = UITapGestureRecognizer(target: self, action: #selector(dismissAnimated))
         _dimView.addGestureRecognizer(tapGes)
         return _dimView
     }()
     
     private lazy var dimBlurView: UIVisualEffectView = {
-        let _effectView = UIVisualEffectView.init(frame: view.bounds)
+        let _effectView = UIVisualEffectView(frame: view.bounds)
         _effectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        let tapGes = UITapGestureRecognizer.init(target: self, action: #selector(dismissAnimated))
+        let tapGes = UITapGestureRecognizer(target: self, action: #selector(dismissAnimated))
         _effectView.addGestureRecognizer(tapGes)
         return _effectView
     }()
@@ -383,7 +416,7 @@ class ScreenEdgeDetectorViewController : UIViewController, UIGestureRecognizerDe
         super.viewDidLoad()
         addChildViewIfNeeded()
         
-        let gesture = UIScreenEdgePanGestureRecognizer.init(target: self, action: #selector(handleScreenEdgeGesture(_:)))
+        let gesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgeGesture(_:)))
         gesture.edges = UIRectEdge.left
         gesture.delegate = self
         view.addGestureRecognizer(gesture)
@@ -423,9 +456,9 @@ class ScreenEdgeDetectorViewController : UIViewController, UIGestureRecognizerDe
     }
 }
 
-extension ScreenEdgeDetectorViewController : GetTopViewController {
+extension ScreenEdgeDetectorViewController : GetActiveViewController {
     
-    var topViewController: UIViewController? {
+    var activeViewController: UIViewController? {
         return childViewControllers.last
     }
     

@@ -28,31 +28,32 @@ class EntryViewContoller: UIViewController {
     }
 
     @IBAction func didTapPresentWithKeyBtn(_ sender: Any) {
-        var router = try? Router.init(key: "content", extra: ["stringValue": "This message came from a router"])
+//        var router = try? Router(key: "content", extra: ["stringValue": "This message came from a router"])
+        var router = try? Router(key: "entry")
         router?.config = .present(fakePushSwitch.isOn ? [.fakePush, .wrapNC] : .wrapNC)
         router?.submit()
     }
     
     @IBAction func didTapPushWithKeyBtn(_ sender: Any) {
-        var router = try? Router.init(key: "content", extra: ["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
+        var router = try? Router(key: "content", extra: ["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
         router?.config = .push(nil)
         if pushAnimationSegmentControl.selectedSegmentIndex == 0 {
-            router?.transition = FlipTransition.init()
+            router?.transition = FlipTransition()
         } else if pushAnimationSegmentControl.selectedSegmentIndex == 1 {
-            router?.transition = SystemTransition.init(axis: .horizontal, style: .zoom(factor: 0.8))
+            router?.transition = SystemTransition(axis: .horizontal, style: .zoom(factor: 0.8))
         } else if pushAnimationSegmentControl.selectedSegmentIndex == 2 {
-            router?.transition = RingTransition.init()
+            router?.transition = RingTransition()
         }
         router?.submit()
     }
     
     @IBAction func didTapShowWithKeyBtn(_ sender: Any) {
-        let router = try? Router.init(key: "content", extra: ["stringValue": "Config could be inferred if not provided"])
+        let router = try? Router(key: "content", extra: ["stringValue": "Config could be inferred if not provided"])
         router?.submit()
     }
     
     @IBAction func didTapShowWithURLBtn(_ sender: Any) {
-        let router = try? Router.init(urlString: "router://content?stringValue=This message came from a url string")
+        let router = try? Router(urlString: "router://content?stringValue=This message came from a url string")
         router?.submit()
     }
     
@@ -70,7 +71,7 @@ class EntryViewContoller: UIViewController {
     }
     
     @IBAction func didTapHandlerBtn(_ sender: Any) {
-        let handler = try? Handler.init(key: "showAlert", extra: ["title": "Hello Alert", "message": "This message came form a handler"])
+        let handler = try? Handler(key: "showAlert", extra: ["title": "Hello Alert", "message": "This message came from a handler"])
         handler?.submit()
     }
 }

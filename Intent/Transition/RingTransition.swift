@@ -41,7 +41,7 @@ open class RingTransition: Transition {
         }
         
         let actionRect = actionView.superview!.convert(actionView.frame, to: container)
-        let actionCenter = CGPoint.init(x: actionRect.midX, y: actionRect.midY)
+        let actionCenter = CGPoint(x: actionRect.midX, y: actionRect.midY)
         
         let containerWidth = container.frame.size.width
         let containerHeight = container.frame.size.height
@@ -49,18 +49,18 @@ open class RingTransition: Transition {
         var endCenter = CGPoint.zero
         
         if actionCenter.x < containerWidth * 0.5 {
-            endCenter = actionCenter.y < containerHeight * 0.5 ? CGPoint.init(x: containerWidth, y: containerHeight) : CGPoint.init(x: containerWidth, y: 0)
+            endCenter = actionCenter.y < containerHeight * 0.5 ? CGPoint(x: containerWidth, y: containerHeight) : CGPoint(x: containerWidth, y: 0)
         } else {
-            endCenter = actionCenter.y < containerHeight * 0.5 ? CGPoint.init(x: 0, y: containerHeight) : CGPoint.init(x: 0, y: 0)
+            endCenter = actionCenter.y < containerHeight * 0.5 ? CGPoint(x: 0, y: containerHeight) : CGPoint(x: 0, y: 0)
         }
         
         let finalRectHalfDistance = max(fabs(endCenter.x - actionCenter.x), fabs(endCenter.y - actionCenter.y))
-        let finalRect = CGRect.init(x: actionCenter.x - finalRectHalfDistance, y: actionCenter.y - finalRectHalfDistance, width: finalRectHalfDistance * 2.0, height: finalRectHalfDistance * 2.0)
+        let finalRect = CGRect(x: actionCenter.x - finalRectHalfDistance, y: actionCenter.y - finalRectHalfDistance, width: finalRectHalfDistance * 2.0, height: finalRectHalfDistance * 2.0)
         
-        startPath = UIBezierPath.init(ovalIn: actionRect)
-        endPath = UIBezierPath.init(ovalIn: finalRect)
+        startPath = UIBezierPath(ovalIn: actionRect)
+        endPath = UIBezierPath(ovalIn: finalRect)
         
-        let maskLayer = CAShapeLayer.init()
+        let maskLayer = CAShapeLayer()
         maskLayer.path = endPath?.cgPath
         
         let viewToBePresent = (context.view(forKey: .to) ?? vcToBePresent.view)!
@@ -69,16 +69,16 @@ open class RingTransition: Transition {
         
         CATransaction.begin()
         CATransaction.setValue(duration, forKey: kCATransactionAnimationDuration)
-        CATransaction.setValue(CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut), forKey: kCATransactionAnimationTimingFunction)
+        CATransaction.setValue(CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut), forKey: kCATransactionAnimationTimingFunction)
         CATransaction.setCompletionBlock {
             viewToBePresent.layer.mask = nil
             context.completeTransition(!context.transitionWasCancelled)
         }
         
-        let pathAnimation = CABasicAnimation.init(keyPath: "path")
+        let pathAnimation = CABasicAnimation(keyPath: "path")
         pathAnimation.fromValue = startPath?.cgPath
         pathAnimation.toValue = endPath?.cgPath
-        maskLayer.add(pathAnimation, forKey: "ringAnimation")
+        maskLayer.add(pathAnimation, forKey: RingAnimKey)
         
         CATransaction.commit()
     }
@@ -92,8 +92,8 @@ open class RingTransition: Transition {
             return
         }
         
-        let maskLayer = CAShapeLayer.init()
-        maskLayer.path = startPath?.cgPath
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = endPath?.cgPath
         
         let viewToBeDismissed = (context.view(forKey: .from) ?? vcToBeDismissed.view)!
         
@@ -101,19 +101,20 @@ open class RingTransition: Transition {
         
         CATransaction.begin()
         CATransaction.setValue(duration, forKey: kCATransactionAnimationDuration)
-        CATransaction.setValue(CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut), forKey: kCATransactionAnimationTimingFunction)
+        CATransaction.setValue(CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut), forKey: kCATransactionAnimationTimingFunction)
         CATransaction.setCompletionBlock {
-            UIView.performWithoutAnimation {
-                viewToBeDismissed.layer.mask = nil
-            }
+            viewToBeDismissed.layer.mask = nil
             context.completeTransition(!context.transitionWasCancelled)
+            maskLayer.removeAnimation(forKey: RingAnimInvertKey)
         }
         
-        let pathAnimation = CABasicAnimation.init(keyPath: "path")
+        let pathAnimation = CABasicAnimation(keyPath: "path")
         pathAnimation.fromValue = endPath?.cgPath
         pathAnimation.toValue = startPath?.cgPath
-        maskLayer.add(pathAnimation, forKey: "ringInvertAnimation")
-        
+        pathAnimation.isRemovedOnCompletion = false
+        pathAnimation.fillMode = kCAFillModeForwards
+        maskLayer.add(pathAnimation, forKey: RingAnimInvertKey)
+    
         CATransaction.commit()
     }
     
@@ -124,3 +125,6 @@ open class RingTransition: Transition {
         return true
     }
 }
+
+private let RingAnimKey = "ringAnimation"
+private let RingAnimInvertKey = "ringInvertAnimation"

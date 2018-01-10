@@ -45,7 +45,7 @@ open class IntentCtx {
     
     open func fetch(withURL: URL) throws -> (Any?, [String: Any]?)  {
         
-        guard let urlComponent = URLComponents.init(url: withURL, resolvingAgainstBaseURL: false),
+        guard let urlComponent = URLComponents(url: withURL, resolvingAgainstBaseURL: false),
               let scheme = urlComponent.scheme,
               let host = urlComponent.host else {
             throw IntentError.invalidURL(urlString: withURL.absoluteString)
@@ -139,28 +139,4 @@ extension IntentCtx {
         
         handlerDict.removeValue(forKey: forKey)
     }
-}
-
-extension NSObject {
-    
-    @objc var extra: [String: Any]? {
-        get {
-            return objc_getAssociatedObject(self, &NSObject.extraKey) as? [String: Any]
-        }
-    
-        set {
-            if let extraData = newValue {
-                for (key, value) in extraData {
-                    let setterKey = key.replacingCharacters(in: Range.init(NSRange.init(location: 0, length: 1), in: key)!, with: String.init(key[..<key.index(key.startIndex, offsetBy: 1)]).uppercased())
-                    let setter = NSSelectorFromString("set" + setterKey + ":")
-                    if responds(to: setter) {
-                        setValue(value, forKey: key)
-                    }
-                }
-            }
-            objc_setAssociatedObject(self, &NSObject.extraKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-    
-    private static var extraKey: Void?
 }

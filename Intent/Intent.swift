@@ -35,6 +35,7 @@ public enum IntentError : Error {
     
 }
 
+/// An atstract type with an intention that is executable
 public protocol Intent {
     
     associatedtype Config
@@ -86,9 +87,9 @@ public extension Intent {
     }
     
     public init(urlString: String, ctx: IntentCtx? = IntentCtx.default, executor: Executor? = nil) throws {
-        var url = URL.init(string: urlString)
+        var url = URL(string: urlString)
         if url == nil, let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
-            url = URL.init(string: encodedURLString)
+            url = URL(string: encodedURLString)
         }
         if url == nil {
             throw IntentError.invalidURL(urlString: urlString)

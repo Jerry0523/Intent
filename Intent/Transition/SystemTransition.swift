@@ -35,17 +35,17 @@ public enum SystemTransitionStyle {
         switch self {
         case .translate(let factor):
             if axis == .vertical {
-                return CGAffineTransform.init(translationX: 0, y: forView.frame.size.height * factor)
+                return CGAffineTransform(translationX: 0, y: forView.frame.size.height * factor)
             } else {
-                return CGAffineTransform.init(translationX: forView.frame.size.width * factor, y: 0)
+                return CGAffineTransform(translationX: forView.frame.size.width * factor, y: 0)
             }
         case .zoom(let factor):
-            return CGAffineTransform.init(scaleX: factor, y: factor)
+            return CGAffineTransform(scaleX: factor, y: factor)
         case .translateAndZoom(let translateFactor, let zoomFactor):
             if axis == .vertical {
-                return CGAffineTransform.init(scaleX: zoomFactor, y: zoomFactor).translatedBy(x: 0, y: forView.frame.size.height * translateFactor)
+                return CGAffineTransform(scaleX: zoomFactor, y: zoomFactor).translatedBy(x: 0, y: forView.frame.size.height * translateFactor)
             } else {
-                return CGAffineTransform.init(scaleX: zoomFactor, y: zoomFactor).translatedBy(x: forView.frame.size.width * translateFactor, y: 0)
+                return CGAffineTransform(scaleX: zoomFactor, y: zoomFactor).translatedBy(x: forView.frame.size.width * translateFactor, y: 0)
             }
         }
     }
@@ -66,19 +66,16 @@ open class SystemTransition: Transition {
         let viewToBePresent = (context.view(forKey: .to) ?? vcToBePresent.view)!
         let fromView = (context.view(forKey: .from) ?? fromVC.view)!
         
-        applyShadow(forView: viewToBePresent)
-        
         if axis == .vertical {
-            viewToBePresent.transform = CGAffineTransform.init(translationX: 0, y: viewToBePresent.frame.size.height)
+            viewToBePresent.transform = CGAffineTransform(translationX: 0, y: viewToBePresent.frame.size.height)
         } else {
-            viewToBePresent.transform = CGAffineTransform.init(translationX: viewToBePresent.frame.size.width, y: 0)
+            viewToBePresent.transform = CGAffineTransform(translationX: viewToBePresent.frame.size.width, y: 0)
         }
         
         UIView.animate(withDuration: duration, animations: {
             viewToBePresent.transform = .identity
             fromView.transform = self.style.transform(forView: fromView, axis: self.axis)
-            self.applyShadow(forView: fromView)
-            self.removeShadow(forView: viewToBePresent)
+            self.applyShadow(forView: viewToBePresent)
         }) { (complete) in
             if context.transitionWasCancelled {
                 viewToBePresent.removeFromSuperview()
@@ -88,8 +85,6 @@ open class SystemTransition: Transition {
             fromView.transform = .identity
             
             self.removeShadow(forView: viewToBePresent)
-            self.removeShadow(forView: fromView)
-            
             context.completeTransition(!context.transitionWasCancelled)
         }
     }
@@ -106,9 +101,9 @@ open class SystemTransition: Transition {
         UIView.animate(withDuration: duration, animations: {
             toView.transform = .identity
             if self.axis == .vertical {
-                viewToBeDismissed.transform = CGAffineTransform.init(translationX: 0, y: viewToBeDismissed.frame.size.height)
+                viewToBeDismissed.transform = CGAffineTransform(translationX: 0, y: viewToBeDismissed.frame.size.height)
             } else {
-                viewToBeDismissed.transform = CGAffineTransform.init(translationX: viewToBeDismissed.frame.size.width, y: 0)
+                viewToBeDismissed.transform = CGAffineTransform(translationX: viewToBeDismissed.frame.size.width, y: 0)
             }
             
             self.applyShadow(forView: viewToBeDismissed)
@@ -129,8 +124,8 @@ open class SystemTransition: Transition {
         forView.layer.shadowColor = UIColor.black.cgColor
         forView.layer.shadowRadius = 20.0
         forView.layer.shadowOpacity = 0.3
-        forView.layer.shadowOffset = CGSize.init(width: 0, height: 0)
-        forView.layer.shadowPath = UIBezierPath.init(rect: forView.bounds).cgPath
+        forView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        forView.layer.shadowPath = UIBezierPath(rect: forView.bounds).cgPath
     }
     
     private func removeShadow(forView: UIView) {

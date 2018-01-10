@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
     var window: UIWindow?
     
     lazy var topWindow: UIWindow = {
-        let window = UIWindow.init(frame: UIScreen.main.bounds)
+        let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.clear
         window.windowLevel = UIWindowLevelNormal + 1
         window.rootViewController = UIViewController()
@@ -30,9 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
         
         registerIntent()
         
-        window = UIWindow.init(frame: UIScreen.main.bounds)
+        window = UIWindow(frame: UIScreen.main.bounds)
     
-        window?.rootViewController = UINavigationController.init(rootViewController: EntryViewContoller())
+        window?.rootViewController = UINavigationController(rootViewController: EntryViewContoller())
         window?.makeKeyAndVisible()
         
         return true
@@ -73,8 +73,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
             let title = (param ?? [String: Any]())["title"] as? String ?? ""
             let msg = (param ?? [String: Any]())["message"] as? String ?? ""
             
-            let alertController = UIAlertController.init(title: title, message: msg, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction.init(title: "OK", style: .cancel, handler: nil))
+            let alertController = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             Router.topViewController?.present(alertController, animated: true, completion: nil)
             
         }, forKey: "showAlert")

@@ -177,7 +177,7 @@ open class AssociatedTransition: Transition {
                 offsetY = scrollView!.contentOffset.y
             }
             
-            snapshotView = referenceView.resizableSnapshotView(from: CGRect.init(x: (referenceView.frame.size.width - referenceFrame.size.width) * 0.5 + offsetX, y: (referenceView.frame.size.height - referenceFrame.size.height) * 0.5 + offsetY, width: referenceFrame.size.width, height: referenceFrame.size.height), afterScreenUpdates: false, withCapInsets: UIEdgeInsets.zero)
+            snapshotView = referenceView.resizableSnapshotView(from: CGRect(x: (referenceView.frame.size.width - referenceFrame.size.width) * 0.5 + offsetX, y: (referenceView.frame.size.height - referenceFrame.size.height) * 0.5 + offsetY, width: referenceFrame.size.width, height: referenceFrame.size.height), afterScreenUpdates: false, withCapInsets: UIEdgeInsets.zero)
             snapshotView!.frame = referenceView.superview!.convert(referenceFrame, to: containerView)
         } else {
             snapshotView = referenceView.snapshotView(afterScreenUpdates: false)
