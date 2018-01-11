@@ -245,9 +245,9 @@ extension Transition {
         private weak var transitionCtx: UIViewControllerContextTransitioning?
         
         override func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
-            super.startInteractiveTransition(transitionContext)
             transitionCtx = transitionContext
             pause(layer: transitionContext.containerView.layer)
+            super.startInteractiveTransition(transitionContext)
         }
         
         override func update(_ percentComplete: CGFloat) {

@@ -122,18 +122,14 @@ open class FlipTransition: Transition {
         transformView.upperBackLayer.contents = contentImg?.cgImage
         transformView.lowerLayer.contents = contentImg?.cgImage
         transformView.prepare(isPresent: false)
-        
-        print("flipping", Date())
         transformView.flip(isPresent: false, next: {
             if context.transitionWasCancelled {
                 cleanup()
             } else {
-                print("opening", Date())
                 transformView.open(isPresent: false, next: {
                     if context.transitionWasCancelled {
                         cleanup()
                     } else {
-                        print("moving", Date())
                         transformView.move(isPresent: false, next: {
                             cleanup()
                         })

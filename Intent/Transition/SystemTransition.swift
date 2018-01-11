@@ -96,8 +96,8 @@ open class SystemTransition: Transition {
         let viewToBeDismissed = (context.view(forKey: .from) ?? vcToBeDismissed.view)!
         let toView = (context.view(forKey: .to) ?? toVC.view)!
         toView.transform = style.transform(forView: toView, axis: axis)
-        applyShadow(forView: toView)
-        
+        applyShadow(forView: viewToBeDismissed)
+                
         UIView.animate(withDuration: duration, animations: {
             toView.transform = .identity
             if self.axis == .vertical {
@@ -105,15 +105,11 @@ open class SystemTransition: Transition {
             } else {
                 viewToBeDismissed.transform = CGAffineTransform(translationX: viewToBeDismissed.frame.size.width, y: 0)
             }
-            
-            self.applyShadow(forView: viewToBeDismissed)
-            self.removeShadow(forView: toView)
         }) { (complete) in
             toView.transform = .identity
             if context.transitionWasCancelled {
                 toView.removeFromSuperview()
             }
-            self.removeShadow(forView: toView)
             self.removeShadow(forView: viewToBeDismissed)
             viewToBeDismissed.transform = .identity
             context.completeTransition(!context.transitionWasCancelled)
@@ -122,8 +118,8 @@ open class SystemTransition: Transition {
     
     private func applyShadow(forView: UIView) {
         forView.layer.shadowColor = UIColor.black.cgColor
-        forView.layer.shadowRadius = 20.0
-        forView.layer.shadowOpacity = 0.3
+        forView.layer.shadowRadius = 10.0
+        forView.layer.shadowOpacity = 0.5
         forView.layer.shadowOffset = CGSize(width: 0, height: 0)
         forView.layer.shadowPath = UIBezierPath(rect: forView.bounds).cgPath
     }
@@ -138,4 +134,5 @@ open class SystemTransition: Transition {
     private var axis : UILayoutConstraintAxis
     
     private var style: SystemTransitionStyle
+    
 }

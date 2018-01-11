@@ -40,7 +40,7 @@ class EntryViewContoller: UIViewController {
         if pushAnimationSegmentControl.selectedSegmentIndex == 0 {
             router?.transition = FlipTransition()
         } else if pushAnimationSegmentControl.selectedSegmentIndex == 1 {
-            router?.transition = SystemTransition(axis: .horizontal, style: .zoom(factor: 0.8))
+            router?.transition = SystemTransition(axis: .horizontal, style: .zoom(factor: 0.9))
         } else if pushAnimationSegmentControl.selectedSegmentIndex == 2 {
             router?.transition = RingTransition()
         }
