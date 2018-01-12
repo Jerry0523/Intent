@@ -91,16 +91,15 @@ public extension Intent {
         if url == nil, let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
             url = URL(string: encodedURLString)
         }
-        if url == nil {
+        guard let mURL = url else {
             throw IntentError.invalidURL(urlString: urlString)
         }
         do {
-            let (intention, extra) = try (ctx ?? IntentCtx.default).fetch(withURL: url!)
-            let mIntention = intention as? Intention
-            if mIntention == nil {
+            let (intention, extra) = try (ctx ?? IntentCtx.default).fetch(withURL: mURL)
+            guard let mIntention = intention as? Intention else {
                 throw IntentError.invalidIntention
             }
-            self.init(intention: mIntention!, executor: executor, extra: extra)
+            self.init(intention: mIntention, executor: executor, extra: extra)
         } catch {
             throw error
         }
