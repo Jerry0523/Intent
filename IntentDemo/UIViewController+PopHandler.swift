@@ -52,6 +52,7 @@ extension UINavigationController : UINavigationBarDelegate {
 }
 
 extension UINavigationController : UIGestureRecognizerDelegate {
+    
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == interactivePopGestureRecognizer {
             if viewControllers.count <= 1 {

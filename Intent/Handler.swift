@@ -41,13 +41,15 @@ public enum HandlerConfig {
 
 public struct Handler : Intent {
     
+    public static var defaultCtx = IntentCtx<Handler>(scheme: "handler")
+    
     public var extra: [String : Any]?
     
     public var config: HandlerConfig = .onMainThread
     
     public var executor: Void?
     
-    public var intention: (([String : Any]?) -> ())?
+    public var intention: (([String : Any]?) -> ())!
     
     public func submit(complete: (() -> ())? = nil) {
         config.preferredQueue().async {

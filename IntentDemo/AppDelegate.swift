@@ -61,15 +61,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
     }
 
     func registerIntent() {
-        let ctx = IntentCtx.default
-        ctx.routerScheme = "router"
-        ctx.handlerScheme = "handler"
         
-        ctx.register(ContentViewController.self, forKey: "content")
-        ctx.register(EntryViewContoller.self, forKey: "entry")
-        ctx.register(ModalViewController.self, forKey: "modal")
+        Router.defaultCtx.scheme = "router"
+        Handler.defaultCtx.scheme = "handler"
         
-        ctx.register({ (param) in
+        Router.defaultCtx.register(ContentViewController.self, forKey: "content")
+        Router.defaultCtx.register(EntryViewContoller.self, forKey: "entry")
+        Router.defaultCtx.register(ModalViewController.self, forKey: "modal")
+        
+        Handler.defaultCtx.register({ (param) in
             let title = (param ?? [String: Any]())["title"] as? String ?? ""
             let msg = (param ?? [String: Any]())["message"] as? String ?? ""
             

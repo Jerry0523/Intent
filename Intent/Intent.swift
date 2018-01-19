@@ -31,8 +31,6 @@ public enum IntentError : Error {
     
     case invalidKey(key: String?)
     
-    case invalidIntention
-    
 }
 
 /// An atstract type with an intention that is executable
@@ -44,13 +42,15 @@ public protocol Intent {
     
     associatedtype Intention
     
+    static var defaultCtx: IntentCtx<Self> { get }
+    
     var extra: [String: Any]? { get set }
     
     var config: Config { get set }
     
     var executor: Executor? { get set }
     
-    var intention: Intention? { get set }
+    var intention: Intention! { get set }
     
     func submit(complete: (() -> ())?)
     
@@ -58,9 +58,10 @@ public protocol Intent {
     
     init(intention: Intention, executor: Executor?, extra: [String: Any]?)
     
-    init(key: String, ctx: IntentCtx?, executor: Executor?, extra: [String: Any]?) throws
+    init(key: String, ctx: IntentCtx<Self>?, executor: Executor?, extra: [String: Any]?) throws
     
-    init(urlString: String, ctx: IntentCtx?, executor: Executor?) throws
+    init(urlString: String, ctx: IntentCtx<Self>?, executor: Executor?) throws
+    
 }
 
 public extension Intent {
@@ -72,21 +73,19 @@ public extension Intent {
         self.extra = extra
     }
     
-    public init(key: String, ctx: IntentCtx? = IntentCtx.default, executor: Executor? = nil, extra: [String: Any]? = nil) throws {
+    public init(key: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil, extra: [String: Any]? = nil) throws {
         self.init()
         
-        let mCtx = (ctx ?? IntentCtx.default)
+        let mCtx = (ctx ?? Self.defaultCtx)
         
-        guard let intention: Intention = try mCtx.fetch(forKey: key) else {
-            throw IntentError.invalidIntention
-        }
+        let intention = try mCtx.fetch(forKey: key)
         
         self.executor = executor
         self.intention = intention
         self.extra = extra
     }
     
-    public init(urlString: String, ctx: IntentCtx? = IntentCtx.default, executor: Executor? = nil) throws {
+    public init(urlString: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil) throws {
         var url = URL(string: urlString)
         if url == nil, let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
             url = URL(string: encodedURLString)
@@ -95,11 +94,8 @@ public extension Intent {
             throw IntentError.invalidURL(urlString: urlString)
         }
         do {
-            let (intention, extra) = try (ctx ?? IntentCtx.default).fetch(withURL: mURL)
-            guard let mIntention = intention as? Intention else {
-                throw IntentError.invalidIntention
-            }
-            self.init(intention: mIntention, executor: executor, extra: extra)
+            let (intention, extra) = try (ctx ?? Self.defaultCtx).fetch(withURL: mURL)
+            self.init(intention: intention, executor: executor, extra: extra)
         } catch {
             throw error
         }

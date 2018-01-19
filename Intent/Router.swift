@@ -23,7 +23,7 @@
 
 import UIKit
 
-/// A type that can determin which ViewController is active.
+/// A type that determins which ViewController is active.
 /// Currently, UINavigationController and UITabBarController have confirmed to this protocol.
 public protocol GetActiveViewController {
     
@@ -31,7 +31,7 @@ public protocol GetActiveViewController {
     
 }
 
-/// A type that can determin the modal window.
+/// A type that determins which is the modal window.
 /// Typically, AppDelegate should comfirm to this procotol.
 public protocol GetTopWindow {
     
@@ -39,7 +39,7 @@ public protocol GetTopWindow {
     
 }
 
-/// A type that can determin the preferred router config.
+/// A type that determins the preferred config for router to use.
 /// Router will use the preferred router config if it is available.
 public protocol PreferredRouterConfig {
     
@@ -48,14 +48,16 @@ public protocol PreferredRouterConfig {
 }
 
 public struct Router : Intent {
-
+    
+    public static var defaultCtx = IntentCtx<Router>(scheme: "router")
+    
     public var extra: [String : Any]?
     
     public var config: RouterConfig = .auto
     
     public var executor: UIViewController?
     
-    public var intention: UIViewController.Type?
+    public var intention: ((Router) -> UIViewController)!
     
     public var transition: Transition?
     
@@ -186,7 +188,7 @@ extension Router {
     private func submit(executer: UIViewController, config: RouterConfig, complete:(() -> ())?) {
         var newConfig = config
         
-        guard let vc = intention?.init() else {
+        guard let vc = intention?(self) else {
             return
         }
         if let presetVC = vc as? PreferredRouterConfig, let presetConfig = presetVC.preferredRouterConfig {
@@ -256,7 +258,24 @@ extension Router {
     }
     
     private func exePush(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.PushOption, complete:(() -> ())?) {
-        guard let pushableNC = Router.autoGetPushableViewController(executer: executer) else {
+        
+        func autoGetPushableViewController(executer: UIViewController) -> UINavigationController? {
+            var nc: UINavigationController? = executer as? UINavigationController
+            if nc == nil {
+                var superVC = executer.parent
+                while superVC != nil {
+                    nc = superVC as? UINavigationController
+                    if nc != nil {
+                        break
+                    } else {
+                        superVC = superVC?.parent
+                    }
+                }
+            }
+            return nc
+        }
+        
+        guard let pushableNC = autoGetPushableViewController(executer: executer) else {
             fatalError("Trying to submit push action with no navigationController")
         }
         
@@ -268,7 +287,7 @@ extension Router {
             }
         } else if option.contains(.singleTop) {
             for vc in pushableNC.viewControllers {
-                if vc != intentionVC && vc.isMember(of: intention!) {
+                if vc != intentionVC && vc.isMember(of: type(of: intentionVC)) {
                     vc.isRemovingFromStack = true
                 }
             }
@@ -331,7 +350,7 @@ extension Router {
         if option.contains(.nearest) {
             var comparedVC: UIViewController? = executer
             while comparedVC != nil {
-                if comparedVC!.switchTo(class: intention!, isReversed: option.contains(.nearest)) {
+                if comparedVC!.switchTo(class: type(of: intentionVC), isReversed: option.contains(.nearest)) {
                     executer.viewDidDisappear(animated)
                     break
                 } else {
@@ -362,7 +381,7 @@ extension Router {
             
             var comparedVC: UIViewController? = UIApplication.shared.keyWindow?.rootViewController
             while comparedVC != nil {
-                if comparedVC!.switchTo(class: intention!, isReversed: option.contains(.nearest)) {
+                if comparedVC!.switchTo(class: type(of: intentionVC), isReversed: option.contains(.nearest)) {
                     executer.viewDidDisappear(animated)
                     var vcArray = Array<UIViewController>()
                     while comparedVC?.presentedViewController != nil {
@@ -385,22 +404,6 @@ extension Router {
         modalVC.addChildViewController(intentionVC)
         modalVC.present()
         complete?()
-    }
-    
-    private static func autoGetPushableViewController(executer: UIViewController) -> UINavigationController? {
-        var nc: UINavigationController? = executer as? UINavigationController
-        if nc == nil {
-            var superVC = executer.parent
-            while superVC != nil {
-                nc = superVC as? UINavigationController
-                if nc != nil {
-                    break
-                } else {
-                    superVC = superVC?.parent
-                }
-            }
-        }
-        return nc
     }
 }
 

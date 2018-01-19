@@ -63,6 +63,15 @@ extension NSObject {
     private static var extraKey: Void?
 }
 
+extension IntentCtx where T == Router {
+    
+    open func register<T>(_ class: T.Type, forKey: String) where T: UIViewController {
+        let initVCClosure: Router.Intention = {_ in T() }
+        register(initVCClosure, forKey: forKey)
+    }
+    
+}
+
 extension Router {
     
     /// The default back arrow image. Used for .fakePush config.

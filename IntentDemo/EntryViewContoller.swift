@@ -11,7 +11,6 @@ import Intent
 
 class EntryViewContoller: UIViewController {
     
-    
     @IBOutlet weak var fakePushSwitch: UISwitch!
     
     @IBOutlet weak var pushAnimationSegmentControl: UISegmentedControl!
@@ -58,7 +57,7 @@ class EntryViewContoller: UIViewController {
     }
     
     @IBAction func didTapShowModalWithKeyBtn(_ sender: Any) {
-        var router = Router(intention: ModalViewController.self)
+        var router = Router(intention: { _ in ModalViewController() })
         var modalOption: Router.RouterConfig.ModalOption = []
         if modalPositionSegmentControl.selectedSegmentIndex == 0 {
             modalOption = .contentTop

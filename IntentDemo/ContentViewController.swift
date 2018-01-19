@@ -14,10 +14,13 @@ import Intent
     @IBOutlet weak var textLabel: UILabel!
     
     var textColor: UIColor?
+    
     var stringValue: String?
+    
     var backgroundColor: UIColor?
     
     var ringTransition: RingTransition?
+    
     var flipTransition: FlipTransition?
 
     override func viewDidLoad() {
