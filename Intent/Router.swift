@@ -51,7 +51,7 @@ public struct Router : Intent {
     
     public static var defaultCtx = IntentCtx<Router>(scheme: "router")
     
-    public var extra: [String : Any]?
+    public var param: [String : Any]?
     
     public var config: RouterConfig = .auto
     
@@ -199,7 +199,7 @@ extension Router {
             newConfig = config.autoTransform(forExecuter: executer)
         }
         
-        vc.extra = extra
+        vc.extra = param
         
         switch newConfig {
         case .present(let presentOpt):

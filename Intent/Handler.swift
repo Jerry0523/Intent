@@ -43,7 +43,7 @@ public struct Handler : Intent {
     
     public static var defaultCtx = IntentCtx<Handler>(scheme: "handler")
     
-    public var extra: [String : Any]?
+    public var param: [String : Any]?
     
     public var config: HandlerConfig = .onMainThread
     
@@ -53,7 +53,7 @@ public struct Handler : Intent {
     
     public func submit(complete: (() -> ())? = nil) {
         config.preferredQueue().async {
-            self.intention?(self.extra)
+            self.intention?(self.param)
             complete?()
         }
     }

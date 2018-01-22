@@ -44,7 +44,7 @@ public protocol Intent {
     
     static var defaultCtx: IntentCtx<Self> { get }
     
-    var extra: [String: Any]? { get set }
+    var param: [String: Any]? { get set }
     
     var config: Config { get set }
     
@@ -56,9 +56,9 @@ public protocol Intent {
     
     init()
     
-    init(intention: Intention, executor: Executor?, extra: [String: Any]?)
+    init(intention: Intention, executor: Executor?, param: [String: Any]?)
     
-    init(key: String, ctx: IntentCtx<Self>?, executor: Executor?, extra: [String: Any]?) throws
+    init(key: String, ctx: IntentCtx<Self>?, executor: Executor?, param: [String: Any]?) throws
     
     init(urlString: String, ctx: IntentCtx<Self>?, executor: Executor?) throws
     
@@ -66,14 +66,14 @@ public protocol Intent {
 
 public extension Intent {
     
-    public init(intention: Intention, executor: Executor? = nil, extra: [String: Any]? = nil) {
+    public init(intention: Intention, executor: Executor? = nil, param: [String: Any]? = nil) {
         self.init()
         self.executor = executor
         self.intention = intention
-        self.extra = extra
+        self.param = param
     }
     
-    public init(key: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil, extra: [String: Any]? = nil) throws {
+    public init(key: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil, param: [String: Any]? = nil) throws {
         self.init()
         
         let mCtx = (ctx ?? Self.defaultCtx)
@@ -82,7 +82,7 @@ public extension Intent {
         
         self.executor = executor
         self.intention = intention
-        self.extra = extra
+        self.param = param
     }
     
     public init(urlString: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil) throws {
@@ -94,8 +94,8 @@ public extension Intent {
             throw IntentError.invalidURL(urlString: urlString)
         }
         do {
-            let (intention, extra) = try (ctx ?? Self.defaultCtx).fetch(withURL: mURL)
-            self.init(intention: intention, executor: executor, extra: extra)
+            let (intention, param) = try (ctx ?? Self.defaultCtx).fetch(withURL: mURL)
+            self.init(intention: intention, executor: executor, param: param)
         } catch {
             throw error
         }
