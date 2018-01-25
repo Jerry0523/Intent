@@ -49,16 +49,16 @@ public struct Handler : Intent {
     
     public var executor: Void?
     
-    public var intention: (([String : Any]?) -> ())!
+    public var intention: ([String : Any]?) -> ()
     
     public func submit(complete: (() -> ())? = nil) {
         config.preferredQueue().async {
-            self.intention?(self.param)
+            self.intention(self.param)
             complete?()
         }
     }
     
-    public init() {
-        
+    public init(intention: @escaping Intention) {
+        self.intention = intention
     }
 }

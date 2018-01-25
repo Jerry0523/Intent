@@ -27,10 +27,6 @@ open class IntentCtx <T: Intent> {
     
     open var scheme: String
     
-    private var dataMap: [String: T.Intention] = [:]
-    
-    private let ioLock: DispatchSemaphore = DispatchSemaphore(value: 1)
-    
     public init(scheme: String) {
         self.scheme = scheme
     }
@@ -89,6 +85,10 @@ open class IntentCtx <T: Intent> {
 
         return (obj, param)
     }
+    
+    private var dataMap: [String: T.Intention] = [:]
+    
+    private let ioLock: DispatchSemaphore = DispatchSemaphore(value: 1)
     
 }
 

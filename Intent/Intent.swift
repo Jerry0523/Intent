@@ -50,11 +50,11 @@ public protocol Intent {
     
     var executor: Executor? { get set }
     
-    var intention: Intention! { get set }
+    var intention: Intention { get set }
     
     func submit(complete: (() -> ())?)
     
-    init()
+    init(intention: Intention)
     
     init(intention: Intention, executor: Executor?, param: [String: Any]?)
     
@@ -67,22 +67,14 @@ public protocol Intent {
 public extension Intent {
     
     public init(intention: Intention, executor: Executor? = nil, param: [String: Any]? = nil) {
-        self.init()
+        self.init(intention: intention)
         self.executor = executor
-        self.intention = intention
         self.param = param
     }
     
     public init(key: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil, param: [String: Any]? = nil) throws {
-        self.init()
-        
-        let mCtx = (ctx ?? Self.defaultCtx)
-        
-        let intention = try mCtx.fetch(forKey: key)
-        
-        self.executor = executor
-        self.intention = intention
-        self.param = param
+        let intention = try (ctx ?? Self.defaultCtx).fetch(forKey: key)
+        self.init(intention: intention, executor: executor, param: param)
     }
     
     public init(urlString: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil) throws {

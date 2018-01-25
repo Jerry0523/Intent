@@ -57,7 +57,7 @@ public struct Router : Intent {
     
     public var executor: UIViewController?
     
-    public var intention: ((Router) -> UIViewController)!
+    public var intention: (Router) -> UIViewController
     
     public var transition: Transition?
     
@@ -68,14 +68,12 @@ public struct Router : Intent {
                 executor = Router.topViewController
             }
             assert(executor != nil)
-            assert(self.intention != nil)
-            
             self.submit(executer: executor!, config: self.config, complete: complete)
         }
     }
     
-    public init() {
-        
+    public init(intention: @escaping Intention) {
+        self.intention = intention
     }
     
     public enum RouterConfig {
@@ -188,9 +186,7 @@ extension Router {
     private func submit(executer: UIViewController, config: RouterConfig, complete:(() -> ())?) {
         var newConfig = config
         
-        guard let vc = intention?(self) else {
-            return
-        }
+        let vc = intention(self)
         if let presetVC = vc as? PreferredRouterConfig, let presetConfig = presetVC.preferredRouterConfig {
             newConfig = presetConfig
         }
