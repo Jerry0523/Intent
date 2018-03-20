@@ -22,6 +22,8 @@ import Intent
     var ringTransition: RingTransition?
     
     var flipTransition: FlipTransition?
+    
+    var receivedMsg: [AnyHashable: Any]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +53,7 @@ import Intent
         if let transition = ringTransition {
             transition.handle(interactivePanGesture: sender, beginAction: {
                 self.navigationController?.popViewController(animated: true)
-            }, axis: .verticalBottomToTop, threshold: 0.3)
+            }, axis: .verticalTopToBottom, threshold: 0.3)
             
         } else if let transition = flipTransition {
             transition.handle(interactivePanGesture: sender, beginAction: {
@@ -63,7 +65,6 @@ import Intent
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
     
     @IBAction func switchToEntry(_ sender: Any) {
         var router = try? Router(key: "entry")

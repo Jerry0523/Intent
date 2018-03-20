@@ -17,6 +17,8 @@ class EntryViewContoller: UIViewController {
     
     @IBOutlet weak var modalPositionSegmentControl: UISegmentedControl!
     
+    @IBOutlet weak var ringBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Intent Demo"
@@ -33,6 +35,13 @@ class EntryViewContoller: UIViewController {
         router?.submit()
     }
     
+    @IBAction func didTapPushWithRingBtn(_ sender: Any) {
+        var router = try? Router(key: "content", param: ["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
+        router?.config = .push(nil)
+        router?.transition = RingTransition()
+        router?.submit()
+    }
+    
     @IBAction func didTapPushWithKeyBtn(_ sender: Any) {
         var router = try? Router(key: "content", param: ["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
         router?.config = .push(nil)
@@ -40,8 +49,6 @@ class EntryViewContoller: UIViewController {
             router?.transition = FlipTransition()
         } else if pushAnimationSegmentControl.selectedSegmentIndex == 1 {
             router?.transition = SystemTransition(axis: .horizontal, style: .zoom(factor: 0.9))
-        } else if pushAnimationSegmentControl.selectedSegmentIndex == 2 {
-            router?.transition = RingTransition()
         }
         router?.submit()
     }
@@ -64,7 +71,6 @@ class EntryViewContoller: UIViewController {
         } else if modalPositionSegmentControl.selectedSegmentIndex == 2 {
             modalOption = .contentBottom
         }
-            
         router.config = .modal(modalOption)
         router.submit()
     }
@@ -78,6 +84,6 @@ class EntryViewContoller: UIViewController {
 extension EntryViewContoller : RingTransitionDataSource {
     
     func viewForTransition() -> UIView? {
-        return view.viewWithTag(112)
+        return ringBtn
     }
 }

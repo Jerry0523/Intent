@@ -23,24 +23,23 @@
 
 import UIKit
 
-/// A type that determins which ViewController is active.
-/// Currently, UINavigationController and UITabBarController have confirmed to this protocol.
+/// A type that determins the active ViewController.
+/// UINavigationController and UITabBarController have already confirmed to it.
 public protocol GetActiveViewController {
     
     var activeViewController: UIViewController? { get }
     
 }
 
-/// A type that determins which is the modal window.
-/// Typically, AppDelegate should comfirm to this procotol.
+/// A type that determins the modal window.
+/// Typically, AppDelegate should comfirm to it.
 public protocol GetTopWindow {
     
     var topWindow: UIWindow { get }
     
 }
 
-/// A type that determins the preferred config for router to use.
-/// Router will use the preferred router config if it is available.
+/// A type that determins the preferred config, which will be used by the router if available.
 public protocol PreferredRouterConfig {
     
     var preferredRouterConfig: Router.RouterConfig? { get }

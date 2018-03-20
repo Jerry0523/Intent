@@ -9,15 +9,15 @@
 /* Begin PBXBuildFile section */
 		C402AAC21FB3E9FC00B8FA09 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AAB51FB3E9FC00B8FA09 /* ContentViewController.swift */; };
 		C402AAC31FB3E9FC00B8FA09 /* ModalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C402AAB61FB3E9FC00B8FA09 /* ModalViewController.xib */; };
-		C402AAC41FB3E9FC00B8FA09 /* UIViewController+PopHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AAB71FB3E9FC00B8FA09 /* UIViewController+PopHandler.swift */; };
 		C402AAC51FB3E9FC00B8FA09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C402AAB81FB3E9FC00B8FA09 /* Assets.xcassets */; };
 		C402AAC61FB3E9FC00B8FA09 /* ContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C402AAB91FB3E9FC00B8FA09 /* ContentViewController.xib */; };
 		C402AAC71FB3E9FC00B8FA09 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AABA1FB3E9FC00B8FA09 /* ModalViewController.swift */; };
 		C402AAC81FB3E9FC00B8FA09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C402AABB1FB3E9FC00B8FA09 /* LaunchScreen.storyboard */; };
-		C402AAC91FB3E9FC00B8FA09 /* __init__.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AABD1FB3E9FC00B8FA09 /* __init__.swift */; };
 		C402AACA1FB3E9FC00B8FA09 /* EntryViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C402AABE1FB3E9FC00B8FA09 /* EntryViewContoller.xib */; };
 		C402AACB1FB3E9FC00B8FA09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AABF1FB3E9FC00B8FA09 /* AppDelegate.swift */; };
 		C402AACD1FB3E9FC00B8FA09 /* EntryViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */; };
+		C424D7F02060B854006B9697 /* UIViewController+PopInterrupter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C424D7EE2060B854006B9697 /* UIViewController+PopInterrupter.swift */; };
+		C424D7F12060B854006B9697 /* UINavigationController+Swizzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C424D7EF2060B854006B9697 /* UINavigationController+Swizzle.swift */; };
 		C431F53A1FBC20F700FAD488 /* Intent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C431F5331FBC20F700FAD488 /* Intent.framework */; };
 		C431F53B1FBC20F700FAD488 /* Intent.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C431F5331FBC20F700FAD488 /* Intent.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C431F5401FBC210900FAD488 /* SystemTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37201FB2AF8700857553 /* SystemTransition.swift */; };
@@ -60,16 +60,16 @@
 		C402AAB21FB3E98600B8FA09 /* Intent.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Intent.podspec; sourceTree = "<group>"; };
 		C402AAB51FB3E9FC00B8FA09 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		C402AAB61FB3E9FC00B8FA09 /* ModalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalViewController.xib; sourceTree = "<group>"; };
-		C402AAB71FB3E9FC00B8FA09 /* UIViewController+PopHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PopHandler.swift"; sourceTree = "<group>"; };
 		C402AAB81FB3E9FC00B8FA09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C402AAB91FB3E9FC00B8FA09 /* ContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentViewController.xib; sourceTree = "<group>"; };
 		C402AABA1FB3E9FC00B8FA09 /* ModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		C402AABC1FB3E9FC00B8FA09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		C402AABD1FB3E9FC00B8FA09 /* __init__.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = __init__.swift; sourceTree = "<group>"; };
 		C402AABE1FB3E9FC00B8FA09 /* EntryViewContoller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntryViewContoller.xib; sourceTree = "<group>"; };
 		C402AABF1FB3E9FC00B8FA09 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C402AAC01FB3E9FC00B8FA09 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryViewContoller.swift; sourceTree = "<group>"; };
+		C424D7EE2060B854006B9697 /* UIViewController+PopInterrupter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PopInterrupter.swift"; sourceTree = "<group>"; };
+		C424D7EF2060B854006B9697 /* UINavigationController+Swizzle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Swizzle.swift"; sourceTree = "<group>"; };
 		C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipTransition.swift; sourceTree = "<group>"; };
 		C431F5331FBC20F700FAD488 /* Intent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Intent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedTransition.swift; sourceTree = "<group>"; };
@@ -116,12 +116,19 @@
 				C402AABA1FB3E9FC00B8FA09 /* ModalViewController.swift */,
 				C402AAB61FB3E9FC00B8FA09 /* ModalViewController.xib */,
 				C402AABB1FB3E9FC00B8FA09 /* LaunchScreen.storyboard */,
-				C402AABD1FB3E9FC00B8FA09 /* __init__.swift */,
-				C402AAB71FB3E9FC00B8FA09 /* UIViewController+PopHandler.swift */,
 				C402AAB81FB3E9FC00B8FA09 /* Assets.xcassets */,
 				C402AAC01FB3E9FC00B8FA09 /* Info.plist */,
 			);
 			path = IntentDemo;
+			sourceTree = "<group>";
+		};
+		C424D7ED2060B854006B9697 /* PopInterrupter */ = {
+			isa = PBXGroup;
+			children = (
+				C424D7EE2060B854006B9697 /* UIViewController+PopInterrupter.swift */,
+				C424D7EF2060B854006B9697 /* UINavigationController+Swizzle.swift */,
+			);
+			path = PopInterrupter;
 			sourceTree = "<group>";
 		};
 		C48E371C1FB2AF8700857553 /* Intent */ = {
@@ -153,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				C48E371C1FB2AF8700857553 /* Intent */,
+				C424D7ED2060B854006B9697 /* PopInterrupter */,
 				C402AAB41FB3E9FC00B8FA09 /* IntentDemo */,
 				C402AAB21FB3E98600B8FA09 /* Intent.podspec */,
 				C4E869F51CE2FE770046434E /* LICENSE */,
@@ -304,9 +312,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C402AAC21FB3E9FC00B8FA09 /* ContentViewController.swift in Sources */,
-				C402AAC91FB3E9FC00B8FA09 /* __init__.swift in Sources */,
+				C424D7F02060B854006B9697 /* UIViewController+PopInterrupter.swift in Sources */,
 				C402AACB1FB3E9FC00B8FA09 /* AppDelegate.swift in Sources */,
-				C402AAC41FB3E9FC00B8FA09 /* UIViewController+PopHandler.swift in Sources */,
+				C424D7F12060B854006B9697 /* UINavigationController+Swizzle.swift in Sources */,
 				C402AAC71FB3E9FC00B8FA09 /* ModalViewController.swift in Sources */,
 				C402AACD1FB3E9FC00B8FA09 /* EntryViewContoller.swift in Sources */,
 			);

@@ -57,11 +57,12 @@ extension UIViewController : CustomTransition {
     
 }
 
-@objc public protocol TransitionDelegate : NSObjectProtocol {
+public protocol TransitionDelegate : NSObjectProtocol {
     
-    @objc optional func paramToBeSentBeforeTransitionBegin() -> [AnyHashable: Any]? //e.g., when A -> B, before transition, animation will delivery A's param to B
-    
-    @objc optional func transitionWillBegin(withParamToBeReceived param: [AnyHashable: Any]?)//e.g., when A -> B, B will receive param sent from A after transition
+    /// If a VC comfirm to this protocol, it should deal with different roles.
+    /// As the sender, it should setup the param, which is an inout dictionary.
+    /// As the receiver, it could take use of the param, which is set by the sender.
+    func transitionWillBegin(param: inout [AnyHashable: Any]?, role: Transition.TransitionRole)
     
 }
 
@@ -90,7 +91,7 @@ open class Transition: NSObject {
             container.addSubview(finalView)
         }
         
-        deliveryParamBeforeTransition(sender: fromVC, executer: toVC)
+        deliveryParams(sender: fromVC, receiver: toVC)
     }
     
     func dismiss(_ vcToBeDismissed: UIViewController, toVC: UIViewController, container: UIView, context: UIViewControllerContextTransitioning) {
@@ -100,13 +101,15 @@ open class Transition: NSObject {
             finalView.frame = finalFrame
             container.insertSubview(finalView, belowSubview: fromView)
         }
-        deliveryParamBeforeTransition(sender: toVC, executer: fromVC)
+        deliveryParams(sender: vcToBeDismissed, receiver: fromVC)
     }
     
-    private func deliveryParamBeforeTransition(sender: UIViewController?, executer: UIViewController?) {
-        let executerProtocol = executer as? TransitionDelegate
-        let inputParam = (sender as? TransitionDelegate)?.paramToBeSentBeforeTransitionBegin?()
-        executerProtocol?.transitionWillBegin?(withParamToBeReceived: inputParam)
+    private func deliveryParams(sender: UIViewController?, receiver: UIViewController?) {
+        let senderProtocol = sender as? TransitionDelegate
+        let receiverProtocol = receiver as? TransitionDelegate
+        var params: [AnyHashable: Any]?
+        senderProtocol?.transitionWillBegin(param: &params, role: .sender)
+        receiverProtocol?.transitionWillBegin(param: &params, role: .receiver)
     }
     
     var useBaseAnimation: Bool {
@@ -167,6 +170,14 @@ extension Transition : UIViewControllerAnimatedTransitioning {
 
 extension Transition {
     
+    public enum TransitionRole {
+        
+        case sender
+        
+        case receiver
+        
+    }
+    
     public enum TransitionGestureAxis {
         
         case horizontalLeftToRight
@@ -203,9 +214,6 @@ extension Transition {
     
     public func handle(interactivePanGesture recognizer: UIPanGestureRecognizer, beginAction: () -> (), axis: TransitionGestureAxis = .horizontalLeftToRight , threshold: CGFloat = 0.5) {
         let actionView = recognizer.view
-        let refrenceLength = axis.getRefrenceLength(forView: actionView)
-        
-        assert(refrenceLength > 0)
         assert(threshold > 0 && threshold < 1)
         
         let point = recognizer.translation(in: actionView)
@@ -279,7 +287,6 @@ extension Transition {
                 resume(layer: transitionCtx!.containerView.layer)
                 transitionCtx = nil
             }
-            
         }
         
         private func pause(layer: CALayer) {

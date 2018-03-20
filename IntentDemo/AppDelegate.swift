@@ -27,7 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         IntentDemo.load()
-        
         registerIntent()
         
         window = UIWindow(frame: UIScreen.main.bounds)

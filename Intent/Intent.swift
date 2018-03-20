@@ -33,7 +33,7 @@ public enum IntentError : Error {
     
 }
 
-/// An atstract type with an intention that is executable
+/// An atstract type with an executable intention
 public protocol Intent {
     
     associatedtype Config
