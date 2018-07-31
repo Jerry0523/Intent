@@ -51,14 +51,14 @@ import Intent
     
     @objc private func handlePanGesture(_ sender: UIPanGestureRecognizer) {
         if let transition = ringTransition {
-            transition.handle(interactivePanGesture: sender, beginAction: {
+            transition.handle(sender, gestureDidBegin: {
                 self.navigationController?.popViewController(animated: true)
-            }, axis: .verticalTopToBottom, threshold: 0.3)
+            }, axis: .verticalTopToBottom, completeThreshold: 0.3)
             
         } else if let transition = flipTransition {
-            transition.handle(interactivePanGesture: sender, beginAction: {
+            transition.handle(sender, gestureDidBegin: {
                 self.navigationController?.popViewController(animated: true)
-            }, axis: .verticalTopToBottom, threshold: 0.3)
+            }, axis: .verticalTopToBottom, completeThreshold: 0.3)
         }
     }
 

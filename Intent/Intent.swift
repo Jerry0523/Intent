@@ -42,15 +42,17 @@ public protocol Intent {
     
     associatedtype Intention
     
+    associatedtype Param
+    
     static var defaultCtx: IntentCtx<Self> { get }
     
-    var param: [String: Any]? { get set }
+    var param: Param? { get set }
     
     var config: Config { get set }
     
     var executor: Executor? { get set }
     
-    var intention: Intention { get set }
+    var intention: Intention { get }
     
     func submit(complete: (() -> ())?)
     
@@ -65,8 +67,7 @@ public protocol Intent {
 }
 
 public extension Intent {
-    
-    public init(intention: Intention, executor: Executor? = nil, param: [String: Any]? = nil) {
+    public init(intention: Intention, executor: Executor? = nil, param: Param? = nil) {
         self.init(intention: intention)
         self.executor = executor
         self.param = param

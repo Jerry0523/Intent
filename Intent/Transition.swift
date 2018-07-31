@@ -112,12 +112,12 @@ open class Transition: NSObject {
         receiverProtocol?.transitionWillBegin(param: &params, role: .receiver)
     }
     
-    var useBaseAnimation: Bool {
-        return false
-    }
-    
     public var preferredDuration: CFTimeInterval {
         return CATransaction.animationDuration() * 2.0
+    }
+    
+    var interactiveControllerType: UIPercentDrivenInteractiveTransition.Type {
+        return UIPercentDrivenInteractiveTransition.self
     }
     
     weak var fromVC: UIViewController?
@@ -197,43 +197,42 @@ extension Transition {
             }
         }
         
-        func getTranslatePercent(forView view: UIView?, pointer: CGPoint) -> CGFloat {
+        func getTranslatePercent(forView view: UIView?, point: CGPoint) -> CGFloat {
             let refrenceLength = getRefrenceLength(forView: view)
             switch self {
             case .horizontalLeftToRight:
-                return pointer.x / refrenceLength
+                return point.x / refrenceLength
             case .horizontalRightToLeft:
-                return -pointer.x / refrenceLength
+                return -point.x / refrenceLength
             case .verticalTopToBottom:
-                return pointer.y / refrenceLength
+                return point.y / refrenceLength
             case .verticalBottomToTop:
-                return -pointer.y / refrenceLength
+                return -point.y / refrenceLength
             }
         }
     }
     
-    public func handle(interactivePanGesture recognizer: UIPanGestureRecognizer, beginAction: () -> (), axis: TransitionGestureAxis = .horizontalLeftToRight , threshold: CGFloat = 0.5) {
+    public func handle(_ recognizer: UIPanGestureRecognizer, gestureDidBegin: () -> (), axis: TransitionGestureAxis = .horizontalLeftToRight , completeThreshold: CGFloat = 0.5) {
         let actionView = recognizer.view
-        assert(threshold > 0 && threshold < 1)
+        assert(completeThreshold > 0 && completeThreshold < 1)
         
         let point = recognizer.translation(in: actionView)
-        let per = axis.getTranslatePercent(forView: actionView, pointer: point)
+        let per = axis.getTranslatePercent(forView: actionView, point: point)
         
-        if per < 0 {
+        if per < 0 && recognizer.isEnabled {
             recognizer.isEnabled = false
             defer {
                 recognizer.isEnabled = true
             }
         }
-        
         switch recognizer.state {
         case .began:
-            interactiveController = useBaseAnimation ? CAPercentDrivenInteractiveTransition() : UIPercentDrivenInteractiveTransition()
-            beginAction()
+            interactiveController = interactiveControllerType.init()
+            gestureDidBegin()
         case .changed:
             interactiveController?.update(per)
         case .ended, .cancelled:
-            if per > threshold {
+            if per > completeThreshold {
                 interactiveController?.finish()
             } else {
                 interactiveController?.cancel()
@@ -241,68 +240,6 @@ extension Transition {
             interactiveController = nil
         default:
             break
-        }
-    }
-    
-    private class CAPercentDrivenInteractiveTransition : UIPercentDrivenInteractiveTransition {
-        
-        private var pausedTime: CFTimeInterval = 0
-        
-        private var currentPercent: CGFloat = 0
-        
-        private weak var transitionCtx: UIViewControllerContextTransitioning?
-        
-        override func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
-            transitionCtx = transitionContext
-            pause(layer: transitionContext.containerView.layer)
-            super.startInteractiveTransition(transitionContext)
-        }
-        
-        override func update(_ percentComplete: CGFloat) {
-            currentPercent = percentComplete
-            transitionCtx?.updateInteractiveTransition(percentComplete)
-            if transitionCtx != nil {
-                transitionCtx!.containerView.layer.timeOffset = pausedTime + CFTimeInterval(duration * percentComplete)
-            }
-        }
-        
-        override func cancel() {
-            transitionCtx?.cancelInteractiveTransition()
-            if transitionCtx != nil {
-                let containerLayer = transitionCtx!.containerView.layer
-                containerLayer.speed = -1.0
-                containerLayer.beginTime = CACurrentMediaTime()
-                
-                let delay = (1.0 - currentPercent) * duration + 0.1
-                DispatchQueue.main.asyncAfter(deadline: .now() + Double(delay), execute: {
-                    self.resume(layer: containerLayer)
-                    self.transitionCtx = nil
-                })
-            }
-        }
-        
-        override func finish() {
-            transitionCtx?.finishInteractiveTransition()
-            if transitionCtx != nil {
-                resume(layer: transitionCtx!.containerView.layer)
-                transitionCtx = nil
-            }
-        }
-        
-        private func pause(layer: CALayer) {
-            let pausedTime = layer.convertTime(CACurrentMediaTime(), from: nil)
-            layer.speed = 0
-            layer.timeOffset = pausedTime
-            self.pausedTime = pausedTime
-        }
-        
-        private func resume(layer: CALayer) {
-            let pausedTime = layer.timeOffset
-            layer.speed = 1.0
-            layer.timeOffset = 0.0
-            layer.beginTime = 0.0
-            let timeSincePause = layer.convertTime(CACurrentMediaTime(), from: nil) - pausedTime
-            layer.beginTime = timeSincePause
         }
     }
 }

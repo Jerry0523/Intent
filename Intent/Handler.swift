@@ -25,16 +25,22 @@ import Foundation
 
 public enum HandlerConfig {
     
-    case onMainThread
+    case onMainQueue
     
-    case onBackgroundThread
+    case onGlobalQueue
     
-    func preferredQueue() -> DispatchQueue {
-        switch self {
-        case .onMainThread:
-            return DispatchQueue.main
-        case .onBackgroundThread:
-            return DispatchQueue.global()
+    case onSpecificQueue(queue: DispatchQueue)
+    
+    var queue: DispatchQueue {
+        get {
+            switch self {
+            case .onMainQueue:
+                return DispatchQueue.main
+            case .onGlobalQueue:
+                return DispatchQueue.global()
+            case .onSpecificQueue(let queue):
+                return queue
+            }
         }
     }
 }
@@ -45,14 +51,14 @@ public struct Handler : Intent {
     
     public var param: [String : Any]?
     
-    public var config: HandlerConfig = .onMainThread
+    public var config: HandlerConfig = .onMainQueue
     
     public var executor: Void?
     
     public var intention: ([String : Any]?) -> ()
     
     public func submit(complete: (() -> ())? = nil) {
-        config.preferredQueue().async {
+        config.queue.async {
             self.intention(self.param)
             complete?()
         }

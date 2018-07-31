@@ -29,8 +29,8 @@ open class FlipTransition: Transition {
         return 1.2
     }
     
-    override var useBaseAnimation: Bool {
-        return true
+    override var interactiveControllerType: UIPercentDrivenInteractiveTransition.Type {
+        return CAPercentDrivenInteractiveTransition.self
     }
     
     override func present(_ vcToBePresent: UIViewController, fromVC: UIViewController, container: UIView, context: UIViewControllerContextTransitioning) {

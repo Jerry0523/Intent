@@ -30,6 +30,7 @@
 		C431F5471FBC210900FAD488 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37221FB2AF8700857553 /* Handler.swift */; };
 		C431F5481FBC210900FAD488 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37251FB2AF8700857553 /* Utility.swift */; };
 		C431F5491FBC210900FAD488 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371F1FB2AF8700857553 /* Transition.swift */; };
+		C4DCE2CF21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2CE21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		C48E37241FB2AF8700857553 /* IntentCtx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntentCtx.swift; sourceTree = "<group>"; };
 		C48E37251FB2AF8700857553 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		C48E37261FB2AF8700857553 /* Intent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
+		C4DCE2CE21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAPercentDrivenInteractiveTransition.swift; sourceTree = "<group>"; };
 		C4E869901CE1A6BD0046434E /* IntentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4E869F51CE2FE770046434E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C4E869F61CE2FE770046434E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */,
 				C48E37211FB2AF8700857553 /* RingTransition.swift */,
 				C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */,
+				C4DCE2CE21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift */,
 			);
 			path = Transition;
 			sourceTree = "<group>";
@@ -234,7 +237,7 @@
 		C4E869881CE1A6BD0046434E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Jerry Wong";
 				TargetAttributes = {
 					C431F5321FBC20F700FAD488 = {
@@ -296,6 +299,7 @@
 			files = (
 				C431F5401FBC210900FAD488 /* SystemTransition.swift in Sources */,
 				C431F5411FBC210900FAD488 /* AssociatedTransition.swift in Sources */,
+				C4DCE2CF21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift in Sources */,
 				C431F5421FBC210900FAD488 /* RingTransition.swift in Sources */,
 				C431F5431FBC210900FAD488 /* FlipTransition.swift in Sources */,
 				C431F5441FBC210900FAD488 /* Intent.swift in Sources */,
@@ -419,12 +423,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -471,12 +477,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

@@ -65,11 +65,10 @@ extension NSObject {
 
 extension IntentCtx where T == Router {
     
-    open func register<T>(_ class: T.Type, forKey: String) where T: UIViewController {
-        let initVCClosure: Router.Intention = {_ in T() }
+    open func register<V>(_ class: V.Type, forKey: String) where V: UIViewController {
+        let initVCClosure: Router.Intention = {_ in V() }
         register(initVCClosure, forKey: forKey)
     }
-    
 }
 
 extension Router {
@@ -353,7 +352,7 @@ class NCProxyDelegate : NSObject {
     }
     
     @objc private func handleInteractivePopGesture(recognizer: UIPanGestureRecognizer) {
-        currentTransition?.handle(interactivePanGesture: recognizer, beginAction: {
+        currentTransition?.handle(recognizer, gestureDidBegin: {
             let nc: UINavigationController = objc_getAssociatedObject(recognizer, &NCProxyDelegate.instanceNCKey) as! UINavigationController
             nc.popViewController(animated: true)
         })
@@ -459,7 +458,7 @@ class ScreenEdgeDetectorViewController : UIViewController, UIGestureRecognizerDe
     }
     
     @objc private func handleScreenEdgeGesture(_ sender: UIScreenEdgePanGestureRecognizer) {
-        presentTransition?.handle(interactivePanGesture: sender, beginAction: {
+        presentTransition?.handle(sender, gestureDidBegin: {
             dismiss(animated: true, completion: nil)
         })
     }

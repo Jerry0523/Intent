@@ -121,8 +121,8 @@ open class RingTransition: Transition {
     private var startPath: UIBezierPath?
     private var endPath: UIBezierPath?
     
-    override var useBaseAnimation: Bool {
-        return true
+    override var interactiveControllerType: UIPercentDrivenInteractiveTransition.Type {
+        return CAPercentDrivenInteractiveTransition.self
     }
 }
 

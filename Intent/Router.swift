@@ -56,7 +56,7 @@ public struct Router : Intent {
     
     public var executor: UIViewController?
     
-    public var intention: (Router) -> UIViewController
+    public let intention: (Router) -> UIViewController
     
     public var transition: Transition?
     
@@ -71,7 +71,7 @@ public struct Router : Intent {
         }
     }
     
-    public init(intention: @escaping Intention) {
+    public init(intention: @escaping (Router) -> UIViewController) {
         self.intention = intention
     }
     
@@ -176,7 +176,6 @@ public struct Router : Intent {
             public static let contentTop = ModalOption(rawValue: 1 << 3)
             
         }
-        
     }
 }
 

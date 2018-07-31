@@ -47,6 +47,14 @@ open class IntentCtx <T: Intent> {
         dataMap[forKey] = obj
     }
     
+    open func regsiter(_ objs: [String: T.Intention]) {
+        let _ = ioLock.wait(timeout: DispatchTime.distantFuture)
+        defer {
+            ioLock.signal()
+        }
+        dataMap.merge(objs) { (_, new) in new }
+    }
+    
     open func fetch(forKey: String) throws -> T.Intention {
         let _ = ioLock.wait(timeout: DispatchTime.distantFuture)
         defer {
