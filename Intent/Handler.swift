@@ -46,24 +46,24 @@ public enum HandlerConfig {
 }
 
 public struct Handler : Intent {
-    
+
     public static var defaultCtx = IntentCtx<Handler>(scheme: "handler")
-    
+
     public var param: [String : Any]?
-    
+
     public var config: HandlerConfig = .onMainQueue
-    
+
     public var executor: Void?
-    
+
     public var intention: ([String : Any]?) -> ()
-    
+
     public func submit(complete: (() -> ())? = nil) {
         config.queue.async {
             self.intention(self.param)
             complete?()
         }
     }
-    
+
     public init(intention: @escaping Intention) {
         self.intention = intention
     }

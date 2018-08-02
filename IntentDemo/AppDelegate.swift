@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
         Handler.defaultCtx.register({ (param) in
             let title = (param ?? [String: Any]())["title"] as? String ?? ""
             let msg = (param ?? [String: Any]())["message"] as? String ?? ""
-            
+
             let alertController = UIAlertController(title: title, message: msg, preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             Router.topViewController?.present(alertController, animated: true, completion: nil)

@@ -23,22 +23,6 @@
 
 import UIKit
 
-/// A type that determins the active ViewController.
-/// UINavigationController and UITabBarController have already confirmed to it.
-public protocol GetActiveViewController {
-    
-    var activeViewController: UIViewController? { get }
-    
-}
-
-/// A type that determins the modal window.
-/// Typically, AppDelegate should comfirm to it.
-public protocol GetTopWindow {
-    
-    var topWindow: UIWindow { get }
-    
-}
-
 /// A type that determins the preferred config, which will be used by the router if available.
 public protocol PreferredRouterConfig {
     
@@ -234,7 +218,7 @@ extension Router {
         var mTransition = transition
         
         if option.contains(.fakePush) {
-            let containerVC = ScreenEdgeDetectorViewController()
+            let containerVC = _ScreenEdgeDetectorViewController()
             containerVC.addChildViewController(targetDest)
             targetDest = containerVC
             
@@ -393,7 +377,7 @@ extension Router {
     }
     
     private func exeModal(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.ModalOption, complete:(() -> ())?) {
-        let modalVC = ModalVC()
+        let modalVC = _ModalViewController()
         modalVC.modalOption = option
         modalVC.addChildViewController(intentionVC)
         modalVC.present()

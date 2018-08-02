@@ -28,9 +28,14 @@
 		C431F5451FBC210900FAD488 /* IntentCtx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37241FB2AF8700857553 /* IntentCtx.swift */; };
 		C431F5461FBC210900FAD488 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37231FB2AF8700857553 /* Router.swift */; };
 		C431F5471FBC210900FAD488 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37221FB2AF8700857553 /* Handler.swift */; };
-		C431F5481FBC210900FAD488 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37251FB2AF8700857553 /* Utility.swift */; };
 		C431F5491FBC210900FAD488 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371F1FB2AF8700857553 /* Transition.swift */; };
 		C4DCE2CF21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2CE21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift */; };
+		C4DCE2D22112D96200A68619 /* NCProxyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D12112D96200A68619 /* NCProxyDelegate.swift */; };
+		C4DCE2D42112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D32112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift */; };
+		C4DCE2D62112DA6D00A68619 /* _ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D52112DA6D00A68619 /* _ModalViewController.swift */; };
+		C4DCE2D82112DAF600A68619 /* GetActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D72112DAF600A68619 /* GetActiveViewController.swift */; };
+		C4DCE2DA2112DBDA00A68619 /* UIViewController+Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D92112DBDA00A68619 /* UIViewController+Switch.swift */; };
+		C4DCE2DC2112DCAC00A68619 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2DB2112DCAC00A68619 /* Misc.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,9 +85,14 @@
 		C48E37221FB2AF8700857553 /* Handler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
 		C48E37231FB2AF8700857553 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		C48E37241FB2AF8700857553 /* IntentCtx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntentCtx.swift; sourceTree = "<group>"; };
-		C48E37251FB2AF8700857553 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		C48E37261FB2AF8700857553 /* Intent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
 		C4DCE2CE21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAPercentDrivenInteractiveTransition.swift; sourceTree = "<group>"; };
+		C4DCE2D12112D96200A68619 /* NCProxyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCProxyDelegate.swift; sourceTree = "<group>"; };
+		C4DCE2D32112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ScreenEdgeDetectorViewController.swift; sourceTree = "<group>"; };
+		C4DCE2D52112DA6D00A68619 /* _ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ModalViewController.swift; sourceTree = "<group>"; };
+		C4DCE2D72112DAF600A68619 /* GetActiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetActiveViewController.swift; sourceTree = "<group>"; };
+		C4DCE2D92112DBDA00A68619 /* UIViewController+Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Switch.swift"; sourceTree = "<group>"; };
+		C4DCE2DB2112DCAC00A68619 /* Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		C4E869901CE1A6BD0046434E /* IntentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4E869F51CE2FE770046434E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C4E869F61CE2FE770046434E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -137,11 +147,11 @@
 			isa = PBXGroup;
 			children = (
 				C48E371D1FB2AF8700857553 /* Transition */,
+				C4DCE2D02112D94100A68619 /* Internal */,
 				C48E37261FB2AF8700857553 /* Intent.swift */,
 				C48E37241FB2AF8700857553 /* IntentCtx.swift */,
 				C48E37231FB2AF8700857553 /* Router.swift */,
 				C48E37221FB2AF8700857553 /* Handler.swift */,
-				C48E37251FB2AF8700857553 /* Utility.swift */,
 				C48E371F1FB2AF8700857553 /* Transition.swift */,
 			);
 			path = Intent;
@@ -157,6 +167,19 @@
 				C4DCE2CE21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift */,
 			);
 			path = Transition;
+			sourceTree = "<group>";
+		};
+		C4DCE2D02112D94100A68619 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				C4DCE2DB2112DCAC00A68619 /* Misc.swift */,
+				C4DCE2D12112D96200A68619 /* NCProxyDelegate.swift */,
+				C4DCE2D72112DAF600A68619 /* GetActiveViewController.swift */,
+				C4DCE2D92112DBDA00A68619 /* UIViewController+Switch.swift */,
+				C4DCE2D52112DA6D00A68619 /* _ModalViewController.swift */,
+				C4DCE2D32112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift */,
+			);
+			path = Internal;
 			sourceTree = "<group>";
 		};
 		C4E869871CE1A6BD0046434E = {
@@ -298,15 +321,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				C431F5401FBC210900FAD488 /* SystemTransition.swift in Sources */,
+				C4DCE2DC2112DCAC00A68619 /* Misc.swift in Sources */,
+				C4DCE2D82112DAF600A68619 /* GetActiveViewController.swift in Sources */,
+				C4DCE2DA2112DBDA00A68619 /* UIViewController+Switch.swift in Sources */,
 				C431F5411FBC210900FAD488 /* AssociatedTransition.swift in Sources */,
+				C4DCE2D22112D96200A68619 /* NCProxyDelegate.swift in Sources */,
 				C4DCE2CF21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift in Sources */,
+				C4DCE2D42112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift in Sources */,
 				C431F5421FBC210900FAD488 /* RingTransition.swift in Sources */,
+				C4DCE2D62112DA6D00A68619 /* _ModalViewController.swift in Sources */,
 				C431F5431FBC210900FAD488 /* FlipTransition.swift in Sources */,
 				C431F5441FBC210900FAD488 /* Intent.swift in Sources */,
 				C431F5451FBC210900FAD488 /* IntentCtx.swift in Sources */,
 				C431F5461FBC210900FAD488 /* Router.swift in Sources */,
 				C431F5471FBC210900FAD488 /* Handler.swift in Sources */,
-				C431F5481FBC210900FAD488 /* Utility.swift in Sources */,
 				C431F5491FBC210900FAD488 /* Transition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
