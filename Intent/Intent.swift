@@ -58,6 +58,8 @@ public protocol Intent {
     
     func submit(complete: (() -> ())?)
     
+    init(intention: @escaping Intention)
+    
 }
 
 public extension Intent {
