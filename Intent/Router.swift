@@ -34,13 +34,13 @@ public struct Router : Intent {
     
     public static var defaultCtx = IntentCtx<Router>(scheme: "router")
     
-    public var param: [String : Any]?
+    public var input: [String : Any]?
     
     public var config: RouterConfig = .auto
     
     public var executor: UIViewController?
     
-    public let intention: (Router) -> UIViewController
+    public let intention: ([String : Any]?) -> UIViewController
     
     public var transition: Transition?
     
@@ -55,7 +55,7 @@ public struct Router : Intent {
         }
     }
     
-    public init(intention: @escaping (Router) -> UIViewController) {
+    public init(intention: @escaping Intention) {
         self.intention = intention
     }
     
@@ -168,7 +168,7 @@ extension Router {
     private func submit(executer: UIViewController, config: RouterConfig, complete:(() -> ())?) {
         var newConfig = config
         
-        let vc = intention(self)
+        let vc = intention(input)
         if let presetVC = vc as? PreferredRouterConfig, let presetConfig = presetVC.preferredRouterConfig {
             newConfig = presetConfig
         }
@@ -177,7 +177,7 @@ extension Router {
             newConfig = config.autoTransform(forExecuter: executer)
         }
         
-        vc.extra = param
+        vc.extra = input
         
         switch newConfig {
         case .present(let presentOpt):

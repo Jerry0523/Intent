@@ -23,7 +23,7 @@
 
 import UIKit
 
-open class IntentCtx <T: Intent> {
+open class IntentCtx <T> where T: Intent {
     
     open var scheme: String
     
@@ -39,7 +39,7 @@ open class IntentCtx <T: Intent> {
         return dataMap.removeValue(forKey: forKey)
     }
     
-    open func register(_ obj: T.Intention, forKey: String) {
+    open func register(_ obj: @escaping T.Intention, forKey: String) {
         let _ = ioLock.wait(timeout: DispatchTime.distantFuture)
         defer {
             ioLock.signal()
@@ -55,13 +55,13 @@ open class IntentCtx <T: Intent> {
         dataMap.merge(objs) { (_, new) in new }
     }
     
-    open func fetch(forKey: String) throws -> T.Intention {
+    open func fetch(forHost: String) throws -> T.Intention {
         let _ = ioLock.wait(timeout: DispatchTime.distantFuture)
         defer {
             ioLock.signal()
         }
-        guard let obj = dataMap[forKey] else {
-            throw IntentError.invalidKey(key: forKey)
+        guard let obj = dataMap[forHost] else {
+            throw IntentError.invalidKey(key: forHost)
         }
         return obj
     }
@@ -77,9 +77,9 @@ open class IntentCtx <T: Intent> {
             throw IntentError.invalidScheme(scheme: scheme)
         }
         
-        let obj = try fetch(forKey: host)
+        let obj = try fetch(forHost: host)
         
-        var param:[String: Any]?
+        var param: [String: Any]?
         
         if urlComponent.queryItems != nil {
             var mParam:[String: Any] = [:]

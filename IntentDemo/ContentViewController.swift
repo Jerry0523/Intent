@@ -67,7 +67,7 @@ import Intent
     }
     
     @IBAction func switchToEntry(_ sender: Any) {
-        var router = try? Router(key: "entry")
+        var router = try? Router(host: "entry")
         router?.config = .switch(nil)
         router?.submit()
     }

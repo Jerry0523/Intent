@@ -30,20 +30,20 @@ class EntryViewContoller: UIViewController {
 
     @IBAction func didTapPresentWithKeyBtn(_ sender: Any) {
 //        var router = try? Router(key: "content", extra: ["stringValue": "This message came from a router"])
-        var router = try? Router(key: "entry")
+        var router = try? Router(host: "entry")
         router?.config = .present(fakePushSwitch.isOn ? [.fakePush, .wrapNC] : .wrapNC)
         router?.submit()
     }
     
     @IBAction func didTapPushWithRingBtn(_ sender: Any) {
-        var router = try? Router(key: "content", param: ["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
+        var router = try? Router(host: "content", input: ["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
         router?.config = .push(nil)
         router?.transition = RingTransition()
         router?.submit()
     }
     
     @IBAction func didTapPushWithKeyBtn(_ sender: Any) {
-        var router = try? Router(key: "content", param: ["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
+        var router = try? Router(host: "content", input: ["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
         router?.config = .push(nil)
         if pushAnimationSegmentControl.selectedSegmentIndex == 0 {
             router?.transition = FlipTransition()
@@ -54,7 +54,7 @@ class EntryViewContoller: UIViewController {
     }
     
     @IBAction func didTapShowWithKeyBtn(_ sender: Any) {
-        let router = try? Router(key: "content", param: ["stringValue": "Config could be inferred if not provided"])
+        let router = try? Router(host: "content", input: ["stringValue": "Config could be inferred if not provided"])
         router?.submit()
     }
     
@@ -76,7 +76,7 @@ class EntryViewContoller: UIViewController {
     }
     
     @IBAction func didTapHandlerBtn(_ sender: Any) {
-        let handler = try? Handler(key: "showAlert", param: ["title": "Hello Alert", "message": "This message came from a handler"])
+        let handler = try? Handler(host: "showAlert", input: ["title": "Hello Alert", "message": "This message came from a handler"])
         handler?.submit()
     }
 }

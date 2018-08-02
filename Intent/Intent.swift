@@ -40,13 +40,15 @@ public protocol Intent {
     
     associatedtype Executor
     
-    associatedtype Intention
+    associatedtype Input
     
-    associatedtype Param
+    associatedtype Output
+    
+    typealias Intention = (Input?) -> (Output)
     
     static var defaultCtx: IntentCtx<Self> { get }
     
-    var param: Param? { get set }
+    var input: Input? { get set }
     
     var config: Config { get set }
     
@@ -56,29 +58,22 @@ public protocol Intent {
     
     func submit(complete: (() -> ())?)
     
-    init(intention: Intention)
-    
-    init(intention: Intention, executor: Executor?, param: [String: Any]?)
-    
-    init(key: String, ctx: IntentCtx<Self>?, executor: Executor?, param: [String: Any]?) throws
-    
-    init(urlString: String, ctx: IntentCtx<Self>?, executor: Executor?) throws
-    
 }
 
 public extension Intent {
-    public init(intention: Intention, executor: Executor? = nil, param: Param? = nil) {
+    
+    public init(intention: @escaping Intention, executor: Executor? = nil, input: Input? = nil) {
         self.init(intention: intention)
         self.executor = executor
-        self.param = param
+        self.input = input
     }
     
-    public init(key: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil, param: [String: Any]? = nil) throws {
-        let intention = try (ctx ?? Self.defaultCtx).fetch(forKey: key)
-        self.init(intention: intention, executor: executor, param: param)
+    public init(host: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil, input: Input? = nil) throws {
+        let intention = try (ctx ?? Self.defaultCtx).fetch(forHost: host)
+        self.init(intention: intention, executor: executor, input: input)
     }
     
-    public init(urlString: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil) throws {
+    public init(urlString: String, inputParser: (([String: Any]?) -> Input?),ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil) throws {
         var url = URL(string: urlString)
         if url == nil, let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
             url = URL(string: encodedURLString)
@@ -88,9 +83,21 @@ public extension Intent {
         }
         do {
             let (intention, param) = try (ctx ?? Self.defaultCtx).fetch(withURL: mURL)
-            self.init(intention: intention, executor: executor, param: param)
+            self.init(intention: intention, executor: executor, input: inputParser(param))
         } catch {
             throw error
         }
     }
+}
+
+public extension Intent where Input == [String: Any] {
+    
+    public init(urlString: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil) throws {
+        do {
+            try self.init(urlString: urlString, inputParser: { $0 }, ctx: ctx, executor: executor)
+        } catch {
+            throw error
+        }
+    }
+    
 }
