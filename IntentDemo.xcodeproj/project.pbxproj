@@ -36,6 +36,7 @@
 		C4DCE2D82112DAF600A68619 /* GetActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D72112DAF600A68619 /* GetActiveViewController.swift */; };
 		C4DCE2DA2112DBDA00A68619 /* UIViewController+Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D92112DBDA00A68619 /* UIViewController+Switch.swift */; };
 		C4DCE2DC2112DCAC00A68619 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2DB2112DCAC00A68619 /* Misc.swift */; };
+		C4DCE2DE21132A8E00A68619 /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2DD21132A8E00A68619 /* Interceptor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		C4DCE2D72112DAF600A68619 /* GetActiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetActiveViewController.swift; sourceTree = "<group>"; };
 		C4DCE2D92112DBDA00A68619 /* UIViewController+Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Switch.swift"; sourceTree = "<group>"; };
 		C4DCE2DB2112DCAC00A68619 /* Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
+		C4DCE2DD21132A8E00A68619 /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
 		C4E869901CE1A6BD0046434E /* IntentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4E869F51CE2FE770046434E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C4E869F61CE2FE770046434E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				C48E37241FB2AF8700857553 /* IntentCtx.swift */,
 				C48E37231FB2AF8700857553 /* Router.swift */,
 				C48E37221FB2AF8700857553 /* Handler.swift */,
+				C4DCE2DD21132A8E00A68619 /* Interceptor.swift */,
 				C48E371F1FB2AF8700857553 /* Transition.swift */,
 			);
 			path = Intent;
@@ -326,6 +329,7 @@
 				C4DCE2DA2112DBDA00A68619 /* UIViewController+Switch.swift in Sources */,
 				C431F5411FBC210900FAD488 /* AssociatedTransition.swift in Sources */,
 				C4DCE2D22112D96200A68619 /* NCProxyDelegate.swift in Sources */,
+				C4DCE2DE21132A8E00A68619 /* Interceptor.swift in Sources */,
 				C4DCE2CF21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift in Sources */,
 				C4DCE2D42112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift in Sources */,
 				C431F5421FBC210900FAD488 /* RingTransition.swift in Sources */,

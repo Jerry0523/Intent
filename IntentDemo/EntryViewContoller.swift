@@ -29,55 +29,48 @@ class EntryViewContoller: UIViewController {
     }
 
     @IBAction func didTapPresentWithKeyBtn(_ sender: Any) {
-//        var router = try? Router(key: "content", extra: ["stringValue": "This message came from a router"])
-        var router = try? Router(host: "entry")
-        router?.config = .present(fakePushSwitch.isOn ? [.fakePush, .wrapNC] : .wrapNC)
-        router?.submit()
+        try? Router(host: "entry")
+            .config(.present(fakePushSwitch.isOn ? [.fakePush, .wrapNC] : .wrapNC))
+            .submit()
     }
     
     @IBAction func didTapPushWithRingBtn(_ sender: Any) {
-        var router = try? Router(host: "content", input: ["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
-        router?.config = .push(nil)
-        router?.transition = RingTransition()
-        router?.submit()
+        try? Router(host: "content")
+            .input(["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
+            .config(.push(nil))
+            .transition(RingTransition())
+            .submit()
     }
     
     @IBAction func didTapPushWithKeyBtn(_ sender: Any) {
-        var router = try? Router(host: "content", input: ["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
-        router?.config = .push(nil)
-        if pushAnimationSegmentControl.selectedSegmentIndex == 0 {
-            router?.transition = FlipTransition()
-        } else if pushAnimationSegmentControl.selectedSegmentIndex == 1 {
-            router?.transition = SystemTransition(axis: .horizontal, style: .zoom(factor: 0.9))
-        }
-        router?.submit()
+        try? Router(host: "content")
+            .input(["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
+            .config(.push(nil))
+            .transition(pushAnimationSegmentControl.selectedSegmentIndex == 0 ? FlipTransition() : SystemTransition(axis: .horizontal, style: .zoom(factor: 0.9)))
+            .submit()
     }
     
     @IBAction func didTapShowWithKeyBtn(_ sender: Any) {
-        let router = try? Router(host: "content", input: ["stringValue": "Config could be inferred if not provided"])
-        router?.submit()
+        try? Router(host: "content")
+            .input(["stringValue": "Config could be inferred if not provided"])
+            .submit()
     }
     
     @IBAction func didTapShowWithURLBtn(_ sender: Any) {
-        let router = try? Router(urlString: "router://content?stringValue=This message came from a url string")
-        router?.submit()
+        try? Router(urlString: "router://content?stringValue=This message came from a url string")
+            .submit()
     }
     
     @IBAction func didTapShowModalWithKeyBtn(_ sender: Any) {
-        var router = Router(intention: { _ in ModalViewController() })
-        var modalOption: Router.RouterConfig.ModalOption = []
-        if modalPositionSegmentControl.selectedSegmentIndex == 0 {
-            modalOption = .contentTop
-        } else if modalPositionSegmentControl.selectedSegmentIndex == 2 {
-            modalOption = .contentBottom
-        }
-        router.config = .modal(modalOption)
-        router.submit()
+        Router(intention: { _ in ModalViewController() })
+            .config(.modal(modalPositionSegmentControl.selectedSegmentIndex == 0 ? .contentTop : .contentBottom))
+            .submit()
     }
     
     @IBAction func didTapHandlerBtn(_ sender: Any) {
-        let handler = try? Handler(host: "showAlert", input: ["title": "Hello Alert", "message": "This message came from a handler"])
-        handler?.submit()
+        (try? Handler(host: "showAlert"))?
+            .input(["title": "Hello Alert", "message": "This message came from a handler"])
+            .submit()
     }
 }
 

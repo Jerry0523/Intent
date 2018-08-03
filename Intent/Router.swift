@@ -30,7 +30,7 @@ public protocol PreferredRouterConfig {
     
 }
 
-public struct Router : Intent {
+public final class Router : Intent {
     
     public static var defaultCtx = IntentCtx<Router>(scheme: "router")
     
@@ -232,7 +232,9 @@ extension Router {
             targetDest.presentTransition = transition
             targetDest.transitioningDelegate = transition
         }
-        executer.present(targetDest, animated: animated, completion: complete)
+        executer.present(targetDest, animated: animated, completion: {
+            complete?()
+        })
     }
     
     private func exePush(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.PushOption, complete:(() -> ())?) {
@@ -383,6 +385,30 @@ extension Router {
         modalVC.present()
         complete?()
     }
+}
+
+public extension Router {
+    
+    public func transition(_ transition: Transition) -> Router {
+        self.transition = transition
+        return self
+    }
+    
+    public func input(_ input: [String : Any]) -> Router {
+        self.input = input
+        return self
+    }
+    
+    public func config(_ config: RouterConfig) -> Router {
+        self.config = config
+        return self
+    }
+    
+    public func executor(_ executor: UIViewController) -> Router {
+        self.executor = executor
+        return self
+    }
+    
 }
 
 private let NavigationBarLayoutMargin = CGFloat(16.0)

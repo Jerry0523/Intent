@@ -45,7 +45,7 @@ public enum HandlerConfig {
     }
 }
 
-public struct Handler : Intent {
+public final class Handler : Intent {
  
     public static var defaultCtx = IntentCtx<Handler>(scheme: "handler")
 
@@ -66,5 +66,18 @@ public struct Handler : Intent {
 
     public init(intention: @escaping Intention) {
         self.intention = intention
+    }
+}
+
+public extension Handler {
+    
+    public func config(_ config: HandlerConfig) -> Handler {
+        self.config = config
+        return self
+    }
+    
+    public func input(_ input: [String : Any]) -> Handler {
+        self.input = input
+        return self
     }
 }

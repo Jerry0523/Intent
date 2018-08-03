@@ -33,8 +33,14 @@ public enum IntentError : Error {
     
 }
 
+public protocol Submittable {
+    
+    func submit(complete: (() -> ())?)
+    
+}
+
 /// An atstract type with an executable intention
-public protocol Intent {
+public protocol Intent: Submittable {
     
     associatedtype Config
     
@@ -56,26 +62,18 @@ public protocol Intent {
     
     var intention: Intention { get }
     
-    func submit(complete: (() -> ())?)
-    
     init(intention: @escaping Intention)
     
 }
 
 public extension Intent {
     
-    public init(intention: @escaping Intention, executor: Executor? = nil, input: Input? = nil) {
-        self.init(intention: intention)
-        self.executor = executor
-        self.input = input
-    }
-    
-    public init(host: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil, input: Input? = nil) throws {
+    public init(host: String, ctx: IntentCtx<Self>? = Self.defaultCtx) throws {
         let intention = try (ctx ?? Self.defaultCtx).fetch(forHost: host)
-        self.init(intention: intention, executor: executor, input: input)
+        self.init(intention: intention)
     }
     
-    public init(urlString: String, inputParser: (([String: Any]?) -> Input?),ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil) throws {
+    public init(urlString: String, inputParser: (([String: Any]?) -> Input?),ctx: IntentCtx<Self>? = Self.defaultCtx) throws {
         var url = URL(string: urlString)
         if url == nil, let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
             url = URL(string: encodedURLString)
@@ -85,18 +83,21 @@ public extension Intent {
         }
         do {
             let (intention, param) = try (ctx ?? Self.defaultCtx).fetch(withURL: mURL)
-            self.init(intention: intention, executor: executor, input: inputParser(param))
+            self.init(intention: intention)
+            self.input = inputParser(param)
         } catch {
             throw error
         }
     }
 }
 
+
+
 public extension Intent where Input == [String: Any] {
     
     public init(urlString: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil) throws {
         do {
-            try self.init(urlString: urlString, inputParser: { $0 }, ctx: ctx, executor: executor)
+            try self.init(urlString: urlString, inputParser: { $0 }, ctx: ctx)
         } catch {
             throw error
         }
