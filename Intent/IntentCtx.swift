@@ -31,17 +31,17 @@ open class IntentCtx <T> {
         self.scheme = scheme
     }
     
-    open func unregister(forKey: String) -> T? {
+    open func unregister(forPath: String) -> T? {
         var ret: T?
         ioQueue.sync(flags: .barrier, execute: {
-            ret = dataMap.removeValue(forKey: forKey)
+            ret = dataMap.removeValue(forKey: forPath)
         })
         return ret
     }
     
-    open func register(_ obj: T, forKey: String) {
+    open func register(_ obj: T, forPath: String) {
         ioQueue.async(flags: .barrier) {
-            self.dataMap[forKey] = obj
+            self.dataMap[forPath] = obj
         }
     }
     

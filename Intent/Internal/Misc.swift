@@ -72,9 +72,9 @@ extension UIViewController {
 
 extension IntentCtx where T == ([String : Any]?) -> UIViewController {
     
-    open func register<V>(_ class: V.Type, forKey: String) where V: UIViewController {
+    open func register<V>(_ class: V.Type, forPath: String) where V: UIViewController {
         let initVCClosure: Router.Intention = {_ in V() }
-        register(initVCClosure, forKey: forKey)
+        register(initVCClosure, forPath: forPath)
     }
     
 }

@@ -9,7 +9,7 @@ Features
 ### Register LoginViewController as follow
 
 ```swift
-Router.defaultCtx.register(LoginViewController.self, forKey: "login")
+Router.defaultCtx.register(LoginViewController.self, forPath: "test.com/login")
 
 ```
 
@@ -18,34 +18,37 @@ Router.defaultCtx.register(LoginViewController.self, forKey: "login")
 ```swift
 Handler.defaultCtx.register({ (input) in
     print(input)
-}, forKey: "showAlert")
+}, forPath: "test.com/showAlert?title=Hello World")
 
 ```
 
 ### Route to LoginViewController by a router key
 
 ```swift
-let router = try? Router(key: "login", input: ["stringValue": "This message came from a router"])
-router?.submit()
+try? Router(path: "test.com/login")
+        .input(["stringValue": "This message came from a router"])
+        .submit()
 
 ```
 
 ### Route to LoginViewController with a custom transition
 
 ```swift
-var router = try? Router(key: "login", input: ["stringValue": "This message came from a router"])
-router?.transition = SystemTransition(axis: .horizontal, style: .zoom(factor: 0.8))
-router?.submit()
+try? Router(path: "test.com/login")
+        .input(["stringValue": "This message came from a router"])
+        .transition(SystemTransition(axis: .horizontal, style: .zoom(factor: 0.8)))
+        .submit()
 
 ```
 
 ### Route to LoginViewController with a custom config
 
 ```swift
-var router = try? Router(key: "login", input: ["stringValue": "This message came from a router"])
-router?.config = .present([.fakePush, .wrapNC])
-router?.transition = SystemTransition(axis: .horizontal, style: .zoom(factor: 0.8))
-router?.submit()
+try? Router(key: "test.com/login")
+        .input(["stringValue": "This message came from a router"])
+        .config(.present([.fakePush, .wrapNC]))
+        .transition(SystemTransition(axis: .horizontal, style: .zoom(factor: 0.8)))
+        .submit()
 
 ```
 ### Currently, we support
@@ -59,8 +62,8 @@ router?.submit()
 ### Route to LoginViewController by a remote URL
 
 ```swift
-let router = try? Router(urlString: "router://login?stringValue=This message came from a url string")
-router?.submit()
+try? Router(urlString: "router://test.com/login?stringValue=This message came from a url string")
+        .submit()
 
 ```
 

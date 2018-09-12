@@ -63,9 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
         Router.defaultCtx.scheme = "router"
         Handler.defaultCtx.scheme = "handler"
         
-        Router.defaultCtx.register(ContentViewController.self, forKey: "test.com/content")
-        Router.defaultCtx.register(EntryViewContoller.self, forKey: "test.com/entry")
-        Router.defaultCtx.register(ModalViewController.self, forKey: "test.com/modal")
+        Router.defaultCtx.register(ContentViewController.self, forPath: "test.com/content")
+        Router.defaultCtx.register(EntryViewContoller.self, forPath: "test.com/entry")
+        Router.defaultCtx.register(ModalViewController.self, forPath: "test.com/modal")
         
         Interceptor.defaultCtx.register({ (input) -> (Bool) in
             if let router = input as? Router {
@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
                 return true
             }
             return true
-        }, forKey: Router.makeIdentifier(forViewControlType: ContentViewController.self).absolute!)
+        }, forPath: Router.makeIdentifier(forViewControlType: ContentViewController.self).absolute!)
         
         Handler.defaultCtx.register({ (param) in
             let title = (param ?? [String: Any]())["title"] as? String ?? ""
@@ -85,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             Router.topViewController?.present(alertController, animated: true, completion: nil)
             
-        }, forKey: "test.com/showAlert")
+        }, forPath: "test.com/showAlert")
         
     }
 
