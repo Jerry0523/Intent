@@ -23,7 +23,7 @@
 
 import UIKit
 
-open class IntentCtx <T> where T: Intent {
+open class IntentCtx <T> {
     
     open var scheme: String
     
@@ -31,53 +31,50 @@ open class IntentCtx <T> where T: Intent {
         self.scheme = scheme
     }
     
-    open func unregister(forKey: String) -> T.Intention? {
-        let _ = ioLock.wait(timeout: DispatchTime.distantFuture)
-        defer {
-            ioLock.signal()
-        }
-        return dataMap.removeValue(forKey: forKey)
+    open func unregister(forKey: String) -> T? {
+        var ret: T?
+        ioQueue.sync(flags: .barrier, execute: {
+            ret = dataMap.removeValue(forKey: forKey)
+        })
+        return ret
     }
     
-    open func register(_ obj: @escaping T.Intention, forKey: String) {
-        let _ = ioLock.wait(timeout: DispatchTime.distantFuture)
-        defer {
-            ioLock.signal()
+    open func register(_ obj: T, forKey: String) {
+        ioQueue.async(flags: .barrier) {
+            self.dataMap[forKey] = obj
         }
-        dataMap[forKey] = obj
     }
     
-    open func regsiter(_ objs: [String: T.Intention]) {
-        let _ = ioLock.wait(timeout: DispatchTime.distantFuture)
-        defer {
-            ioLock.signal()
+    open func regsiter(_ objs: [String: T]) {
+        ioQueue.async(flags: .barrier) {
+            self.dataMap.merge(objs) { (_, new) in new }
         }
-        dataMap.merge(objs) { (_, new) in new }
     }
     
-    open func fetch(forHost: String) throws -> T.Intention {
-        let _ = ioLock.wait(timeout: DispatchTime.distantFuture)
-        defer {
-            ioLock.signal()
+    open func fetch(forPath: String) throws -> T {
+        var ret: T?
+        ioQueue.sync {
+            ret = dataMap[forPath]
         }
-        guard let obj = dataMap[forHost] else {
-            throw IntentError.invalidKey(key: forHost)
+        guard ret != nil else {
+            throw IntentError.invalidPath(path: forPath)
         }
-        return obj
+        return ret!
     }
     
-    open func fetch(withURL: URL) throws -> (T.Intention, [String: Any]?) {
+    open func fetch(withURL: URL) throws -> (T, [String: Any]?, String) {
         guard let urlComponent = URLComponents(url: withURL, resolvingAgainstBaseURL: false),
             let scheme = urlComponent.scheme,
             let host = urlComponent.host else {
-                throw IntentError.invalidURL(urlString: withURL.absoluteString)
+                throw IntentError.invalidURL(URLString: withURL.absoluteString)
         }
         
         guard scheme == self.scheme else {
             throw IntentError.invalidScheme(scheme: scheme)
         }
         
-        let obj = try fetch(forHost: host)
+        let identifier = host + urlComponent.path
+        let obj = try fetch(forPath: identifier)
         
         var param: [String: Any]?
         
@@ -91,12 +88,12 @@ open class IntentCtx <T> where T: Intent {
             }
         }
 
-        return (obj, param)
+        return (obj, param, scheme + "://" + identifier)
     }
     
-    private var dataMap: [String: T.Intention] = [:]
+    private var dataMap: [String: T] = [:]
     
-    private let ioLock: DispatchSemaphore = DispatchSemaphore(value: 1)
+    private let ioQueue = DispatchQueue(label: "com.jerry.intent", qos: .default, attributes: .concurrent)
     
 }
 

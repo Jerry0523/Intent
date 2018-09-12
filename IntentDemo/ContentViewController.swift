@@ -21,8 +21,6 @@ import Intent
     
     var ringTransition: RingTransition?
     
-    var flipTransition: FlipTransition?
-    
     var receivedMsg: [AnyHashable: Any]?
 
     override func viewDidLoad() {
@@ -37,9 +35,6 @@ import Intent
             ringTransition = transition
             setupVerticalPanGesture()
             
-        } else if let transition = pushTransition as? FlipTransition {
-            flipTransition = transition
-            setupVerticalPanGesture()
         }
     }
     
@@ -54,11 +49,6 @@ import Intent
             transition.handle(sender, gestureDidBegin: {
                 self.navigationController?.popViewController(animated: true)
             }, axis: .verticalTopToBottom, completeThreshold: 0.3)
-            
-        } else if let transition = flipTransition {
-            transition.handle(sender, gestureDidBegin: {
-                self.navigationController?.popViewController(animated: true)
-            }, axis: .verticalTopToBottom, completeThreshold: 0.3)
         }
     }
 
@@ -67,7 +57,7 @@ import Intent
     }
     
     @IBAction func switchToEntry(_ sender: Any) {
-        var router = try? Router(host: "entry")
+        let router = try? Router(path: "test.com/entry")
         router?.config = .switch(nil)
         router?.submit()
     }

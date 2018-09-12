@@ -32,7 +32,7 @@ public protocol PreferredRouterConfig {
 
 public final class Router : Intent {
     
-    public static var defaultCtx = IntentCtx<Router>(scheme: "router")
+    public static var defaultCtx = IntentCtx<([String : Any]?) -> UIViewController>(scheme: "router")
     
     public var input: [String : Any]?
     
@@ -44,14 +44,20 @@ public final class Router : Intent {
     
     public var transition: Transition?
     
-    public func submit(complete: (() -> ())? = nil) {
+    public var identifier: Identifier?
+    
+    public static func makeIdentifier<U>(forViewControlType: U.Type) -> Identifier where U: UIViewController {
+        return Identifier(path: nil, absolute: "router-\(forViewControlType)")
+    }
+    
+    public func makeIdentifier(forPath: String) -> Identifier? {
+        let vc = intention(input)
+        return Identifier(path: forPath, absolute: "router-\(vc.classForCoder)")
+    }
+    
+    public func doSubmit(complete: (() -> ())? = nil) {
         DispatchQueue.main.async {
-            var executor = self.executor
-            if executor == nil {
-                executor = Router.topViewController
-            }
-            assert(executor != nil)
-            self.submit(executer: executor!, config: self.config, complete: complete)
+            self.submit(config: self.config, complete: complete)
         }
     }
     
@@ -165,31 +171,40 @@ public final class Router : Intent {
 
 extension Router {
     
-    private func submit(executer: UIViewController, config: RouterConfig, complete:(() -> ())?) {
-        var newConfig = config
-        
+    private func prepare(config: inout RouterConfig) -> (executor: UIViewController, output: UIViewController) {
+        var mExecutor = executor
+        if mExecutor == nil {
+            mExecutor = Router.topViewController
+        }
+        assert(mExecutor != nil)
+
         let vc = intention(input)
         if let presetVC = vc as? PreferredRouterConfig, let presetConfig = presetVC.preferredRouterConfig {
-            newConfig = presetConfig
+            config = presetConfig
         }
         
         if case .auto = config {
-            newConfig = config.autoTransform(forExecuter: executer)
+            config = config.autoTransform(forExecuter: mExecutor!)
         }
         
         vc.extra = input
-        
+        return (mExecutor!, vc)
+    }
+    
+    private func submit(config: RouterConfig, complete:(() -> ())?) {
+        var newConfig = config
+        let (mExecutor, vc) = prepare(config: &newConfig)
         switch newConfig {
         case .present(let presentOpt):
-            exePresent(executer: executer, intentionVC: vc, option: presentOpt ?? [], complete: complete)
+            exePresent(executer: mExecutor, intentionVC: vc, option: presentOpt ?? [], complete: complete)
         case .push(let pushOpt):
-            exePush(executer: executer, intentionVC: vc, option: pushOpt ?? [], complete: complete)
+            exePush(executer: mExecutor, intentionVC: vc, option: pushOpt ?? [], complete: complete)
         case .`switch`(let switchOpt):
-            exeSwitch(executer: executer, intentionVC: vc, option: switchOpt ?? [], complete: complete)
+            exeSwitch(executer: mExecutor, intentionVC: vc, option: switchOpt ?? [], complete: complete)
         case .modal(let modalOpt):
-            exeModal(executer: executer, intentionVC: vc, option: modalOpt ?? [], complete: complete)
+            exeModal(executer: mExecutor, intentionVC: vc, option: modalOpt ?? [], complete: complete)
         case .child:
-            exeAddChild(executer: executer, intentionVC: vc, complete: complete)
+            exeAddChild(executer: mExecutor, intentionVC: vc, complete: complete)
         default:
             break
         }
@@ -389,7 +404,7 @@ extension Router {
 
 public extension Router {
     
-    public func transition(_ transition: Transition) -> Router {
+    public func transition(_ transition: Transition?) -> Router {
         self.transition = transition
         return self
     }

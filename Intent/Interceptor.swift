@@ -1,5 +1,5 @@
 //
-// Handler.swift
+// Interceptor.swift
 //
 // Copyright (c) 2015 Jerry Wong
 //
@@ -23,67 +23,40 @@
 
 import Foundation
 
-public enum HandlerConfig {
-    
-    case onMainQueue
-    
-    case onGlobalQueue
-    
-    case onSpecificQueue(queue: DispatchQueue)
-    
-    var queue: DispatchQueue {
-        get {
-            switch self {
-            case .onMainQueue:
-                return DispatchQueue.main
-            case .onGlobalQueue:
-                return DispatchQueue.global()
-            case .onSpecificQueue(let queue):
-                return queue
-            }
-        }
-    }
-}
+public final class Interceptor: Intent {
 
-public final class Handler : Intent {
+    public static var defaultCtx = IntentCtx<(Any?) -> (Bool)>(scheme: "interceptor")
+    
+    public var input: Any?
+    
+    public var config = Void.self
+    
+    public var executor: Void?
+    
+    public var intention: (Any?) -> (Bool)
     
     public var identifier: Identifier?
     
-    public static var defaultCtx = IntentCtx<([String : Any]?) -> ()>(scheme: "handler")
-
-    public var input: [String : Any]?
-
-    public var config: HandlerConfig = .onMainQueue
-
-    public var executor: Void?
+    public init(intention: @escaping Intention) {
+        self.intention = intention
+    }
     
-    public var intention: ([String : Any]?) -> ()
+    convenience init<T>(intent: T) throws where T: Intent {
+        guard let identifier = intent.identifier?.absolute else {
+            throw IntentError.unknown(msg: "no interceptor found for \(intent)")
+        }
+        try self.init(path: identifier)
+    }
     
     public func makeIdentifier(forPath: String) -> Identifier? {
         return Identifier(path: forPath, absolute: forPath)
     }
-
-    public func doSubmit(complete: (() -> ())? = nil) {
-        config.queue.async {
-            self.intention(self.input)
+    
+    public func doSubmit(complete: (() -> ())?) {
+        let ret = intention(input)
+        if ret {
             complete?()
         }
     }
-
-    public init(intention: @escaping Intention) {
-        self.intention = intention
-    }
-}
-
-public extension Handler {
     
-    public func config(_ config: HandlerConfig) -> Handler {
-        self.config = config
-        return self
-    }
-    
-    public func input(_ input: [String : Any]) -> Handler {
-        self.input = input
-        return self
-    }
 }

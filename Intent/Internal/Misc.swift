@@ -70,11 +70,28 @@ extension UIViewController {
     
 }
 
-extension IntentCtx where T == Router {
+extension IntentCtx where T == ([String : Any]?) -> UIViewController {
     
     open func register<V>(_ class: V.Type, forKey: String) where V: UIViewController {
         let initVCClosure: Router.Intention = {_ in V() }
         register(initVCClosure, forKey: forKey)
+    }
+    
+}
+
+extension IntentError: CustomStringConvertible {
+    
+    public var description: String {
+        switch self {
+        case .invalidURL(let URLString):
+            return "invalid URL \(String(describing: URLString))"
+        case .invalidPath(let path):
+            return "invalid path \(String(describing: path))"
+        case .invalidScheme(let scheme):
+            return "invalid scheme \(String(describing: scheme))"
+        case .unknown(let msg):
+            return msg
+        }
     }
 }
 

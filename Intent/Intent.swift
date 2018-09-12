@@ -25,22 +25,36 @@ import Foundation
 
 public enum IntentError : Error {
     
-    case invalidURL(urlString: String?)
+    case invalidURL(URLString: String?)
     
     case invalidScheme(scheme: String?)
     
-    case invalidKey(key: String?)
+    case invalidPath(path: String?)
+    
+    case unknown(msg: String)
     
 }
 
-public protocol Submittable {
+public protocol Interceptable {
+    
+    var identifier: Identifier? { get set }
+    
+    func makeIdentifier(forPath: String) -> Identifier?
     
     func submit(complete: (() -> ())?)
     
 }
 
+public struct Identifier {
+    
+    public var path: String?
+    
+    public var absolute: String?
+    
+}
+
 /// An atstract type with an executable intention
-public protocol Intent: Submittable {
+public protocol Intent: Interceptable {
     
     associatedtype Config
     
@@ -52,7 +66,7 @@ public protocol Intent: Submittable {
     
     typealias Intention = (Input?) -> (Output)
     
-    static var defaultCtx: IntentCtx<Self> { get }
+    static var defaultCtx: IntentCtx<Intention> { get }
     
     var input: Input? { get set }
     
@@ -64,26 +78,47 @@ public protocol Intent: Submittable {
     
     init(intention: @escaping Intention)
     
+    func doSubmit(complete: (() -> ())?)
+    
 }
 
 public extension Intent {
     
-    public init(host: String, ctx: IntentCtx<Self>? = Self.defaultCtx) throws {
-        let intention = try (ctx ?? Self.defaultCtx).fetch(forHost: host)
-        self.init(intention: intention)
+    public func submit(complete: (() -> ())? = nil) {
+        if let interceptor = try? Interceptor(intent: self) {
+            interceptor.input = self
+            interceptor.submit {
+                self.doSubmit(complete: complete)
+            }
+        } else {
+            doSubmit(complete: complete)
+        }
     }
     
-    public init(urlString: String, inputParser: (([String: Any]?) -> Input?),ctx: IntentCtx<Self>? = Self.defaultCtx) throws {
-        var url = URL(string: urlString)
-        if url == nil, let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
+}
+
+public extension Intent {
+    
+    public init(path: String, ctx: IntentCtx<Intention>? = Self.defaultCtx) throws {
+        try self.init(URLString: (ctx.self?.scheme)! + "://" + path, inputParser: { _ in return nil }, ctx: ctx)
+    }
+    
+    public init(URLString: String, inputParser: (([String: Any]?) -> Input?), ctx: IntentCtx<Intention>? = Self.defaultCtx) throws {
+        var url = URL(string: URLString)
+        if url == nil, let encodedURLString = URLString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
             url = URL(string: encodedURLString)
         }
         guard let mURL = url else {
-            throw IntentError.invalidURL(urlString: urlString)
+            throw IntentError.invalidURL(URLString: URLString)
         }
+        try self.init(URL: mURL, inputParser: inputParser, ctx: ctx)
+    }
+    
+    public init(URL: URL, inputParser: (([String: Any]?) -> Input?), ctx: IntentCtx<Intention>? = Self.defaultCtx) throws {
         do {
-            let (intention, param) = try (ctx ?? Self.defaultCtx).fetch(withURL: mURL)
+            let (intention, param, identifier) = try (ctx ?? Self.defaultCtx).fetch(withURL: URL)
             self.init(intention: intention)
+            self.identifier = makeIdentifier(forPath: identifier)
             self.input = inputParser(param)
         } catch {
             throw error
@@ -91,13 +126,11 @@ public extension Intent {
     }
 }
 
-
-
 public extension Intent where Input == [String: Any] {
     
-    public init(urlString: String, ctx: IntentCtx<Self>? = Self.defaultCtx, executor: Executor? = nil) throws {
+    public init(URLString: String, ctx: IntentCtx<Intention>? = Self.defaultCtx, executor: Executor? = nil) throws {
         do {
-            try self.init(urlString: urlString, inputParser: { $0 }, ctx: ctx)
+            try self.init(URLString: URLString, inputParser: { $0 }, ctx: ctx)
         } catch {
             throw error
         }

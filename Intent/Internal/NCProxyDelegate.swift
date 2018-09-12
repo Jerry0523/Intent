@@ -30,7 +30,7 @@ class NCProxyDelegate : NSObject {
     weak var currentTransition: Transition?
     
     class func addProxy(forNavigationController nc: UINavigationController) {
-        if (nc.delegate?.isKind(of: classForCoder()) ?? false) {
+        if (nc.delegate as? NCProxyDelegate) != nil {
             return
         }
         

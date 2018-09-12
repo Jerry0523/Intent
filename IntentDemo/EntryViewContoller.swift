@@ -29,13 +29,13 @@ class EntryViewContoller: UIViewController {
     }
 
     @IBAction func didTapPresentWithKeyBtn(_ sender: Any) {
-        try? Router(host: "entry")
+        try? Router(path: "test.com/entry")
             .config(.present(fakePushSwitch.isOn ? [.fakePush, .wrapNC] : .wrapNC))
             .submit()
     }
     
     @IBAction func didTapPushWithRingBtn(_ sender: Any) {
-        try? Router(host: "content")
+        try? Router(path: "test.com/content")
             .input(["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
             .config(.push(nil))
             .transition(RingTransition())
@@ -43,21 +43,21 @@ class EntryViewContoller: UIViewController {
     }
     
     @IBAction func didTapPushWithKeyBtn(_ sender: Any) {
-        try? Router(host: "content")
+        try? Router(path: "test.com/content")
             .input(["stringValue": "This message came from a router", "backgroundColor": UIColor.red, "textColor": UIColor.white])
             .config(.push(nil))
-            .transition(pushAnimationSegmentControl.selectedSegmentIndex == 0 ? FlipTransition() : SystemTransition(axis: .horizontal, style: .zoom(factor: 0.9)))
+            .transition(pushAnimationSegmentControl.selectedSegmentIndex == 0 ? nil : SystemTransition(axis: .horizontal, style: .zoom(factor: 0.9)))
             .submit()
     }
     
     @IBAction func didTapShowWithKeyBtn(_ sender: Any) {
-        try? Router(host: "content")
+        try? Router(path: "test.com/content")
             .input(["stringValue": "Config could be inferred if not provided"])
             .submit()
     }
     
     @IBAction func didTapShowWithURLBtn(_ sender: Any) {
-        try? Router(urlString: "router://content?stringValue=This message came from a url string")
+        try? Router(URLString: "router://test.com/content?stringValue=This message came from a url string")
             .submit()
     }
     
@@ -68,7 +68,7 @@ class EntryViewContoller: UIViewController {
     }
     
     @IBAction func didTapHandlerBtn(_ sender: Any) {
-        (try? Handler(host: "showAlert"))?
+        try? Handler(path: "test.com/showAlert")
             .input(["title": "Hello Alert", "message": "This message came from a handler"])
             .submit()
     }

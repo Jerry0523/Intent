@@ -23,7 +23,7 @@
 
 import UIKit
 
-@objc public protocol RingTransitionDataSource : NSObjectProtocol {
+@objc public protocol RingTransitionDataSource : class {
     
     @objc optional func viewForTransition() -> UIView?
     

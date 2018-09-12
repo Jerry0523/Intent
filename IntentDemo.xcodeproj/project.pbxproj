@@ -23,7 +23,6 @@
 		C431F5401FBC210900FAD488 /* SystemTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37201FB2AF8700857553 /* SystemTransition.swift */; };
 		C431F5411FBC210900FAD488 /* AssociatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */; };
 		C431F5421FBC210900FAD488 /* RingTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37211FB2AF8700857553 /* RingTransition.swift */; };
-		C431F5431FBC210900FAD488 /* FlipTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */; };
 		C431F5441FBC210900FAD488 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37261FB2AF8700857553 /* Intent.swift */; };
 		C431F5451FBC210900FAD488 /* IntentCtx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37241FB2AF8700857553 /* IntentCtx.swift */; };
 		C431F5461FBC210900FAD488 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37231FB2AF8700857553 /* Router.swift */; };
@@ -77,7 +76,6 @@
 		C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryViewContoller.swift; sourceTree = "<group>"; };
 		C424D7EE2060B854006B9697 /* UIViewController+PopInterrupter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PopInterrupter.swift"; sourceTree = "<group>"; };
 		C424D7EF2060B854006B9697 /* UINavigationController+Swizzle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Swizzle.swift"; sourceTree = "<group>"; };
-		C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipTransition.swift; sourceTree = "<group>"; };
 		C431F5331FBC20F700FAD488 /* Intent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Intent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedTransition.swift; sourceTree = "<group>"; };
 		C48E371F1FB2AF8700857553 /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
@@ -166,7 +164,6 @@
 				C48E37201FB2AF8700857553 /* SystemTransition.swift */,
 				C48E371E1FB2AF8700857553 /* AssociatedTransition.swift */,
 				C48E37211FB2AF8700857553 /* RingTransition.swift */,
-				C431F4FB1FB97DC100FAD488 /* FlipTransition.swift */,
 				C4DCE2CE21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift */,
 			);
 			path = Transition;
@@ -334,7 +331,6 @@
 				C4DCE2D42112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift in Sources */,
 				C431F5421FBC210900FAD488 /* RingTransition.swift in Sources */,
 				C4DCE2D62112DA6D00A68619 /* _ModalViewController.swift in Sources */,
-				C431F5431FBC210900FAD488 /* FlipTransition.swift in Sources */,
 				C431F5441FBC210900FAD488 /* Intent.swift in Sources */,
 				C431F5451FBC210900FAD488 /* IntentCtx.swift in Sources */,
 				C431F5461FBC210900FAD488 /* Router.swift in Sources */,

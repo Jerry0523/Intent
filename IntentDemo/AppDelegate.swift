@@ -63,9 +63,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
         Router.defaultCtx.scheme = "router"
         Handler.defaultCtx.scheme = "handler"
         
-        Router.defaultCtx.register(ContentViewController.self, forKey: "content")
-        Router.defaultCtx.register(EntryViewContoller.self, forKey: "entry")
-        Router.defaultCtx.register(ModalViewController.self, forKey: "modal")
+        Router.defaultCtx.register(ContentViewController.self, forKey: "test.com/content")
+        Router.defaultCtx.register(EntryViewContoller.self, forKey: "test.com/entry")
+        Router.defaultCtx.register(ModalViewController.self, forKey: "test.com/modal")
+        
+        Interceptor.defaultCtx.register({ (input) -> (Bool) in
+            if let router = input as? Router {
+                if router.transition != nil {
+                    router.input?["backgroundColor"] = UIColor.purple
+                }
+                return true
+            }
+            return true
+        }, forKey: Router.makeIdentifier(forViewControlType: ContentViewController.self).absolute!)
         
         Handler.defaultCtx.register({ (param) in
             let title = (param ?? [String: Any]())["title"] as? String ?? ""
@@ -75,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             Router.topViewController?.present(alertController, animated: true, completion: nil)
             
-        }, forKey: "showAlert")
+        }, forKey: "test.com/showAlert")
         
     }
 
