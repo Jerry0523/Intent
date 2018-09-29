@@ -86,6 +86,6 @@ extension UITabBarController : GetActiveViewController {
 extension _ScreenEdgeDetectorViewController : GetActiveViewController {
     
     var activeViewController: UIViewController? {
-        return childViewControllers.last
+        return children.last
     }
 }

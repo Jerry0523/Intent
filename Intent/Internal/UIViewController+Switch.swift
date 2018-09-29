@@ -26,7 +26,7 @@ import UIKit
 extension UIViewController {
     
     func switchTo(index: Int) -> Bool {
-        let viewControllers = childViewControllers
+        let viewControllers = children
         if index >= 0 && index < viewControllers.count {
             let selectedVC = viewControllers[index]
             selectedVC.viewWillAppear(true)
@@ -43,7 +43,7 @@ extension UIViewController {
     }
     
     func switchTo<T>(class theClass: T.Type, isReversed: Bool) -> Bool where T: UIViewController {
-        let viewControllers = childViewControllers
+        let viewControllers = children
         let bounds = 0..<viewControllers.count
         let indexes = isReversed ? Array(bounds.reversed()) : Array(bounds)
         for i in indexes {

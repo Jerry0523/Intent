@@ -92,7 +92,7 @@ extension NCProxyDelegate : UINavigationControllerDelegate {
         target?.navigationController?(navigationController, didShow: viewController, animated: animated)
     }
     
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         let transitionOwner = (operation == .push ? toVC : fromVC)
         let transition = transitionOwner.pushTransition
         if transition != nil {

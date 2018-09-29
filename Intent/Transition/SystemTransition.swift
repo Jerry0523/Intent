@@ -31,7 +31,7 @@ public enum SystemTransitionStyle {
     
     case translateAndZoom(translateFactor: CGFloat, zoomFactor: CGFloat)
     
-    func transform(forView: UIView, axis: UILayoutConstraintAxis) -> CGAffineTransform {
+    func transform(forView: UIView, axis: NSLayoutConstraint.Axis) -> CGAffineTransform {
         switch self {
         case .translate(let factor):
             if axis == .vertical {
@@ -53,7 +53,7 @@ public enum SystemTransitionStyle {
 
 open class SystemTransition: Transition {
     
-    public required init(axis: UILayoutConstraintAxis, style: SystemTransitionStyle) {
+    public required init(axis: NSLayoutConstraint.Axis, style: SystemTransitionStyle) {
         self.axis = axis
         self.style = style
         super.init()
@@ -131,7 +131,7 @@ open class SystemTransition: Transition {
         forView.layer.shadowPath = nil
     }
     
-    private var axis : UILayoutConstraintAxis
+    private var axis : NSLayoutConstraint.Axis
     
     private var style: SystemTransitionStyle
     

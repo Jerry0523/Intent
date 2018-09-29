@@ -35,17 +35,17 @@ class _ScreenEdgeDetectorViewController : UIViewController, UIGestureRecognizerD
         view.addGestureRecognizer(gesture)
     }
     
-    override func addChildViewController(_ childController: UIViewController) {
+    override func addChild(_ childController: UIViewController) {
         if isViewLoaded {
             for subView in view.subviews {
                 subView.removeFromSuperview()
             }
         }
         
-        for subVC in childViewControllers {
-            subVC.removeFromParentViewController()
+        for subVC in children {
+            subVC.removeFromParent()
         }
-        super.addChildViewController(childController)
+        super.addChild(childController)
         addChildViewIfNeeded()
     }
     
@@ -54,11 +54,11 @@ class _ScreenEdgeDetectorViewController : UIViewController, UIGestureRecognizerD
             return
         }
         
-        if let childController = childViewControllers.first {
+        if let childController = children.first {
             childController.view.frame = view.bounds
             childController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             view.addSubview(childController.view)
-            childController.didMove(toParentViewController: self)
+            childController.didMove(toParent: self)
         }
     }
     

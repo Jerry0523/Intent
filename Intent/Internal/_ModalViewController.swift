@@ -26,7 +26,7 @@ import UIKit
 class _ModalViewController: UIViewController {
     
     private func addContentViewIfNeeded() {
-        guard isViewLoaded, let contentVC = childViewControllers.last else {
+        guard isViewLoaded, let contentVC = children.last else {
             return
         }
         let contentView = contentVC.view!
@@ -58,14 +58,14 @@ class _ModalViewController: UIViewController {
         addContentViewIfNeeded()
     }
     
-    override func addChildViewController(_ childController: UIViewController) {
-        for childVC in childViewControllers {
+    override func addChild(_ childController: UIViewController) {
+        for childVC in children {
             if (isViewLoaded && childVC.isViewLoaded && childVC.view.superview == view) {
                 childVC.view.removeFromSuperview()
             }
-            childVC.removeFromParentViewController()
+            childVC.removeFromParent()
         }
-        super.addChildViewController(childController)
+        super.addChild(childController)
         addContentViewIfNeeded()
     }
     
@@ -74,7 +74,7 @@ class _ModalViewController: UIViewController {
     }
     
     func present() {
-        guard let childVC = childViewControllers.last else {
+        guard let childVC = children.last else {
             return
         }
         
@@ -106,7 +106,7 @@ class _ModalViewController: UIViewController {
     }
     
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        guard let childVC = childViewControllers.last else {
+        guard let childVC = children.last else {
             return
         }
         

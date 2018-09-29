@@ -17,14 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
     lazy var topWindow: UIWindow = {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.clear
-        window.windowLevel = UIWindowLevelNormal + 1
+        window.windowLevel = UIWindow.Level.normal + 1
         window.rootViewController = UIViewController()
         window.makeKeyAndVisible()
         window.isHidden = true
         return window
     }()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IntentDemo.load()
         registerIntent()
         

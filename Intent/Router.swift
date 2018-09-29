@@ -234,7 +234,7 @@ extension Router {
         
         if option.contains(.fakePush) {
             let containerVC = _ScreenEdgeDetectorViewController()
-            containerVC.addChildViewController(targetDest)
+            containerVC.addChild(targetDest)
             targetDest = containerVC
             
             mTransition = SystemTransition(axis: .horizontal, style: .translate(factor: -0.28))
@@ -324,11 +324,11 @@ extension Router {
     }
     
     private func exeAddChild(executer: UIViewController, intentionVC: UIViewController, complete:(() -> ())?) {
-        executer.addChildViewController(intentionVC)
+        executer.addChild(intentionVC)
         intentionVC.view.frame = executer.view.bounds
         intentionVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         executer.view.addSubview(intentionVC.view)
-        intentionVC.didMove(toParentViewController: executer)
+        intentionVC.didMove(toParent: executer)
         complete?()
     }
     
@@ -396,7 +396,7 @@ extension Router {
     private func exeModal(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.ModalOption, complete:(() -> ())?) {
         let modalVC = _ModalViewController()
         modalVC.modalOption = option
-        modalVC.addChildViewController(intentionVC)
+        modalVC.addChild(intentionVC)
         modalVC.present()
         complete?()
     }

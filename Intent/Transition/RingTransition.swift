@@ -54,7 +54,7 @@ open class RingTransition: Transition {
             endCenter = actionCenter.y < containerHeight * 0.5 ? CGPoint(x: 0, y: containerHeight) : CGPoint(x: 0, y: 0)
         }
         
-        let finalRectHalfDistance = max(fabs(endCenter.x - actionCenter.x), fabs(endCenter.y - actionCenter.y))
+        let finalRectHalfDistance = max(abs(endCenter.x - actionCenter.x), abs(endCenter.y - actionCenter.y))
         let finalRect = CGRect(x: actionCenter.x - finalRectHalfDistance, y: actionCenter.y - finalRectHalfDistance, width: finalRectHalfDistance * 2.0, height: finalRectHalfDistance * 2.0)
         
         startPath = UIBezierPath(ovalIn: actionRect)
@@ -69,7 +69,7 @@ open class RingTransition: Transition {
         
         CATransaction.begin()
         CATransaction.setValue(duration, forKey: kCATransactionAnimationDuration)
-        CATransaction.setValue(CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut), forKey: kCATransactionAnimationTimingFunction)
+        CATransaction.setValue(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut), forKey: kCATransactionAnimationTimingFunction)
         CATransaction.setCompletionBlock {
             viewToBePresent.layer.mask = nil
             context.completeTransition(!context.transitionWasCancelled)
@@ -101,7 +101,7 @@ open class RingTransition: Transition {
         
         CATransaction.begin()
         CATransaction.setValue(duration, forKey: kCATransactionAnimationDuration)
-        CATransaction.setValue(CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut), forKey: kCATransactionAnimationTimingFunction)
+        CATransaction.setValue(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut), forKey: kCATransactionAnimationTimingFunction)
         CATransaction.setCompletionBlock {
             viewToBeDismissed.layer.mask = nil
             context.completeTransition(!context.transitionWasCancelled)
@@ -112,7 +112,7 @@ open class RingTransition: Transition {
         pathAnimation.fromValue = endPath?.cgPath
         pathAnimation.toValue = startPath?.cgPath
         pathAnimation.isRemovedOnCompletion = false
-        pathAnimation.fillMode = kCAFillModeForwards
+        pathAnimation.fillMode = CAMediaTimingFillMode.forwards
         maskLayer.add(pathAnimation, forKey: RingAnimInvertKey)
     
         CATransaction.commit()
