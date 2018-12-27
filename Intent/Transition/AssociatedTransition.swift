@@ -49,49 +49,31 @@ open class AssociatedTransition: Transition {
         calculate(fromViews: &fromViews, toViews: &toViews, fixedFrames: &fixedFrames, isPresent: true)
         var snapshotViewArray = [UIView]()
         
-        for aView in toViews! {
-            aView.isHidden = true
-        }
-        
-        for i in 0..<fromViews!.count {
-            let aView = fromViews![i]
+        toViews?.forEach{ $0.isHidden = true }
+        fromViews?.forEach{ aView in
             let snapshotView = createSnapshotView(referenceView: aView, referenceFrame: .zero, containerView: container)
             snapshotViewArray.append(snapshotView)
             container.addSubview(snapshotView)
         }
-        
-        var fixedFramesCount = fixedFrames?.count
-        if fixedFramesCount == nil {
-            fixedFramesCount = 0
-        }
-        
+        let fixedFramesCount = fixedFrames?.count ?? 0
         UIView.animate(withDuration: duration, animations: {
             viewToBePresent.alpha = 1.0
-            for i in 0..<snapshotViewArray.count {
-                let snapShotView = snapshotViewArray[i]
-                let desView = toViews![i]
-                var desRect = CGRect.zero
-                if fixedFramesCount! > i {
-                    desRect = desView.superview!.convert(fixedFrames![i], to: container)
+            snapshotViewArray.enumerated().forEach{ offset, element in
+                let desView = toViews![offset]
+                let desRect: CGRect
+                if fixedFramesCount > offset {
+                    desRect = desView.superview?.convert(fixedFrames![offset], to: container) ?? .zero
                 } else {
-                    desRect = desView.superview!.convert(desView.frame, to: container)
+                    desRect = desView.superview?.convert(desView.frame, to: container) ?? .zero
                 }
-                snapShotView.frame = desRect
+                element.frame = desRect
             }
 
         }) { (finished) in
             viewToBePresent.alpha = 1.0
-            for snapshotView in snapshotViewArray {
-                snapshotView.removeFromSuperview()
-            }
-            
-            for aView in toViews! {
-                aView.isHidden = false
-            }
-            
-            for aView in fromViews! {
-                aView.isHidden = false
-            }
+            snapshotViewArray.forEach{ $0.removeFromSuperview() }
+            toViews?.forEach{ $0.isHidden = false }
+            fromViews?.forEach{ $0.isHidden = false }
             context.completeTransition(!context.transitionWasCancelled)
         }
     }
@@ -109,12 +91,8 @@ open class AssociatedTransition: Transition {
         calculate(fromViews: &fromViews, toViews: &toViews, fixedFrames: &fixedFrames, isPresent: false)
         var snapshotViewArray = [UIView]()
         
-        for aView in fromViews! {
-            aView.isHidden = true
-        }
-        
-        for i in 0..<toViews!.count {
-            let aView = toViews![i]
+        fromViews?.forEach{ $0.isHidden = true }
+        toViews?.forEach{ aView in
             let snapshotView = createSnapshotView(referenceView: aView, referenceFrame: .zero, containerView: container)
             snapshotViewArray.append(snapshotView)
             container.addSubview(snapshotView)
@@ -122,41 +100,33 @@ open class AssociatedTransition: Transition {
         
         UIView.animate(withDuration: duration, animations: {
             viewToBeDismissed.alpha = 0
-            for i in 0..<snapshotViewArray.count {
-                let snapShotView = snapshotViewArray[i]
-                let desView = fromViews![i]
-                snapShotView.frame = desView.superview!.convert(desView.frame, to: container)
+            snapshotViewArray.enumerated().forEach{ offset, element in
+                let desView = fromViews![offset]
+                element.frame = desView.superview?.convert(desView.frame, to: container) ?? CGRect.zero
             }
-            
         }) { (finished) in
-            viewToBeDismissed.alpha = 1.0            
-            for snapshotView in snapshotViewArray {
-                snapshotView.removeFromSuperview()
-            }
-            
-            for aView in toViews! {
-                aView.isHidden = false
-            }
-            
-            for aView in fromViews! {
-                aView.isHidden = false
-            }
+            viewToBeDismissed.alpha = 1.0
+            snapshotViewArray.forEach{ $0.removeFromSuperview() }
+            toViews?.forEach{ $0.isHidden = false }
+            fromViews?.forEach{ $0.isHidden = false }
             context.completeTransition(!context.transitionWasCancelled)
         }
     }
     
     private func calculate(fromViews: inout [UIView]?, toViews: inout [UIView]?, fixedFrames: inout [CGRect]?, isPresent: Bool) {
-        var mFromViews = (fromVC as? AssociatedTransitionDataSource)?.viewsForTransition?()
-        var mToViews = (toVC as? AssociatedTransitionDataSource)?.viewsForTransition?()
         
-        guard mFromViews != nil && mToViews != nil else {
+        guard let cFromViews = (fromVC as? AssociatedTransitionDataSource)?.viewsForTransition?(),
+              let cToViews = (toVC as? AssociatedTransitionDataSource)?.viewsForTransition?() else {
             return
         }
         
-        if mFromViews!.count < mToViews!.count {
-            mToViews = (mToViews! as NSArray).subarray(with: NSMakeRange(0, mFromViews!.count)) as? [UIView]
-        } else if mFromViews!.count > mToViews!.count {
-            mFromViews = (mFromViews! as NSArray).subarray(with: NSMakeRange(0, mToViews!.count)) as? [UIView]
+        var mFromViews = cFromViews
+        var mToViews = cToViews
+        
+        if mFromViews.count < mToViews.count {
+            mToViews = Array(mToViews[0..<mFromViews.count])
+        } else if mFromViews.count > mToViews.count {
+            mFromViews = Array(mFromViews[0..<mToViews.count])
         }
         
         fromViews = mFromViews
@@ -171,17 +141,16 @@ open class AssociatedTransition: Transition {
         if !referenceFrame.equalTo(CGRect.zero) {
             var offsetX: CGFloat = 0
             var offsetY: CGFloat = 0
-            let scrollView = referenceView as? UIScrollView
-            if scrollView != nil {
-                offsetX = scrollView!.contentOffset.x
-                offsetY = scrollView!.contentOffset.y
+            if let scrollView = referenceView as? UIScrollView {
+                offsetX = scrollView.contentOffset.x
+                offsetY = scrollView.contentOffset.y
             }
             
             snapshotView = referenceView.resizableSnapshotView(from: CGRect(x: (referenceView.frame.size.width - referenceFrame.size.width) * 0.5 + offsetX, y: (referenceView.frame.size.height - referenceFrame.size.height) * 0.5 + offsetY, width: referenceFrame.size.width, height: referenceFrame.size.height), afterScreenUpdates: false, withCapInsets: UIEdgeInsets.zero)
-            snapshotView!.frame = referenceView.superview!.convert(referenceFrame, to: containerView)
+            snapshotView?.frame = referenceView.superview?.convert(referenceFrame, to: containerView) ?? CGRect.zero
         } else {
             snapshotView = referenceView.snapshotView(afterScreenUpdates: false)
-            snapshotView!.frame = referenceView.superview!.convert(referenceView.frame, to: containerView)
+            snapshotView?.frame = referenceView.superview?.convert(referenceView.frame, to: containerView) ?? CGRect.zero
         }
         
         referenceView.isHidden = true

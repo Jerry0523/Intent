@@ -41,15 +41,13 @@ class CAPercentDrivenInteractiveTransition: UIPercentDrivenInteractiveTransition
     override func update(_ percentComplete: CGFloat) {
         currentPercent = percentComplete
         transitionCtx?.updateInteractiveTransition(percentComplete)
-        if transitionCtx != nil {
-            transitionCtx!.containerView.layer.timeOffset = pausedTime + CFTimeInterval(duration * percentComplete)
-        }
+        transitionCtx?.containerView.layer.timeOffset = pausedTime + CFTimeInterval(duration * percentComplete)
     }
     
     override func cancel() {
         transitionCtx?.cancelInteractiveTransition()
-        if transitionCtx != nil {
-            let containerLayer = transitionCtx!.containerView.layer
+        if let transitionCtx = transitionCtx {
+            let containerLayer = transitionCtx.containerView.layer
             containerLayer.speed = -1.0
             containerLayer.beginTime = CACurrentMediaTime()
             
@@ -63,9 +61,9 @@ class CAPercentDrivenInteractiveTransition: UIPercentDrivenInteractiveTransition
     
     override func finish() {
         transitionCtx?.finishInteractiveTransition()
-        if transitionCtx != nil {
-            resume(layer: transitionCtx!.containerView.layer)
-            transitionCtx = nil
+        if let transitionCtx = transitionCtx {
+            resume(layer: transitionCtx.containerView.layer)
+            self.transitionCtx = nil
         }
     }
     

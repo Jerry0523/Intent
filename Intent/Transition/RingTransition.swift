@@ -40,7 +40,7 @@ open class RingTransition: Transition {
             return
         }
         
-        let actionRect = actionView.superview!.convert(actionView.frame, to: container)
+        let actionRect = actionView.superview?.convert(actionView.frame, to: container) ?? CGRect.zero
         let actionCenter = CGPoint(x: actionRect.midX, y: actionRect.midY)
         
         let containerWidth = container.frame.size.width
