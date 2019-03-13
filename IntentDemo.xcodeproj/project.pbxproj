@@ -25,15 +25,17 @@
 		C431F5421FBC210900FAD488 /* RingTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37211FB2AF8700857553 /* RingTransition.swift */; };
 		C431F5441FBC210900FAD488 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37261FB2AF8700857553 /* Intent.swift */; };
 		C431F5451FBC210900FAD488 /* IntentCtx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37241FB2AF8700857553 /* IntentCtx.swift */; };
-		C431F5461FBC210900FAD488 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37231FB2AF8700857553 /* Router.swift */; };
+		C431F5461FBC210900FAD488 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37231FB2AF8700857553 /* Route.swift */; };
 		C431F5471FBC210900FAD488 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E37221FB2AF8700857553 /* Handler.swift */; };
 		C431F5491FBC210900FAD488 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48E371F1FB2AF8700857553 /* Transition.swift */; };
+		C4CBFD902238F6E600D976EB /* ActiveViewControllerPerceptive+PrivateImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CBFD8F2238F6E600D976EB /* ActiveViewControllerPerceptive+PrivateImp.swift */; };
+		C4CBFD922239009F00D976EB /* AppRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CBFD912239009F00D976EB /* AppRegistry.swift */; };
 		C4DCE2CF21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2CE21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift */; };
 		C4DCE2D22112D96200A68619 /* NCProxyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D12112D96200A68619 /* NCProxyDelegate.swift */; };
 		C4DCE2D42112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D32112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift */; };
-		C4DCE2D62112DA6D00A68619 /* _ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D52112DA6D00A68619 /* _ModalViewController.swift */; };
-		C4DCE2D82112DAF600A68619 /* GetActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D72112DAF600A68619 /* GetActiveViewController.swift */; };
-		C4DCE2DA2112DBDA00A68619 /* UIViewController+Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D92112DBDA00A68619 /* UIViewController+Switch.swift */; };
+		C4DCE2D62112DA6D00A68619 /* _PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D52112DA6D00A68619 /* _PopupViewController.swift */; };
+		C4DCE2D82112DAF600A68619 /* ActiveViewControllerPerceptive.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D72112DAF600A68619 /* ActiveViewControllerPerceptive.swift */; };
+		C4DCE2DA2112DBDA00A68619 /* IndexSwitchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2D92112DBDA00A68619 /* IndexSwitchable.swift */; };
 		C4DCE2DC2112DCAC00A68619 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2DB2112DCAC00A68619 /* Misc.swift */; };
 		C4DCE2DE21132A8E00A68619 /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE2DD21132A8E00A68619 /* Interceptor.swift */; };
 /* End PBXBuildFile section */
@@ -82,15 +84,17 @@
 		C48E37201FB2AF8700857553 /* SystemTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTransition.swift; sourceTree = "<group>"; };
 		C48E37211FB2AF8700857553 /* RingTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RingTransition.swift; sourceTree = "<group>"; };
 		C48E37221FB2AF8700857553 /* Handler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
-		C48E37231FB2AF8700857553 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		C48E37231FB2AF8700857553 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		C48E37241FB2AF8700857553 /* IntentCtx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntentCtx.swift; sourceTree = "<group>"; };
 		C48E37261FB2AF8700857553 /* Intent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
+		C4CBFD8F2238F6E600D976EB /* ActiveViewControllerPerceptive+PrivateImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ActiveViewControllerPerceptive+PrivateImp.swift"; sourceTree = "<group>"; };
+		C4CBFD912239009F00D976EB /* AppRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRegistry.swift; sourceTree = "<group>"; };
 		C4DCE2CE21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAPercentDrivenInteractiveTransition.swift; sourceTree = "<group>"; };
 		C4DCE2D12112D96200A68619 /* NCProxyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCProxyDelegate.swift; sourceTree = "<group>"; };
 		C4DCE2D32112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ScreenEdgeDetectorViewController.swift; sourceTree = "<group>"; };
-		C4DCE2D52112DA6D00A68619 /* _ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ModalViewController.swift; sourceTree = "<group>"; };
-		C4DCE2D72112DAF600A68619 /* GetActiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetActiveViewController.swift; sourceTree = "<group>"; };
-		C4DCE2D92112DBDA00A68619 /* UIViewController+Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Switch.swift"; sourceTree = "<group>"; };
+		C4DCE2D52112DA6D00A68619 /* _PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _PopupViewController.swift; sourceTree = "<group>"; };
+		C4DCE2D72112DAF600A68619 /* ActiveViewControllerPerceptive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveViewControllerPerceptive.swift; sourceTree = "<group>"; };
+		C4DCE2D92112DBDA00A68619 /* IndexSwitchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexSwitchable.swift; sourceTree = "<group>"; };
 		C4DCE2DB2112DCAC00A68619 /* Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		C4DCE2DD21132A8E00A68619 /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
 		C4E869901CE1A6BD0046434E /* IntentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				C402AABF1FB3E9FC00B8FA09 /* AppDelegate.swift */,
+				C4CBFD912239009F00D976EB /* AppRegistry.swift */,
 				C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */,
 				C402AABE1FB3E9FC00B8FA09 /* EntryViewContoller.xib */,
 				C402AAB51FB3E9FC00B8FA09 /* ContentViewController.swift */,
@@ -150,7 +155,7 @@
 				C4DCE2D02112D94100A68619 /* Internal */,
 				C48E37261FB2AF8700857553 /* Intent.swift */,
 				C48E37241FB2AF8700857553 /* IntentCtx.swift */,
-				C48E37231FB2AF8700857553 /* Router.swift */,
+				C48E37231FB2AF8700857553 /* Route.swift */,
 				C48E37221FB2AF8700857553 /* Handler.swift */,
 				C4DCE2DD21132A8E00A68619 /* Interceptor.swift */,
 				C48E371F1FB2AF8700857553 /* Transition.swift */,
@@ -174,9 +179,10 @@
 			children = (
 				C4DCE2DB2112DCAC00A68619 /* Misc.swift */,
 				C4DCE2D12112D96200A68619 /* NCProxyDelegate.swift */,
-				C4DCE2D72112DAF600A68619 /* GetActiveViewController.swift */,
-				C4DCE2D92112DBDA00A68619 /* UIViewController+Switch.swift */,
-				C4DCE2D52112DA6D00A68619 /* _ModalViewController.swift */,
+				C4DCE2D72112DAF600A68619 /* ActiveViewControllerPerceptive.swift */,
+				C4CBFD8F2238F6E600D976EB /* ActiveViewControllerPerceptive+PrivateImp.swift */,
+				C4DCE2D92112DBDA00A68619 /* IndexSwitchable.swift */,
+				C4DCE2D52112DA6D00A68619 /* _PopupViewController.swift */,
 				C4DCE2D32112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift */,
 			);
 			path = Internal;
@@ -324,19 +330,20 @@
 			files = (
 				C431F5401FBC210900FAD488 /* SystemTransition.swift in Sources */,
 				C4DCE2DC2112DCAC00A68619 /* Misc.swift in Sources */,
-				C4DCE2D82112DAF600A68619 /* GetActiveViewController.swift in Sources */,
-				C4DCE2DA2112DBDA00A68619 /* UIViewController+Switch.swift in Sources */,
+				C4DCE2D82112DAF600A68619 /* ActiveViewControllerPerceptive.swift in Sources */,
+				C4DCE2DA2112DBDA00A68619 /* IndexSwitchable.swift in Sources */,
 				C431F5411FBC210900FAD488 /* AssociatedTransition.swift in Sources */,
 				C4DCE2D22112D96200A68619 /* NCProxyDelegate.swift in Sources */,
 				C4DCE2DE21132A8E00A68619 /* Interceptor.swift in Sources */,
 				C4DCE2CF21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift in Sources */,
 				C4DCE2D42112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift in Sources */,
 				C431F5421FBC210900FAD488 /* RingTransition.swift in Sources */,
-				C4DCE2D62112DA6D00A68619 /* _ModalViewController.swift in Sources */,
+				C4DCE2D62112DA6D00A68619 /* _PopupViewController.swift in Sources */,
 				C431F5441FBC210900FAD488 /* Intent.swift in Sources */,
 				C431F5451FBC210900FAD488 /* IntentCtx.swift in Sources */,
-				C431F5461FBC210900FAD488 /* Router.swift in Sources */,
+				C431F5461FBC210900FAD488 /* Route.swift in Sources */,
 				C431F5471FBC210900FAD488 /* Handler.swift in Sources */,
+				C4CBFD902238F6E600D976EB /* ActiveViewControllerPerceptive+PrivateImp.swift in Sources */,
 				C431F5491FBC210900FAD488 /* Transition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,6 +356,7 @@
 				C424D7F02060B854006B9697 /* UIViewController+PopInterrupter.swift in Sources */,
 				C402AACB1FB3E9FC00B8FA09 /* AppDelegate.swift in Sources */,
 				C424D7F12060B854006B9697 /* UINavigationController+Swizzle.swift in Sources */,
+				C4CBFD922239009F00D976EB /* AppRegistry.swift in Sources */,
 				C402AAC71FB3E9FC00B8FA09 /* ModalViewController.swift in Sources */,
 				C402AACD1FB3E9FC00B8FA09 /* EntryViewContoller.swift in Sources */,
 			);

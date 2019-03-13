@@ -10,7 +10,7 @@ import UIKit
 import Intent
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
+class AppDelegate: UIResponder, UIApplicationDelegate, TopWindowPerceptive {
 
     var window: UIWindow?
     
@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IntentDemo.load()
-        registerIntent()
+        AppRegistry.shared.load()
         
         window = UIWindow(frame: UIScreen.main.bounds)
     
@@ -57,37 +57,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GetTopWindow {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-    func registerIntent() {
-        
-        Router.defaultCtx.scheme = "router"
-        Handler.defaultCtx.scheme = "handler"
-        
-        Router.defaultCtx.register(ContentViewController.self, forPath: "test.com/content")
-        Router.defaultCtx.register(EntryViewContoller.self, forPath: "test.com/entry")
-        Router.defaultCtx.register(ModalViewController.self, forPath: "test.com/modal")
-        
-        Interceptor.defaultCtx.register({ (input) -> (Bool) in
-            if let router = input as? Router {
-                if router.transition != nil {
-                    router.input?["backgroundColor"] = UIColor.purple
-                }
-                return true
-            }
-            return true
-        }, forPath: Router.makeIdentifier(forViewControlType: ContentViewController.self).absolute!)
-        
-        Handler.defaultCtx.register({ (param) in
-            let title = (param ?? [String: Any]())["title"] as? String ?? ""
-            let msg = (param ?? [String: Any]())["message"] as? String ?? ""
-
-            let alertController = UIAlertController(title: title, message: msg, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            Router.topViewController?.present(alertController, animated: true, completion: nil)
-            
-        }, forPath: "test.com/showAlert")
-        
-    }
-
+    
 }
 

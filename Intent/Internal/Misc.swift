@@ -72,9 +72,20 @@ extension UIViewController {
 
 extension IntentCtx where T == ([String : Any]?) -> UIViewController {
     
-    open func register<V>(_ class: V.Type, forPath: String) where V: UIViewController {
-        let initVCClosure: Router.Intention = {_ in V() }
-        register(initVCClosure, forPath: forPath)
+    @discardableResult
+    open func register<V>(_ class: V.Type, forPath: String) -> String where V: UIViewController {
+        let initVCClosure: Route.Intention = {_ in V() }
+        return register(initVCClosure, forPath: forPath)
+    }
+    
+    @discardableResult
+    open func register<V>(_ map: [String: V.Type]) -> [String: String] where V: UIViewController {
+        var ret = [String: String]()
+        map.forEach { pair in
+            let initVCClosure: Route.Intention = {_ in pair.value.init() }
+            ret[pair.key] = register(initVCClosure, forPath: pair.key)
+        }
+        return ret
     }
     
 }
@@ -95,7 +106,7 @@ extension IntentError: CustomStringConvertible {
     }
 }
 
-extension Router {
+extension Route {
     
     /// The default back arrow image. Used for .fakePush config.
     public static var backIndicatorImage: UIImage = {

@@ -20,8 +20,6 @@ import Intent
     var backgroundColor: UIColor?
     
     var ringTransition: RingTransition?
-    
-    var receivedMsg: [AnyHashable: Any]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,8 +55,8 @@ import Intent
     }
     
     @IBAction func switchToEntry(_ sender: Any) {
-        let router = try? Router(path: "test.com/entry")
-        router?.config = .switch(nil)
-        router?.submit()
+        try? Route(path: "test.com/entry")
+                .config(.switch(nil))
+                .submit()
     }
 }

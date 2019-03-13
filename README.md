@@ -9,7 +9,7 @@ Features
 ### Register LoginViewController as follow
 
 ```swift
-Router.defaultCtx.register(LoginViewController.self, forPath: "test.com/login")
+Route.defaultCtx.register(LoginViewController.self, forPath: "test.com/login")
 
 ```
 
@@ -22,11 +22,11 @@ Handler.defaultCtx.register({ (input) in
 
 ```
 
-### Route to LoginViewController by a router key
+### Route to LoginViewController by a Route key
 
 ```swift
-try? Router(path: "test.com/login")
-        .input(["stringValue": "This message came from a router"])
+try? Route(path: "test.com/login")
+        .input(["stringValue": "This message came from a Route"])
         .submit()
 
 ```
@@ -34,8 +34,8 @@ try? Router(path: "test.com/login")
 ### Route to LoginViewController with a custom transition
 
 ```swift
-try? Router(path: "test.com/login")
-        .input(["stringValue": "This message came from a router"])
+try? Route(path: "test.com/login")
+        .input(["stringValue": "This message came from a Route"])
         .transition(SystemTransition(axis: .horizontal, style: .zoom(factor: 0.8)))
         .submit()
 
@@ -44,8 +44,8 @@ try? Router(path: "test.com/login")
 ### Route to LoginViewController with a custom config
 
 ```swift
-try? Router(key: "test.com/login")
-        .input(["stringValue": "This message came from a router"])
+try? Route(key: "test.com/login")
+        .input(["stringValue": "This message came from a Route"])
         .config(.present([.fakePush, .wrapNC]))
         .transition(SystemTransition(axis: .horizontal, style: .zoom(factor: 0.8)))
         .submit()
@@ -56,13 +56,13 @@ try? Router(key: "test.com/login")
 - Present
 - Push
 - Switch
-- Modal
-- Child
+- Popup
+- AsChild
 
 ### Route to LoginViewController by a remote URL
 
 ```swift
-try? Router(urlString: "router://test.com/login?stringValue=This message came from a url string")
+try? Route(urlString: "Route://test.com/login?stringValue=This message came from a url string")
         .submit()
 
 ```

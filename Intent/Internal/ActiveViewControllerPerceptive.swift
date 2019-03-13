@@ -1,5 +1,5 @@
 //
-// Interceptor.swift
+// ActiveViewControllerPerceptive.swift
 //
 // Copyright (c) 2015 Jerry Wong
 //
@@ -21,38 +21,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import UIKit
 
-public final class Interceptor: Intent {
+/// A type that determins the active ViewController.
+/// UINavigationController and UITabBarController have already confirmed to it.
+public protocol ActiveViewControllerPerceptive {
+    
+    var activeViewController: UIViewController? { get }
+    
+}
 
-    public typealias Intention = (Any?) -> (Bool)
+/// A type that determins the modal window.
+/// Typically, AppDelegate should comfirm to it.
+public protocol TopWindowPerceptive {
     
-    public static var defaultCtx = IntentCtx<Intention>(scheme: "interceptor")
+    var topWindow: UIWindow { get }
     
-    public var input: Any?
+}
+
+extension UINavigationController : ActiveViewControllerPerceptive {
     
-    public var config = Void.self
-    
-    public var executor: Void?
-    
-    public let intention: Intention
-    
-    public let id: String
-    
-    public init(_ intention: @escaping Intention, _ id: String) {
-        self.intention = intention
-        self.id = id
+    public var activeViewController: UIViewController? {
+        return topViewController
     }
     
-    convenience init<T>(intent: T) throws where T: Intent {
-        try self.init(path: intent.id)
-    }
+}
+
+extension UITabBarController : ActiveViewControllerPerceptive {
     
-    public func doSubmit(complete: (() -> ())?) {
-        let ret = intention(input)
-        if ret {
-            complete?()
-        }
+    public var activeViewController: UIViewController? {
+        return selectedViewController
     }
-    
 }

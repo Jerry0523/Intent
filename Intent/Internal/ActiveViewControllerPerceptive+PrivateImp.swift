@@ -1,5 +1,5 @@
 //
-// GetActiveViewController.swift
+// ActiveViewControllerPerceptive+PrivateImp.swift
 //
 // Copyright (c) 2015 Jerry Wong
 //
@@ -23,23 +23,7 @@
 
 import UIKit
 
-/// A type that determins the active ViewController.
-/// UINavigationController and UITabBarController have already confirmed to it.
-public protocol GetActiveViewController {
-    
-    var activeViewController: UIViewController? { get }
-    
-}
-
-/// A type that determins the modal window.
-/// Typically, AppDelegate should comfirm to it.
-public protocol GetTopWindow {
-    
-    var topWindow: UIWindow { get }
-    
-}
-
-extension Router {
+extension Route {
     
     /// The active topViewController for the current key window.
     public static var topViewController: UIViewController? {
@@ -50,7 +34,7 @@ extension Router {
                 topVC = topVC?.presentedViewController
             }
             
-            while let topAbility = topVC as? GetActiveViewController {
+            while let topAbility = topVC as? ActiveViewControllerPerceptive {
                 topVC = topAbility.activeViewController
             }
             
@@ -61,29 +45,14 @@ extension Router {
     /// The top window for modal ViewControllers.
     public static var topWindow: UIWindow {
         get {
-            let appDelegate = UIApplication.shared.delegate as? GetTopWindow
-            assert(appDelegate != nil, "AppDelegate should confirm to Protocol GetTopWindow")
+            let appDelegate = UIApplication.shared.delegate as? TopWindowPerceptive
+            assert(appDelegate != nil, "AppDelegate should confirm to Protocol TopWindowPerceptive")
             return appDelegate!.topWindow
         }
     }
 }
 
-extension UINavigationController : GetActiveViewController {
-    
-    public var activeViewController: UIViewController? {
-        return topViewController
-    }
-    
-}
-
-extension UITabBarController : GetActiveViewController {
-    
-    public var activeViewController: UIViewController? {
-        return selectedViewController
-    }
-}
-
-extension _ScreenEdgeDetectorViewController : GetActiveViewController {
+extension _ScreenEdgeDetectorViewController : ActiveViewControllerPerceptive {
     
     var activeViewController: UIViewController? {
         return children.last

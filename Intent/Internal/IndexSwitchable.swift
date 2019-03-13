@@ -1,5 +1,5 @@
 //
-// UIViewController+Switch.swift
+// IndexSwitchable.swift
 //
 // Copyright (c) 2015 Jerry Wong
 //
@@ -23,41 +23,71 @@
 
 import UIKit
 
+protocol IndexSwitchable {
+    
+    func switchTo(_ index: UInt) -> Bool
+    
+}
+
 extension UIViewController {
     
-    func switchTo(index: Int) -> Bool {
+    fileprivate func withChildViewController(at index: UInt) -> UIViewController? {
         let viewControllers = children
-        if index >= 0 && index < viewControllers.count {
-            let selectedVC = viewControllers[index]
+        if index < viewControllers.count  {
+            return viewControllers[Int(index)]
+        }
+        return nil
+    }
+    
+}
+
+extension UITabBarController: IndexSwitchable {
+    
+    func switchTo(_ index: UInt) -> Bool {
+        if let selectedVC = withChildViewController(at: index) {
             selectedVC.viewWillAppear(true)
-            if let tbc = self as? UITabBarController {
-                tbc.selectedIndex = index
-            } else if let nc = self as? UINavigationController {
-                nc.popToViewController(selectedVC, animated: true)
-            }
+            selectedIndex = Int(index)
             selectedVC.viewDidAppear(true)
             return true
-        } else {
-            return false
         }
+        return false
     }
+    
+}
+
+extension UINavigationController: IndexSwitchable {
+    
+    func switchTo(_ index: UInt) -> Bool {
+        if let selectedVC = withChildViewController(at: index) {
+            selectedVC.viewWillAppear(true)
+            popToViewController(selectedVC, animated: true)
+            selectedVC.viewDidAppear(true)
+            return true
+        }
+        return false
+    }
+    
+}
+
+extension UIViewController {
     
     func switchTo<T>(class theClass: T.Type, isReversed: Bool) -> Bool where T: UIViewController {
         let viewControllers = children
         let bounds = 0..<viewControllers.count
         let indexes = isReversed ? Array(bounds.reversed()) : Array(bounds)
+        let selfIndexSwitchable = self as? IndexSwitchable
         for i in indexes {
             let aVC = viewControllers[i]
-            if aVC.classForCoder == theClass && switchTo(index: i) {
+            if let selfIndexSwitchable = selfIndexSwitchable,
+                aVC.classForCoder == theClass,
+                selfIndexSwitchable.switchTo(UInt(i)) {
                 return true
-            } else if let tbc = aVC as? UITabBarController {
-                let hasFound = tbc.switchTo(class: theClass, isReversed: isReversed)
-                if hasFound && switchTo(index: i) {
-                    return true
-                }
-            } else if let nc = aVC as? UINavigationController {
-                let hasFound = nc.switchTo(class: theClass, isReversed: isReversed)
-                if hasFound && switchTo(index: i) {
+            } else if aVC is IndexSwitchable {
+                let hasFound = aVC.switchTo(class: theClass, isReversed: isReversed)
+                if hasFound {
+                    if let selfIndexSwitchable = selfIndexSwitchable {
+                        _ = selfIndexSwitchable.switchTo(UInt(i))
+                    }
                     return true
                 }
             }

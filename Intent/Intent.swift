@@ -35,26 +35,8 @@ public enum IntentError : Error {
     
 }
 
-public protocol Interceptable {
-    
-    var identifier: Identifier? { get set }
-    
-    func makeIdentifier(forPath: String) -> Identifier?
-    
-    func submit(complete: (() -> ())?)
-    
-}
-
-public struct Identifier {
-    
-    public var path: String?
-    
-    public var absolute: String?
-    
-}
-
 /// An atstract type with an executable intention
-public protocol Intent: Interceptable {
+public protocol Intent {
     
     associatedtype Config
     
@@ -76,7 +58,9 @@ public protocol Intent: Interceptable {
     
     var intention: Intention { get }
     
-    init(intention: @escaping Intention)
+    var id: String { get }
+    
+    init(_ intention: @escaping Intention, _ id: String)
     
     func doSubmit(complete: (() -> ())?)
     
@@ -116,9 +100,8 @@ public extension Intent {
     
     public init(URL: URL, inputParser: (([String: Any]?) -> Input?), ctx: IntentCtx<Intention>? = Self.defaultCtx) throws {
         do {
-            let (intention, param, identifier) = try (ctx ?? Self.defaultCtx).fetch(withURL: URL)
-            self.init(intention: intention)
-            self.identifier = makeIdentifier(forPath: identifier)
+            let (box, param) = try (ctx ?? Self.defaultCtx).fetch(withURL: URL)
+            self.init(box.raw, box.id)
             self.input = inputParser(param)
         } catch {
             throw error

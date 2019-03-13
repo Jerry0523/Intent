@@ -1,5 +1,5 @@
 //
-// Router.swift
+// Route.swift
 //
 // Copyright (c) 2015 Jerry Wong
 //
@@ -23,37 +23,30 @@
 
 import UIKit
 
-/// A type that determins the preferred config, which will be used by the router if available.
-public protocol PreferredRouterConfig {
+/// A type that determins the preferred config, which will be used by the Route if available.
+public protocol PreferredRouteConfig {
     
-    var preferredRouterConfig: Router.RouterConfig? { get }
+    var preferredRouteConfig: Route.RouteConfig? { get }
     
 }
 
-public final class Router : Intent {
+public final class Route : Intent {
     
-    public static var defaultCtx = IntentCtx<([String : Any]?) -> UIViewController>(scheme: "router")
+    public typealias Intention = ([String : Any]?) -> UIViewController
+    
+    public static var defaultCtx = IntentCtx<Intention>(scheme: "Route")
     
     public var input: [String : Any]?
     
-    public var config: RouterConfig = .auto
+    public var config: RouteConfig = .auto
     
     public var executor: UIViewController?
     
-    public let intention: ([String : Any]?) -> UIViewController
+    public let intention: Intention
+    
+    public let id: String
     
     public var transition: Transition?
-    
-    public var identifier: Identifier?
-    
-    public static func makeIdentifier<U>(forViewControlType: U.Type) -> Identifier where U: UIViewController {
-        return Identifier(path: nil, absolute: "router-\(forViewControlType)")
-    }
-    
-    public func makeIdentifier(forPath: String) -> Identifier? {
-        let vc = intention(input)
-        return Identifier(path: forPath, absolute: "router-\(vc.classForCoder)")
-    }
     
     public func doSubmit(complete: (() -> ())? = nil) {
         DispatchQueue.main.async {
@@ -61,11 +54,12 @@ public final class Router : Intent {
         }
     }
     
-    public init(intention: @escaping Intention) {
+    public init(_ intention: @escaping Intention, _ id: String) {
         self.intention = intention
+        self.id = id
     }
     
-    public enum RouterConfig {
+    public enum RouteConfig {
         
         case auto
         
@@ -77,12 +71,12 @@ public final class Router : Intent {
         
         case `switch`(SwitchOption?)
         
-        case modal(ModalOption?)
+        case popup(PopupOption?)
         
         /// call addChildViewController: and view.addSubview
-        case child
+        case asChild
         
-        fileprivate func autoTransform(forExecuter executer: UIViewController) -> RouterConfig {
+        fileprivate func autoTransform(forExecuter executer: UIViewController) -> RouteConfig {
             if (executer.navigationController != nil) || (executer is UINavigationController) {
                 return .push(nil)
             } else {
@@ -146,7 +140,7 @@ public final class Router : Intent {
             
         }
         
-        public struct ModalOption : OptionSet {
+        public struct PopupOption : OptionSet {
             
             public var rawValue = 0
             
@@ -154,32 +148,32 @@ public final class Router : Intent {
                 self.rawValue = rawValue
             }
             
-            public static let cancelAnimation = ModalOption(rawValue: 1 << 0)
+            public static let cancelAnimation = PopupOption(rawValue: 1 << 0)
             
             ///add a dark blur background, default is a alpha-dark background on the top window
-            public static let dimBlur = ModalOption(rawValue: 1 << 1)
+            public static let dimBlur = PopupOption(rawValue: 1 << 1)
             
             ///content view will be at bottom, default is centered
-            public static let contentBottom = ModalOption(rawValue: 1 << 2)
+            public static let contentBottom = PopupOption(rawValue: 1 << 2)
             
             ///content view will be at top
-            public static let contentTop = ModalOption(rawValue: 1 << 3)
+            public static let contentTop = PopupOption(rawValue: 1 << 3)
             
         }
     }
 }
 
-extension Router {
+extension Route {
     
-    private func prepare(config: inout RouterConfig) -> (executor: UIViewController, output: UIViewController) {
+    private func prepare(config: inout RouteConfig) -> (executor: UIViewController, output: UIViewController) {
         var mExecutor = executor
         if mExecutor == nil {
-            mExecutor = Router.topViewController
+            mExecutor = Route.topViewController
         }
         assert(mExecutor != nil)
 
         let vc = intention(input)
-        if let presetVC = vc as? PreferredRouterConfig, let presetConfig = presetVC.preferredRouterConfig {
+        if let presetVC = vc as? PreferredRouteConfig, let presetConfig = presetVC.preferredRouteConfig {
             config = presetConfig
         }
         
@@ -191,7 +185,7 @@ extension Router {
         return (mExecutor!, vc)
     }
     
-    private func submit(config: RouterConfig, complete:(() -> ())?) {
+    private func submit(config: RouteConfig, complete:(() -> ())?) {
         var newConfig = config
         let (mExecutor, vc) = prepare(config: &newConfig)
         switch newConfig {
@@ -201,23 +195,23 @@ extension Router {
             exePush(executer: mExecutor, intentionVC: vc, option: pushOpt ?? [], complete: complete)
         case .`switch`(let switchOpt):
             exeSwitch(executer: mExecutor, intentionVC: vc, option: switchOpt ?? [], complete: complete)
-        case .modal(let modalOpt):
-            exeModal(executer: mExecutor, intentionVC: vc, option: modalOpt ?? [], complete: complete)
-        case .child:
+        case .popup(let popupOpt):
+            exePopup(executer: mExecutor, intentionVC: vc, option: popupOpt ?? [], complete: complete)
+        case .asChild:
             exeAddChild(executer: mExecutor, intentionVC: vc, complete: complete)
         default:
             break
         }
     }
     
-    private func exePresent(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.PresentOption, complete:(() -> ())?) {
+    private func exePresent(executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PresentOption, complete:(() -> ())?) {
         let animated = !option.contains(.cancelAnimation)
         var targetDest = intentionVC
         if option.contains(.wrapNC) {
             targetDest = UINavigationController(rootViewController: intentionVC)
             var items = Array<UIBarButtonItem>()
             
-            let backItem = UIBarButtonItem(image: Router.backIndicatorImage, style: .plain, target: targetDest, action: #selector(UIViewController.internal_dismiss))
+            let backItem = UIBarButtonItem(image: Route.backIndicatorImage, style: .plain, target: targetDest, action: #selector(UIViewController.internal_dismiss))
             if #available(iOS 11.0, *) {
                 backItem.imageInsets = UIEdgeInsets(top: 0, left: -NavigationBarLayoutMargin * 0.5, bottom: 0, right: NavigationBarLayoutMargin * 0.5)
             } else {
@@ -252,7 +246,7 @@ extension Router {
         })
     }
     
-    private func exePush(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.PushOption, complete:(() -> ())?) {
+    private func exePush(executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PushOption, complete:(() -> ())?) {
         
         func autoGetPushableViewController(executer: UIViewController) -> UINavigationController? {
             var nc: UINavigationController? = executer as? UINavigationController
@@ -332,7 +326,7 @@ extension Router {
         complete?()
     }
     
-    private func exeSwitch(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.SwitchOption, complete:(() -> ())?) {
+    private func exeSwitch(executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.SwitchOption, complete:(() -> ())?) {
         
         if (executer.isKind(of: intentionVC.classForCoder)) {
             return
@@ -393,33 +387,33 @@ extension Router {
         complete?()
     }
     
-    private func exeModal(executer: UIViewController, intentionVC: UIViewController, option: RouterConfig.ModalOption, complete:(() -> ())?) {
-        let modalVC = _ModalViewController()
-        modalVC.modalOption = option
-        modalVC.addChild(intentionVC)
-        modalVC.present()
+    private func exePopup(executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PopupOption, complete:(() -> ())?) {
+        let popupVC = _PopupViewController()
+        popupVC.popupOption = option
+        popupVC.addChild(intentionVC)
+        popupVC.present()
         complete?()
     }
 }
 
-public extension Router {
+public extension Route {
     
-    public func transition(_ transition: Transition?) -> Router {
+    public func transition(_ transition: Transition?) -> Route {
         self.transition = transition
         return self
     }
     
-    public func input(_ input: [String : Any]) -> Router {
+    public func input(_ input: [String : Any]) -> Route {
         self.input = input
         return self
     }
     
-    public func config(_ config: RouterConfig) -> Router {
+    public func config(_ config: RouteConfig) -> Route {
         self.config = config
         return self
     }
     
-    public func executor(_ executor: UIViewController) -> Router {
+    public func executor(_ executor: UIViewController) -> Route {
         self.executor = executor
         return self
     }

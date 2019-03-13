@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import UIKit
+import Foundation
 
 open class IntentCtx <T> {
     
@@ -31,28 +31,31 @@ open class IntentCtx <T> {
         self.scheme = scheme
     }
     
-    open func unregister(forPath: String) -> T? {
-        var ret: T?
+    open func unregister(forPath: String) -> Box<T>? {
+        var ret: Box<T>?
         ioQueue.sync(flags: .barrier, execute: {
             ret = dataMap.removeValue(forKey: forPath)
         })
         return ret
     }
     
-    open func register(_ obj: T, forPath: String) {
+    @discardableResult
+    open func register(_ obj: T, forPath: String) -> String {
+        let id = scheme + "/" + UUID().uuidString
         ioQueue.async(flags: .barrier) {
-            self.dataMap[forPath] = obj
+            self.dataMap[forPath] = Box(obj, id)
         }
+        return id
     }
     
-    open func regsiter(_ objs: [String: T]) {
+    open func regsiter(_ objs: [String: Box<T>]) {
         ioQueue.async(flags: .barrier) {
             self.dataMap.merge(objs) { (_, new) in new }
         }
     }
     
-    open func fetch(forPath: String) throws -> T {
-        var ret: T?
+    open func fetch(forPath: String) throws -> Box<T> {
+        var ret: Box<T>?
         ioQueue.sync {
             ret = dataMap[forPath]
         }
@@ -62,7 +65,7 @@ open class IntentCtx <T> {
         return ret!
     }
     
-    open func fetch(withURL: URL) throws -> (T, [String: Any]?, String) {
+    open func fetch(withURL: URL) throws -> (Box<T>, [String: Any]?) {
         guard let urlComponent = URLComponents(url: withURL, resolvingAgainstBaseURL: false),
             let scheme = urlComponent.scheme,
             let host = urlComponent.host else {
@@ -74,7 +77,7 @@ open class IntentCtx <T> {
         }
         
         let identifier = host + urlComponent.path
-        let obj = try fetch(forPath: identifier)
+        let box = try fetch(forPath: identifier)
         
         var param: [String: Any]?
         
@@ -87,13 +90,22 @@ open class IntentCtx <T> {
                 param = mParam
             }
         }
-
-        return (obj, param, scheme + "://" + identifier)
+        return (box, param)
     }
     
-    private var dataMap: [String: T] = [:]
+    private var dataMap: [String: Box<T>] = [:]
     
     private let ioQueue = DispatchQueue(label: "com.jerry.intent", qos: .default, attributes: .concurrent)
+    
+    public class Box<T> {
+        let raw: T
+        let id: String
+        
+        init(_ raw: T, _ id: String) {
+            self.id = id
+            self.raw = raw
+        }
+    }
     
 }
 

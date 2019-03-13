@@ -47,9 +47,9 @@ public enum HandlerConfig {
 
 public final class Handler : Intent {
     
-    public var identifier: Identifier?
+    public typealias Intention = ([String : Any]?) -> ()
     
-    public static var defaultCtx = IntentCtx<([String : Any]?) -> ()>(scheme: "handler")
+    public static var defaultCtx = IntentCtx<Intention>(scheme: "handler")
 
     public var input: [String : Any]?
 
@@ -57,11 +57,9 @@ public final class Handler : Intent {
 
     public var executor: Void?
     
-    public var intention: ([String : Any]?) -> ()
+    public let intention: Intention
     
-    public func makeIdentifier(forPath: String) -> Identifier? {
-        return Identifier(path: forPath, absolute: forPath)
-    }
+    public let id: String
 
     public func doSubmit(complete: (() -> ())? = nil) {
         config.queue.async {
@@ -70,8 +68,9 @@ public final class Handler : Intent {
         }
     }
 
-    public init(intention: @escaping Intention) {
+    public init(_ intention: @escaping Intention, _ id: String) {
         self.intention = intention
+        self.id = id
     }
 }
 

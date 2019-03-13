@@ -1,5 +1,5 @@
 //
-// _ModalViewController.swift
+// _PopupViewController.swift
 //
 // Copyright (c) 2015 Jerry Wong
 //
@@ -23,7 +23,7 @@
 
 import UIKit
 
-class _ModalViewController: UIViewController {
+class _PopupViewController: UIViewController {
     
     private func addContentViewIfNeeded() {
         guard isViewLoaded, let contentVC = children.last else {
@@ -37,9 +37,9 @@ class _ModalViewController: UIViewController {
         var constraints: [NSLayoutConstraint] = []
         constraints.append(NSLayoutConstraint(item: contentView, attribute: .left, relatedBy: .equal, toItem: contentView.superview, attribute: .left, multiplier: 1.0, constant: 0))
         constraints.append(NSLayoutConstraint(item: contentView, attribute: .right, relatedBy: .equal, toItem: contentView.superview, attribute: .right, multiplier: 1.0, constant: 0))
-        if modalOption.contains(.contentBottom) {
+        if popupOption.contains(.contentBottom) {
             constraints.append(NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: .equal, toItem: contentView.superview, attribute: .bottom, multiplier: 1.0, constant: 0))
-        } else if modalOption.contains(.contentTop) {
+        } else if popupOption.contains(.contentTop) {
             constraints.append(NSLayoutConstraint(item: contentView, attribute: .top, relatedBy: .equal, toItem: contentView.superview, attribute: .top, multiplier: 1.0, constant: 0))
         } else {//centered
             constraints.append(NSLayoutConstraint(item: contentView, attribute: .centerY, relatedBy: .equal, toItem: contentView.superview, attribute: .centerY, multiplier: 1.0, constant: 0))
@@ -50,7 +50,7 @@ class _ModalViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (modalOption.contains(.dimBlur)) {
+        if (popupOption.contains(.dimBlur)) {
             view.addSubview(dimBlurView)
         } else {
             view.addSubview(dimView)
@@ -78,12 +78,12 @@ class _ModalViewController: UIViewController {
             return
         }
         
-        let bottomRootVC = Router.topViewController
+        let bottomRootVC = Route.topViewController
         bottomRootVC?.viewWillDisappear(true)
         
         let contentView = childVC.view
         
-        if (modalOption.contains(.cancelAnimation)) {
+        if (popupOption.contains(.cancelAnimation)) {
             dimBlurView.effect = UIBlurEffect(style: .dark)
             dimView.backgroundColor = UIColor(white: 0, alpha: 0.6)
         } else {
@@ -98,7 +98,7 @@ class _ModalViewController: UIViewController {
             })
         }
         
-        let targetWindow = Router.topWindow
+        let targetWindow = Route.topWindow
         targetWindow.rootViewController = self
         targetWindow.isHidden = false
         
@@ -110,11 +110,11 @@ class _ModalViewController: UIViewController {
             return
         }
         
-        let bottomRootVC = Router.topViewController
+        let bottomRootVC = Route.topViewController
         bottomRootVC?.viewWillAppear(flag)
         
         let completionBlock = {(finished: Bool) -> Void in
-            let targetWindow = Router.topWindow
+            let targetWindow = Route.topWindow
             targetWindow.rootViewController = UIViewController()
             targetWindow.isHidden = true
             bottomRootVC?.viewDidAppear(flag)
@@ -136,9 +136,9 @@ class _ModalViewController: UIViewController {
     }
     
     private func transform(forContentView contentView: UIView) {
-        if modalOption.contains(.contentBottom) {
+        if popupOption.contains(.contentBottom) {
             contentView.transform = CGAffineTransform(translationX: 0, y: contentView.bounds.size.height)
-        } else if modalOption.contains(.contentTop) {
+        } else if popupOption.contains(.contentTop) {
             contentView.transform = CGAffineTransform(translationX: 0, y: -contentView.bounds.size.height)
         } else {//centered
             contentView.transform = CGAffineTransform(scaleX: 0, y: 0)
@@ -149,7 +149,7 @@ class _ModalViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    var modalOption: Router.RouterConfig.ModalOption = []
+    var popupOption: Route.RouteConfig.PopupOption = []
     
     private lazy var dimView: UIView = {
         let _dimView = UIView(frame: view.bounds)
