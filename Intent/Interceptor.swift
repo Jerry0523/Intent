@@ -39,7 +39,7 @@ public final class Interceptor: Intent {
     
     public let id: String
     
-    public init(_ intention: @escaping Intention, _ id: String) {
+    public init(_ id: String = AnonymousId, _ intention: @escaping Intention) {
         self.intention = intention
         self.id = id
     }

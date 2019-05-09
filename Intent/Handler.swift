@@ -68,7 +68,7 @@ public final class Handler : Intent {
         }
     }
 
-    public init(_ intention: @escaping Intention, _ id: String) {
+    public init(_ id: String = AnonymousId, _ intention: @escaping Intention) {
         self.intention = intention
         self.id = id
     }
@@ -76,12 +76,12 @@ public final class Handler : Intent {
 
 public extension Handler {
     
-    public func config(_ config: HandlerConfig) -> Handler {
+    func config(_ config: HandlerConfig) -> Handler {
         self.config = config
         return self
     }
     
-    public func input(_ input: [String : Any]) -> Handler {
+    func input(_ input: [String : Any]) -> Handler {
         self.input = input
         return self
     }

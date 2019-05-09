@@ -221,9 +221,9 @@ extension Transition {
         
         if per < 0 && recognizer.isEnabled {
             recognizer.isEnabled = false
-            defer {
-                recognizer.isEnabled = true
-            }
+        }
+        defer {
+            recognizer.isEnabled = true
         }
         switch recognizer.state {
         case .began:

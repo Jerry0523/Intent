@@ -72,7 +72,7 @@ class EntryViewContoller: UIViewController {
             break
         }
         if let pageId = AppRegistry.shared.id(for: ModalViewController.self) {
-            Route({ _ in ModalViewController() }, pageId)
+            Route(pageId) { _ in ModalViewController() }
                 .config(.popup(opt))
                 .submit()
         }

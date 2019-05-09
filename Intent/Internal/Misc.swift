@@ -23,7 +23,7 @@
 
 import UIKit
 
-extension NSObject {
+public extension NSObject {
     
     @objc var extra: [String: Any]? {
         get {

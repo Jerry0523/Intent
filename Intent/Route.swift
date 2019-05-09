@@ -54,7 +54,7 @@ public final class Route : Intent {
         }
     }
     
-    public init(_ intention: @escaping Intention, _ id: String) {
+    public init(_ id: String = AnonymousId, _ intention: @escaping Intention) {
         self.intention = intention
         self.id = id
     }
@@ -398,22 +398,22 @@ extension Route {
 
 public extension Route {
     
-    public func transition(_ transition: Transition?) -> Route {
+    func transition(_ transition: Transition?) -> Route {
         self.transition = transition
         return self
     }
     
-    public func input(_ input: [String : Any]) -> Route {
+    func input(_ input: [String : Any]) -> Route {
         self.input = input
         return self
     }
     
-    public func config(_ config: RouteConfig) -> Route {
+    func config(_ config: RouteConfig) -> Route {
         self.config = config
         return self
     }
     
-    public func executor(_ executor: UIViewController) -> Route {
+    func executor(_ executor: UIViewController) -> Route {
         self.executor = executor
         return self
     }

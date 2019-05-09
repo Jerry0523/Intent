@@ -60,15 +60,17 @@ public protocol Intent {
     
     var id: String { get }
     
-    init(_ intention: @escaping Intention, _ id: String)
+    init(_ id: String, _ intention: @escaping Intention)
     
     func doSubmit(complete: (() -> ())?)
     
 }
 
+public let AnonymousId = ""
+
 public extension Intent {
     
-    public func submit(complete: (() -> ())? = nil) {
+    func submit(complete: (() -> ())? = nil) {
         if let interceptor = try? Interceptor(intent: self) {
             interceptor.input = self
             interceptor.submit {
@@ -83,11 +85,11 @@ public extension Intent {
 
 public extension Intent {
     
-    public init(path: String, ctx: IntentCtx<Intention>? = Self.defaultCtx) throws {
+    init(path: String, ctx: IntentCtx<Intention>? = Self.defaultCtx) throws {
         try self.init(URLString: (ctx.self?.scheme)! + "://" + path, inputParser: { _ in return nil }, ctx: ctx)
     }
     
-    public init(URLString: String, inputParser: (([String: Any]?) -> Input?), ctx: IntentCtx<Intention>? = Self.defaultCtx) throws {
+    init(URLString: String, inputParser: (([String: Any]?) -> Input?), ctx: IntentCtx<Intention>? = Self.defaultCtx) throws {
         var url = URL(string: URLString)
         if url == nil, let encodedURLString = URLString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
             url = URL(string: encodedURLString)
@@ -98,10 +100,10 @@ public extension Intent {
         try self.init(URL: mURL, inputParser: inputParser, ctx: ctx)
     }
     
-    public init(URL: URL, inputParser: (([String: Any]?) -> Input?), ctx: IntentCtx<Intention>? = Self.defaultCtx) throws {
+    init(URL: URL, inputParser: (([String: Any]?) -> Input?), ctx: IntentCtx<Intention>? = Self.defaultCtx) throws {
         do {
             let (box, param) = try (ctx ?? Self.defaultCtx).fetch(withURL: URL)
-            self.init(box.raw, box.id)
+            self.init(box.id, box.raw)
             self.input = inputParser(param)
         } catch {
             throw error
@@ -111,7 +113,7 @@ public extension Intent {
 
 public extension Intent where Input == [String: Any] {
     
-    public init(URLString: String, ctx: IntentCtx<Intention>? = Self.defaultCtx, executor: Executor? = nil) throws {
+    init(URLString: String, ctx: IntentCtx<Intention>? = Self.defaultCtx, executor: Executor? = nil) throws {
         do {
             try self.init(URLString: URLString, inputParser: { $0 }, ctx: ctx)
         } catch {
