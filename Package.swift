@@ -7,6 +7,6 @@ let package = Package(
         .library(name: "Intent", targets: ["Intent"]),
     ],
     targets: [
-        .target(name: "Intent")
+        .target(name: "Intent", path: "Intent")
     ]
 )
