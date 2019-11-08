@@ -30,7 +30,11 @@ class EntryViewContoller: UIViewController {
 
     @IBAction func didTapPresentWithKeyBtn(_ sender: Any) {
         try? Route(path: "test.com/entry")
-                .config(.present(fakePushSwitch.isOn ? [.fakePush, .wrapNC] : .wrapNC))
+                .config(.present(
+                    fakePushSwitch.isOn ? [.fakePush, .wrapNC] : .wrapNC,
+                    .fullScreen
+                    )
+                )
                 .submit()
     }
     

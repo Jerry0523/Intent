@@ -64,7 +64,7 @@ public final class Route : Intent {
         case auto
         
         /// call presentViewController:animated:completion:
-        case present(PresentOption?)
+        case present(PresentOption?, UIModalPresentationStyle)
         
         /// call pushViewController:animated:
         case push(PushOption?)
@@ -80,7 +80,7 @@ public final class Route : Intent {
             if (executer.navigationController != nil) || (executer is UINavigationController) {
                 return .push(nil)
             } else {
-                return .present(nil)
+                return .present(nil, .fullScreen)
             }
         }
         
@@ -189,8 +189,8 @@ extension Route {
         var newConfig = config
         let (mExecutor, vc) = prepare(config: &newConfig)
         switch newConfig {
-        case .present(let presentOpt):
-            exePresent(executer: mExecutor, intentionVC: vc, option: presentOpt ?? [], complete: complete)
+        case .present(let presentOpt, let presentStyle):
+            exePresent(executer: mExecutor, intentionVC: vc, option: presentOpt ?? [], presentStyle: presentStyle, complete: complete)
         case .push(let pushOpt):
             exePush(executer: mExecutor, intentionVC: vc, option: pushOpt ?? [], complete: complete)
         case .`switch`(let switchOpt):
@@ -204,7 +204,7 @@ extension Route {
         }
     }
     
-    private func exePresent(executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PresentOption, complete:(() -> ())?) {
+    private func exePresent(executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PresentOption, presentStyle: UIModalPresentationStyle, complete:(() -> ())?) {
         let animated = !option.contains(.cancelAnimation)
         var targetDest = intentionVC
         if option.contains(.wrapNC) {
@@ -241,6 +241,7 @@ extension Route {
             targetDest.presentTransition = transition
             targetDest.transitioningDelegate = transition
         }
+        targetDest.modalPresentationStyle = presentStyle
         executer.present(targetDest, animated: animated, completion: {
             complete?()
         })
