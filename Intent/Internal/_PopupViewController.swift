@@ -105,36 +105,6 @@ class _PopupViewController: UIViewController {
         bottomRootVC?.viewDidDisappear(true)
     }
     
-    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        guard let childVC = children.last else {
-            return
-        }
-        
-        let bottomRootVC = Route.topViewController
-        bottomRootVC?.viewWillAppear(flag)
-        
-        let completionBlock = {(finished: Bool) -> Void in
-            let targetWindow = Route.topWindow
-            targetWindow.rootViewController = UIViewController()
-            targetWindow.isHidden = true
-            bottomRootVC?.viewDidAppear(flag)
-            if (completion != nil) {
-                completion!()
-            }
-        }
-        
-        if (flag) {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.dimBlurView.effect = nil
-                self.dimView.backgroundColor = UIColor.clear
-                self.transform(forContentView: childVC.view)
-            }, completion: completionBlock)
-            
-        } else {
-            completionBlock(true)
-        }
-    }
-    
     private func transform(forContentView contentView: UIView) {
         if popupOption.contains(.contentBottom) {
             contentView.transform = CGAffineTransform(translationX: 0, y: contentView.bounds.size.height)
@@ -146,7 +116,23 @@ class _PopupViewController: UIViewController {
     }
     
     @objc private func dismissAnimated() {
-        dismiss(animated: true, completion: nil)
+        guard let childVC = children.last else {
+            return
+        }
+        let bottomRootVC = Route.topViewController
+        bottomRootVC?.viewWillAppear(true)
+        
+        let completionBlock = {(finished: Bool) -> Void in
+            let targetWindow = Route.topWindow
+            targetWindow.rootViewController = UIViewController()
+            targetWindow.isHidden = true
+            bottomRootVC?.viewDidAppear(true)
+        }
+        UIView.animate(withDuration: 0.3, animations: {
+            self.dimBlurView.effect = nil
+            self.dimView.backgroundColor = UIColor.clear
+            self.transform(forContentView: childVC.view)
+        }, completion: completionBlock)
     }
     
     var popupOption: Route.RouteConfig.PopupOption = []
