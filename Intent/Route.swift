@@ -165,7 +165,7 @@ public final class Route : Intent {
 
 extension Route {
     
-    private func prepare(config: inout RouteConfig) -> (executor: UIViewController, output: UIViewController) {
+    private func prepare(for config: inout RouteConfig) -> (executor: UIViewController, output: UIViewController) {
         var mExecutor = executor
         if mExecutor == nil {
             mExecutor = Route.topViewController
@@ -182,29 +182,30 @@ extension Route {
         }
         
         vc.extra = input
+        
         return (mExecutor!, vc)
     }
     
     private func submit(config: RouteConfig, complete:(() -> ())?) {
         var newConfig = config
-        let (mExecutor, vc) = prepare(config: &newConfig)
+        let (mExecutor, vc) = prepare(for: &newConfig)
         switch newConfig {
         case .present(let presentOpt, let presentStyle):
-            exePresent(executer: mExecutor, intentionVC: vc, option: presentOpt ?? [], presentStyle: presentStyle, complete: complete)
+            exePresent(with: mExecutor, intentionVC: vc, option: presentOpt ?? [], presentStyle: presentStyle, complete: complete)
         case .push(let pushOpt):
-            exePush(executer: mExecutor, intentionVC: vc, option: pushOpt ?? [], complete: complete)
+            exePush(with: mExecutor, intentionVC: vc, option: pushOpt ?? [], complete: complete)
         case .`switch`(let switchOpt):
-            exeSwitch(executer: mExecutor, intentionVC: vc, option: switchOpt ?? [], complete: complete)
+            exeSwitch(with: mExecutor, intentionVC: vc, option: switchOpt ?? [], complete: complete)
         case .popup(let popupOpt):
-            exePopup(executer: mExecutor, intentionVC: vc, option: popupOpt ?? [], complete: complete)
+            exePopup(with: mExecutor, intentionVC: vc, option: popupOpt ?? [], complete: complete)
         case .asChild:
-            exeAddChild(executer: mExecutor, intentionVC: vc, complete: complete)
+            exeAddChild(with: mExecutor, intentionVC: vc, complete: complete)
         default:
             break
         }
     }
     
-    private func exePresent(executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PresentOption, presentStyle: UIModalPresentationStyle, complete:(() -> ())?) {
+    private func exePresent(with executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PresentOption, presentStyle: UIModalPresentationStyle, complete:(() -> ())?) {
         let animated = !option.contains(.cancelAnimation)
         var targetDest = intentionVC
         if option.contains(.wrapNC) {
@@ -247,7 +248,7 @@ extension Route {
         })
     }
     
-    private func exePush(executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PushOption, complete:(() -> ())?) {
+    private func exePush(with executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PushOption, complete:(() -> ())?) {
         
         func autoGetPushableViewController(executer: UIViewController) -> UINavigationController? {
             var nc: UINavigationController? = executer as? UINavigationController
@@ -318,7 +319,7 @@ extension Route {
         complete?()
     }
     
-    private func exeAddChild(executer: UIViewController, intentionVC: UIViewController, complete:(() -> ())?) {
+    private func exeAddChild(with executer: UIViewController, intentionVC: UIViewController, complete:(() -> ())?) {
         executer.addChild(intentionVC)
         intentionVC.view.frame = executer.view.bounds
         intentionVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -327,7 +328,7 @@ extension Route {
         complete?()
     }
     
-    private func exeSwitch(executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.SwitchOption, complete:(() -> ())?) {
+    private func exeSwitch(with executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.SwitchOption, complete:(() -> ())?) {
         
         if (executer.isKind(of: intentionVC.classForCoder)) {
             return
@@ -388,12 +389,11 @@ extension Route {
         complete?()
     }
     
-    private func exePopup(executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PopupOption, complete:(() -> ())?) {
+    private func exePopup(with executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PopupOption, complete:(() -> ())?) {
         let popupVC = _PopupViewController()
         popupVC.popupOption = option
         popupVC.addChild(intentionVC)
-        popupVC.present()
-        complete?()
+        executer.present(popupVC, animated: false, completion: complete)
     }
 }
 

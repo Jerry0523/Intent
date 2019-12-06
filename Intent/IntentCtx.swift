@@ -97,7 +97,7 @@ open class IntentCtx <T> {
     
     private let ioQueue = DispatchQueue(label: "com.jerry.intent", qos: .default, attributes: .concurrent)
     
-    public class Box<T> {
+    public struct Box<T> {
         let raw: T
         let id: String
         

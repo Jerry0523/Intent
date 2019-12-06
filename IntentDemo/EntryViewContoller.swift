@@ -19,6 +19,8 @@ class EntryViewContoller: UIViewController {
     
     @IBOutlet weak var ringBtn: UIButton!
     
+    @IBOutlet weak var associatedImageView: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Intent Demo"
@@ -75,11 +77,16 @@ class EntryViewContoller: UIViewController {
         default:
             break
         }
-        if let pageId = AppRegistry.shared.id(for: ModalViewController.self) {
-            Route(pageId) { _ in ModalViewController() }
-                .config(.popup(opt))
-                .submit()
-        }
+        Route() { _ in ModalViewController() }
+            .config(.popup(opt))
+            .submit()
+    }
+    
+    @IBAction func didTapPushWithAssociatedTransitionBtn(_ sender: UIButton) {
+        Route() { _ in ModalViewController() }
+            .config(.present(.none, .overFullScreen))
+            .transition(AssociatedTransition())
+            .submit()
     }
     
     @IBAction func didTapHandlerBtn(_ sender: Any) {
@@ -94,4 +101,12 @@ extension EntryViewContoller : RingTransitionDataSource {
     func viewForTransition() -> UIView? {
         return ringBtn
     }
+}
+
+extension EntryViewContoller : AssociatedTransitionDataSource {
+    
+    @objc func viewsForTransition() -> [UIView]? {
+        return [associatedImageView]
+    }
+    
 }

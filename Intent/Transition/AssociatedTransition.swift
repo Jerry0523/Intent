@@ -73,7 +73,7 @@ open class AssociatedTransition: Transition {
             viewToBePresent.alpha = 1.0
             snapshotViewArray.forEach{ $0.removeFromSuperview() }
             toViews?.forEach{ $0.isHidden = false }
-            fromViews?.forEach{ $0.isHidden = false }
+//            fromViews?.forEach{ $0.isHidden = false }
             context.completeTransition(!context.transitionWasCancelled)
         }
     }

@@ -31,14 +31,6 @@ public protocol ActiveViewControllerPerceptive {
     
 }
 
-/// A type that determins the modal window.
-/// Typically, AppDelegate should comfirm to it.
-public protocol TopWindowPerceptive {
-    
-    var topWindow: UIWindow { get }
-    
-}
-
 extension UINavigationController : ActiveViewControllerPerceptive {
     
     public var activeViewController: UIViewController? {

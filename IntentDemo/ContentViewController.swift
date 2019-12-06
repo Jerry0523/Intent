@@ -32,7 +32,6 @@ import Intent
         if let transition = pushTransition as? RingTransition {
             ringTransition = transition
             setupVerticalPanGesture()
-            
         }
     }
     

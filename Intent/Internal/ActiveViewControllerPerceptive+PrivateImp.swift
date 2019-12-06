@@ -42,14 +42,6 @@ extension Route {
         }
     }
     
-    /// The top window for modal ViewControllers.
-    public static var topWindow: UIWindow {
-        get {
-            let appDelegate = UIApplication.shared.delegate as? TopWindowPerceptive
-            assert(appDelegate != nil, "AppDelegate should confirm to Protocol TopWindowPerceptive")
-            return appDelegate!.topWindow
-        }
-    }
 }
 
 extension _ScreenEdgeDetectorViewController : ActiveViewControllerPerceptive {

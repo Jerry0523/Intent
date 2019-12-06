@@ -25,6 +25,16 @@ import UIKit
 
 class _PopupViewController: UIViewController {
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        modalPresentationStyle = .overFullScreen
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        modalPresentationStyle = .overFullScreen
+    }
+    
     private func addContentViewIfNeeded() {
         guard isViewLoaded, let contentVC = children.last else {
             return
@@ -46,6 +56,30 @@ class _PopupViewController: UIViewController {
         }
         NSLayoutConstraint.activate(constraints)
         contentView.layoutIfNeeded()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let childVC = children.last else {
+            return
+            
+        }
+        let contentView = childVC.view
+       
+        if (popupOption.contains(.cancelAnimation)) {
+            dimBlurView.effect = UIBlurEffect(style: .dark)
+            dimView.backgroundColor = UIColor(white: 0, alpha: 0.6)
+        } else {
+            transform(forContentView: childVC.view)
+            dimBlurView.effect = nil
+            dimView.backgroundColor = UIColor.clear
+           
+            UIView.animate(withDuration: 0.3, animations: {
+                self.dimBlurView.effect = UIBlurEffect(style: .dark)
+                self.dimView.backgroundColor = UIColor(white: 0, alpha: 0.6)
+                contentView?.transform = CGAffineTransform.identity
+            })
+        }
     }
     
     override func viewDidLoad() {
@@ -73,38 +107,6 @@ class _PopupViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    func present() {
-        guard let childVC = children.last else {
-            return
-        }
-        
-        let bottomRootVC = Route.topViewController
-        bottomRootVC?.viewWillDisappear(true)
-        
-        let contentView = childVC.view
-        
-        if (popupOption.contains(.cancelAnimation)) {
-            dimBlurView.effect = UIBlurEffect(style: .dark)
-            dimView.backgroundColor = UIColor(white: 0, alpha: 0.6)
-        } else {
-            transform(forContentView: childVC.view)
-            dimBlurView.effect = nil
-            dimView.backgroundColor = UIColor.clear
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.dimBlurView.effect = UIBlurEffect(style: .dark)
-                self.dimView.backgroundColor = UIColor(white: 0, alpha: 0.6)
-                contentView?.transform = CGAffineTransform.identity
-            })
-        }
-        
-        let targetWindow = Route.topWindow
-        targetWindow.rootViewController = self
-        targetWindow.isHidden = false
-        
-        bottomRootVC?.viewDidDisappear(true)
-    }
-    
     private func transform(forContentView contentView: UIView) {
         if popupOption.contains(.contentBottom) {
             contentView.transform = CGAffineTransform(translationX: 0, y: contentView.bounds.size.height)
@@ -119,20 +121,13 @@ class _PopupViewController: UIViewController {
         guard let childVC = children.last else {
             return
         }
-        let bottomRootVC = Route.topViewController
-        bottomRootVC?.viewWillAppear(true)
-        
-        let completionBlock = {(finished: Bool) -> Void in
-            let targetWindow = Route.topWindow
-            targetWindow.rootViewController = UIViewController()
-            targetWindow.isHidden = true
-            bottomRootVC?.viewDidAppear(true)
-        }
         UIView.animate(withDuration: 0.3, animations: {
             self.dimBlurView.effect = nil
             self.dimView.backgroundColor = UIColor.clear
             self.transform(forContentView: childVC.view)
-        }, completion: completionBlock)
+        }) { finished in
+            self.dismiss(animated: false)
+        }
     }
     
     var popupOption: Route.RouteConfig.PopupOption = []

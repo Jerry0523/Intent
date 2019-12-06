@@ -180,9 +180,13 @@ extension Transition {
     
     public enum TransitionGestureAxis {
         
+        case horizontal
+        
         case horizontalLeftToRight
         
         case horizontalRightToLeft
+        
+        case vertical
         
         case verticalTopToBottom
         
@@ -190,9 +194,9 @@ extension Transition {
         
         func getRefrenceLength(forView view: UIView?) -> CGFloat {
             switch self {
-            case .horizontalLeftToRight, .horizontalRightToLeft:
+            case .horizontal, .horizontalLeftToRight, .horizontalRightToLeft:
                 return view?.frame.size.width ?? 0
-            case .verticalTopToBottom, .verticalBottomToTop:
+            case .vertical, .verticalTopToBottom, .verticalBottomToTop:
                 return view?.frame.size.height ?? 0
             }
         }
@@ -200,10 +204,14 @@ extension Transition {
         func getTranslatePercent(forView view: UIView?, point: CGPoint) -> CGFloat {
             let refrenceLength = getRefrenceLength(forView: view)
             switch self {
+            case .horizontal:
+                return CGFloat(fabsf(Float(point.x))) / refrenceLength
             case .horizontalLeftToRight:
                 return point.x / refrenceLength
             case .horizontalRightToLeft:
                 return -point.x / refrenceLength
+            case .vertical:
+            return CGFloat(fabsf(Float(point.y))) / refrenceLength
             case .verticalTopToBottom:
                 return point.y / refrenceLength
             case .verticalBottomToTop:
