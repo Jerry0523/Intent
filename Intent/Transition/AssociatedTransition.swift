@@ -33,6 +33,20 @@ import UIKit
 
 open class AssociatedTransition: Transition {
     
+    open var associatedFromViews: [UIView] {
+        guard let views = (fromVC as? AssociatedTransitionDataSource)?.viewsForTransition?() else {
+            return .init()
+        }
+        return views
+    }
+    
+    open var associatedToViews: [UIView] {
+        guard let views = (toVC as? AssociatedTransitionDataSource)?.viewsForTransition?() else {
+            return .init()
+        }
+        return views
+    }
+    
     override func present(_ vcToBePresent: UIViewController, fromVC: UIViewController, container: UIView, context: UIViewControllerContextTransitioning) {
         
         super.present(vcToBePresent, fromVC: fromVC, container: container, context: context)
@@ -69,11 +83,11 @@ open class AssociatedTransition: Transition {
                 element.frame = desRect
             }
 
-        }) { (finished) in
+        }) { finished in
             viewToBePresent.alpha = 1.0
             snapshotViewArray.forEach{ $0.removeFromSuperview() }
             toViews?.forEach{ $0.isHidden = false }
-//            fromViews?.forEach{ $0.isHidden = false }
+            fromViews?.forEach{ $0.isHidden = false }
             context.completeTransition(!context.transitionWasCancelled)
         }
     }

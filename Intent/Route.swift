@@ -76,6 +76,8 @@ public final class Route : Intent {
         /// call addChildViewController: and view.addSubview
         case asChild
         
+        case newWindow(activityType: String)
+        
         fileprivate func autoTransform(forExecuter executer: UIViewController) -> RouteConfig {
             if (executer.navigationController != nil) || (executer is UINavigationController) {
                 return .push(nil)
@@ -200,9 +202,24 @@ extension Route {
             exePopup(with: mExecutor, intentionVC: vc, option: popupOpt ?? [], complete: complete)
         case .asChild:
             exeAddChild(with: mExecutor, intentionVC: vc, complete: complete)
-        default:
-            break
+        case .auto:
+            fatalError("cannot go here")
+        case .newWindow(let activityType):
+            exeNewWindow(with: activityType, complete: complete)
         }
+    }
+    
+    private func exeNewWindow(with activityType: String, complete:(() -> ())?) {
+        let userActivity = NSUserActivity(activityType: activityType)
+        userActivity.userInfo = input
+        UIApplication
+          .shared
+          .requestSceneSessionActivation (
+            nil,
+            userActivity: userActivity,
+            options: nil,
+            errorHandler: nil
+        )
     }
     
     private func exePresent(with executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PresentOption, presentStyle: UIModalPresentationStyle, complete:(() -> ())?) {

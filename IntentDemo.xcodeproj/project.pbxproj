@@ -89,6 +89,7 @@
 		C48E37261FB2AF8700857553 /* Intent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
 		C4CBFD8F2238F6E600D976EB /* ActiveViewControllerPerceptive+PrivateImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ActiveViewControllerPerceptive+PrivateImp.swift"; sourceTree = "<group>"; };
 		C4CBFD912239009F00D976EB /* AppRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRegistry.swift; sourceTree = "<group>"; };
+		C4D494C823C75C610000D68D /* IntentDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IntentDemo.entitlements; sourceTree = "<group>"; };
 		C4DCE2CE21102D0800A68619 /* CAPercentDrivenInteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAPercentDrivenInteractiveTransition.swift; sourceTree = "<group>"; };
 		C4DCE2D12112D96200A68619 /* NCProxyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCProxyDelegate.swift; sourceTree = "<group>"; };
 		C4DCE2D32112D9E000A68619 /* _ScreenEdgeDetectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ScreenEdgeDetectorViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +125,7 @@
 		C402AAB41FB3E9FC00B8FA09 /* IntentDemo */ = {
 			isa = PBXGroup;
 			children = (
+				C4D494C823C75C610000D68D /* IntentDemo.entitlements */,
 				C402AABF1FB3E9FC00B8FA09 /* AppDelegate.swift */,
 				C4CBFD912239009F00D976EB /* AppRegistry.swift */,
 				C402AAC11FB3E9FC00B8FA09 /* EntryViewContoller.swift */,
@@ -558,15 +560,18 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = IntentDemo/IntentDemo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = F93845W87F;
 				INFOPLIST_FILE = "$(SRCROOT)/IntentDemo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jerry.IntentDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -580,15 +585,18 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = IntentDemo/IntentDemo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = F93845W87F;
 				INFOPLIST_FILE = "$(SRCROOT)/IntentDemo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jerry.IntentDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

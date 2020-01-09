@@ -25,10 +25,18 @@ import UIKit
 
 extension Route {
     
+    public static var keyWindow: UIWindow? {
+        UIApplication.shared.connectedScenes
+            .filter({$0.activationState == .foregroundActive})
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows
+            .filter({$0.isKeyWindow}).first
+    }
+    
     /// The active topViewController for the current key window.
     public static var topViewController: UIViewController? {
         get {
-            let keyWindow = UIApplication.shared.keyWindow
             var topVC = keyWindow?.rootViewController
             while topVC?.presentedViewController != nil {
                 topVC = topVC?.presentedViewController
