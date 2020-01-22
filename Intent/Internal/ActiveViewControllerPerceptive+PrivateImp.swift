@@ -26,12 +26,16 @@ import UIKit
 extension Route {
     
     public static var keyWindow: UIWindow? {
-        UIApplication.shared.connectedScenes
-            .filter({$0.activationState == .foregroundActive})
-            .map({$0 as? UIWindowScene})
-            .compactMap({$0})
-            .first?.windows
-            .filter({$0.isKeyWindow}).first
+        if #available(iOS 13.0, *) {
+            return UIApplication.shared.connectedScenes
+                .filter({$0.activationState == .foregroundActive})
+                .map({$0 as? UIWindowScene})
+                .compactMap({$0})
+                .first?.windows
+                .filter({$0.isKeyWindow}).first
+        } else {
+            return UIApplication.shared.keyWindow
+        }
     }
     
     /// The active topViewController for the current key window.

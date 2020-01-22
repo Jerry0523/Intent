@@ -210,16 +210,18 @@ extension Route {
     }
     
     private func exeNewWindow(with activityType: String, complete:(() -> ())?) {
-        let userActivity = NSUserActivity(activityType: activityType)
-        userActivity.userInfo = input
-        UIApplication
-          .shared
-          .requestSceneSessionActivation (
-            nil,
-            userActivity: userActivity,
-            options: nil,
-            errorHandler: nil
-        )
+        if #available(iOS 13.0, *) {
+            let userActivity = NSUserActivity(activityType: activityType)
+            userActivity.userInfo = input
+            UIApplication
+              .shared
+              .requestSceneSessionActivation (
+                nil,
+                userActivity: userActivity,
+                options: nil,
+                errorHandler: nil
+            )
+        }
     }
     
     private func exePresent(with executer: UIViewController, intentionVC: UIViewController, option: RouteConfig.PresentOption, presentStyle: UIModalPresentationStyle, complete:(() -> ())?) {
